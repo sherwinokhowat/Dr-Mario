@@ -85,7 +85,7 @@ ADDR_KBRD:
 
 # how many pixels wide is the bitmap
 SCREEN_WIDTH: 
-    .word 128
+    .word 256
 
 # how many pixels tall is the bitmap
 SCREEN_HEIGHT:
@@ -151,17 +151,251 @@ main:
     
     # Store value into temp draw bitmap array
     la $t0, draw_bitmap_array
-    # Store byte 0
-    li $t1, 13
-    sb $t1, 0($t0)
-    # Store byte 1
-    li $t1, 14
-    sb $t1, 1($t0)
+    li $t1, 0
+sb $t1, 0($t0)
+li $t1, 0
+sb $t1, 1($t0)
+li $t1, 0
+sb $t1, 2($t0)
+li $t1, 16
+sb $t1, 3($t0)
+li $t1, 13
+sb $t1, 4($t0)
+li $t1, 0
+sb $t1, 5($t0)
+li $t1, 16
+sb $t1, 6($t0)
+li $t1, 0
+sb $t1, 7($t0)
+li $t1, 0
+sb $t1, 8($t0)
+li $t1, 0
+sb $t1, 9($t0)
+li $t1, 0
+sb $t1, 10($t0)
+li $t1, 0
+sb $t1, 11($t0)
+li $t1, 0
+sb $t1, 12($t0)
+li $t1, 16
+sb $t1, 13($t0)
+li $t1, 0
+sb $t1, 14($t0)
+li $t1, 14
+sb $t1, 15($t0)
+li $t1, 16
+sb $t1, 16($t0)
+li $t1, 0
+sb $t1, 17($t0)
+li $t1, 0
+sb $t1, 18($t0)
+li $t1, 0
+sb $t1, 19($t0)
+li $t1, 16
+sb $t1, 20($t0)
+li $t1, 16
+sb $t1, 21($t0)
+li $t1, 16
+sb $t1, 22($t0)
+li $t1, 16
+sb $t1, 23($t0)
+li $t1, 0
+sb $t1, 24($t0)
+li $t1, 0
+sb $t1, 25($t0)
+li $t1, 16
+sb $t1, 26($t0)
+li $t1, 16
+sb $t1, 27($t0)
+li $t1, 16
+sb $t1, 28($t0)
+li $t1, 16
+sb $t1, 29($t0)
+li $t1, 16
+sb $t1, 30($t0)
+li $t1, 0
+sb $t1, 31($t0)
+li $t1, 0
+sb $t1, 32($t0)
+li $t1, 0
+sb $t1, 33($t0)
+li $t1, 0
+sb $t1, 34($t0)
+li $t1, 0
+sb $t1, 35($t0)
+li $t1, 0
+sb $t1, 36($t0)
+li $t1, 0
+sb $t1, 37($t0)
+li $t1, 0
+sb $t1, 38($t0)
+li $t1, 16
+sb $t1, 39($t0)
+li $t1, 16
+sb $t1, 40($t0)
+li $t1, 0
+sb $t1, 41($t0)
+li $t1, 0
+sb $t1, 42($t0)
+li $t1, 0
+sb $t1, 43($t0)
+li $t1, 0
+sb $t1, 44($t0)
+li $t1, 0
+sb $t1, 45($t0)
+li $t1, 0
+sb $t1, 46($t0)
+li $t1, 0
+sb $t1, 47($t0)
+li $t1, 0
+sb $t1, 48($t0)
+li $t1, 16
+sb $t1, 49($t0)
+li $t1, 16
+sb $t1, 50($t0)
+li $t1, 0
+sb $t1, 51($t0)
+li $t1, 0
+sb $t1, 52($t0)
+li $t1, 0
+sb $t1, 53($t0)
+li $t1, 0
+sb $t1, 54($t0)
+li $t1, 0
+sb $t1, 55($t0)
+li $t1, 0
+sb $t1, 56($t0)
+li $t1, 0
+sb $t1, 57($t0)
+li $t1, 0
+sb $t1, 58($t0)
+li $t1, 16
+sb $t1, 59($t0)
+li $t1, 16
+sb $t1, 60($t0)
+li $t1, 0
+sb $t1, 61($t0)
+li $t1, 0
+sb $t1, 62($t0)
+li $t1, 13
+sb $t1, 63($t0)
+li $t1, 0
+sb $t1, 64($t0)
+li $t1, 0
+sb $t1, 65($t0)
+li $t1, 0
+sb $t1, 66($t0)
+li $t1, 0
+sb $t1, 67($t0)
+li $t1, 0
+sb $t1, 68($t0)
+li $t1, 16
+sb $t1, 69($t0)
+li $t1, 16
+sb $t1, 70($t0)
+li $t1, 0
+sb $t1, 71($t0)
+li $t1, 0
+sb $t1, 72($t0)
+li $t1, 0
+sb $t1, 73($t0)
+li $t1, 0
+sb $t1, 74($t0)
+li $t1, 0
+sb $t1, 75($t0)
+li $t1, 0
+sb $t1, 76($t0)
+li $t1, 0
+sb $t1, 77($t0)
+li $t1, 0
+sb $t1, 78($t0)
+li $t1, 16
+sb $t1, 79($t0)
+li $t1, 16
+sb $t1, 80($t0)
+li $t1, 0
+sb $t1, 81($t0)
+li $t1, 0
+sb $t1, 82($t0)
+li $t1, 0
+sb $t1, 83($t0)
+li $t1, 0
+sb $t1, 84($t0)
+li $t1, 0
+sb $t1, 85($t0)
+li $t1, 0
+sb $t1, 86($t0)
+li $t1, 0
+sb $t1, 87($t0)
+li $t1, 0
+sb $t1, 88($t0)
+li $t1, 16
+sb $t1, 89($t0)
+li $t1, 16
+sb $t1, 90($t0)
+li $t1, 0
+sb $t1, 91($t0)
+li $t1, 0
+sb $t1, 92($t0)
+li $t1, 0
+sb $t1, 93($t0)
+li $t1, 0
+sb $t1, 94($t0)
+li $t1, 0
+sb $t1, 95($t0)
+li $t1, 0
+sb $t1, 96($t0)
+li $t1, 0
+sb $t1, 97($t0)
+li $t1, 0
+sb $t1, 98($t0)
+li $t1, 16
+sb $t1, 99($t0)
+li $t1, 16
+sb $t1, 100($t0)
+li $t1, 0
+sb $t1, 101($t0)
+li $t1, 0
+sb $t1, 102($t0)
+li $t1, 0
+sb $t1, 103($t0)
+li $t1, 0
+sb $t1, 104($t0)
+li $t1, 0
+sb $t1, 105($t0)
+li $t1, 0
+sb $t1, 106($t0)
+li $t1, 0
+sb $t1, 107($t0)
+li $t1, 0
+sb $t1, 108($t0)
+li $t1, 16
+sb $t1, 109($t0)
+li $t1, 16
+sb $t1, 110($t0)
+li $t1, 16
+sb $t1, 111($t0)
+li $t1, 16
+sb $t1, 112($t0)
+li $t1, 16
+sb $t1, 113($t0)
+li $t1, 16
+sb $t1, 114($t0)
+li $t1, 16
+sb $t1, 115($t0)
+li $t1, 16
+sb $t1, 116($t0)
+li $t1, 16
+sb $t1, 117($t0)
+li $t1, 16
+sb $t1, 118($t0)
+li $t1, 16
+sb $t1, 119($t0)
     
-    li $t2, -1
-    li $t3, -1
-    li $t4, 2 
-    li $t5, 1
+    li $t2, 0
+    li $t3, 0
+    li $t4, 10 # width
+    li $t5, 12 # height
     push($t2) # start_x
     push($t3) # start_y
     push($t4) # width
@@ -253,12 +487,12 @@ draw_bitmap:
     # j = start_y
     # j = t5
     add $t5, $zero, $t3
-    BITMAP_Y_LOOP: bge $t5, $t7, END_Y_LOOP
+    BITMAP_Y_LOOP: bge $t5, $t7, BITMAP_Y_LOOP_END
     
         # i = start_x
         # i = t6
         add $t6, $zero, $t4
-        BITMAP_X_LOOP: bge $t6, $t8, END_X_LOOP
+        BITMAP_X_LOOP: bge $t6, $t8, BITMAP_X_LOOP_END
             # start_x + i
             # start_y + j
             # add $t1, $t4, $t6
@@ -311,10 +545,83 @@ load_colours:
     
     la $t0, draw_rectangle_colour_array
     
-    # Nothing
+    # BACKGROUND
     bne $t2, $zero, RED_UP_BIT
-    # Draw nothing (8x8 BLACK)
-    # need to do 8x8 black
+    
+     # ----------------------- WALL START ----------------------- #
+    
+    # Initialize colours
+    li $t7, 0x000000        # $t7 = dark blue
+    li $t8, 0x000000        # $t8 = light blue
+    li $t9, 0x000000        # $t9 = black
+    
+    sw $t9, 0($t0)
+    sw $t7, 4($t0)
+    sw $t7, 8($t0)
+    sw $t7, 12($t0)
+    sw $t7, 16($t0)
+    sw $t7, 20($t0)
+    sw $t7, 24($t0)
+    sw $t9, 28($t0)
+    sw $t7, 32($t0)
+    sw $t8, 36($t0)
+    sw $t8, 40($t0)
+    sw $t8, 44($t0)
+    sw $t8, 48($t0)
+    sw $t8, 52($t0)
+    sw $t8, 56($t0)
+    sw $t7, 60($t0)
+    sw $t7, 64($t0)
+    sw $t8, 68($t0)
+    sw $t7, 72($t0)
+    sw $t8, 76($t0)
+    sw $t8, 80($t0)
+    sw $t7, 84($t0)
+    sw $t8, 88($t0)
+    sw $t7, 92($t0)
+    sw $t7, 96($t0)
+    sw $t8, 100($t0)
+    sw $t7, 104($t0)
+    sw $t8, 108($t0)
+    sw $t8, 112($t0)
+    sw $t7, 116($t0)
+    sw $t8, 120($t0)
+    sw $t7, 124($t0)
+    sw $t7, 128($t0)
+    sw $t8, 132($t0)
+    sw $t8, 136($t0)
+    sw $t8, 140($t0)
+    sw $t8, 144($t0)
+    sw $t8, 148($t0)
+    sw $t8, 152($t0)
+    sw $t7, 156($t0)
+    sw $t7, 160($t0)
+    sw $t8, 164($t0)
+    sw $t7, 168($t0)
+    sw $t7, 172($t0)
+    sw $t7, 176($t0)
+    sw $t7, 180($t0)
+    sw $t8, 184($t0)
+    sw $t7, 188($t0)
+    sw $t7, 192($t0)
+    sw $t8, 196($t0)
+    sw $t7, 200($t0)
+    sw $t8, 204($t0)
+    sw $t8, 208($t0)
+    sw $t7, 212($t0)
+    sw $t8, 216($t0)
+    sw $t7, 220($t0)
+    sw $t9, 224($t0)
+    sw $t7, 228($t0)
+    sw $t7, 232($t0)
+    sw $t7, 236($t0)
+    sw $t7, 240($t0)
+    sw $t7, 244($t0)
+    sw $t7, 248($t0)
+    sw $t9, 252($t0)
+    
+    # ----------------------- WALL END ----------------------- #
+    
     jr $ra
     
     
@@ -603,11 +910,90 @@ load_colours:
     jr $ra
     YELLOW_VIRUS_BIT:
     add $t1, $zero, 15
+    bne, $t2, $t1, WALL_BIT
     
     # ----------------------- YELLOW VIRUS START ----------------------- #
     
     
     # ----------------------- YELLOW VIRUS END ----------------------- #
+    
+    jr $ra
+    WALL_BIT:
+    add $t1, $zero, 16
+    
+    # ----------------------- WALL START ----------------------- #
+    
+    # Initialize colours
+    li $t7, 0xFFFFFF        # $t7 = dark blue
+    li $t8, 0xFFFFFF        # $t8 = light blue
+    li $t9, 0xFFFFFF        # $t9 = black
+    
+    sw $t9, 0($t0)
+    sw $t7, 4($t0)
+    sw $t7, 8($t0)
+    sw $t7, 12($t0)
+    sw $t7, 16($t0)
+    sw $t7, 20($t0)
+    sw $t7, 24($t0)
+    sw $t9, 28($t0)
+    sw $t7, 32($t0)
+    sw $t8, 36($t0)
+    sw $t8, 40($t0)
+    sw $t8, 44($t0)
+    sw $t8, 48($t0)
+    sw $t8, 52($t0)
+    sw $t8, 56($t0)
+    sw $t7, 60($t0)
+    sw $t7, 64($t0)
+    sw $t8, 68($t0)
+    sw $t7, 72($t0)
+    sw $t8, 76($t0)
+    sw $t8, 80($t0)
+    sw $t7, 84($t0)
+    sw $t8, 88($t0)
+    sw $t7, 92($t0)
+    sw $t7, 96($t0)
+    sw $t8, 100($t0)
+    sw $t7, 104($t0)
+    sw $t8, 108($t0)
+    sw $t8, 112($t0)
+    sw $t7, 116($t0)
+    sw $t8, 120($t0)
+    sw $t7, 124($t0)
+    sw $t7, 128($t0)
+    sw $t8, 132($t0)
+    sw $t8, 136($t0)
+    sw $t8, 140($t0)
+    sw $t8, 144($t0)
+    sw $t8, 148($t0)
+    sw $t8, 152($t0)
+    sw $t7, 156($t0)
+    sw $t7, 160($t0)
+    sw $t8, 164($t0)
+    sw $t7, 168($t0)
+    sw $t7, 172($t0)
+    sw $t7, 176($t0)
+    sw $t7, 180($t0)
+    sw $t8, 184($t0)
+    sw $t7, 188($t0)
+    sw $t7, 192($t0)
+    sw $t8, 196($t0)
+    sw $t7, 200($t0)
+    sw $t8, 204($t0)
+    sw $t8, 208($t0)
+    sw $t7, 212($t0)
+    sw $t8, 216($t0)
+    sw $t7, 220($t0)
+    sw $t9, 224($t0)
+    sw $t7, 228($t0)
+    sw $t7, 232($t0)
+    sw $t7, 236($t0)
+    sw $t7, 240($t0)
+    sw $t7, 244($t0)
+    sw $t7, 248($t0)
+    sw $t9, 252($t0)
+    
+    # ----------------------- WALL END ----------------------- #
     
     jr $ra
     
@@ -848,7 +1234,7 @@ draw_virus_screen:
 # Return: 
 # - Void
 draw_background:
-    li $t0, 0xFFFFFF # Background colour
+    li $t0, 0x000000 # Background colour
     lw $t1, ADDR_DSPL
     lw $t2, SCREEN_WIDTH
     lw $t3, SCREEN_HEIGHT
@@ -881,6 +1267,22 @@ draw_background:
     # 1, 2, 1, 2, 2, 1, 2, 1, 
     # 3, 1, 1, 1, 1, 1, 1, 3,
 # ].map((color, i) => `sw $t${color}, ${i * 4}($t0)`)
+# .join("\n"))
+
+# console.log([
+    # 0, 0, 0, 1, 0, 0, 1, 0, 0, 0,
+    # 0, 0, 0, 1, 0, 0, 1, 0, 0, 0,
+    # 1, 1, 1, 1, 0, 0, 1, 1, 1, 1,
+    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    # 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+# ].map((color, i) => `li $t1, ${color === 1 ? 16 : 0}\nsb $t1, ${i}($t0)`)
 # .join("\n"))
 
 EXIT:
