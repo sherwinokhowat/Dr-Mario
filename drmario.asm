@@ -15,13 +15,38 @@
 # - Base Address for Display:   0x10008000 ($gp)
 ##############################################################################
 
+    .macro push_temps()
+            push($t0)
+            push($t1)
+            push($t2)
+            push($t3)
+            push($t4)
+            push($t5)
+            push($t6)
+            push($t7)
+            push($t8)
+            push($t9)
+   .end_macro
+    .macro pop_temps()
+        pop($t9)
+        pop($t8)
+        pop($t7)
+        pop($t6)
+        pop($t5)
+        pop($t4)
+        pop($t3)
+        pop($t2)
+        pop($t1)
+        pop($t0)
+   .end_macro
+
     # Push the value in %r onto the stack
     # Arguments: 
     # - %r: The register to push onto the stack
     # Returns:
     # - Void
     .macro push(%r)
-        addiu $sp, $sp, -4
+        addi $sp, $sp, -4
         sw %r, 0($sp) 
     .end_macro
     
@@ -32,7 +57,7 @@
     # Returns:
     # - Void
     .macro pushi(%r, %v)
-        addiu $sp, $sp, -4
+        addi $sp, $sp, -4
         li %r, %v
         sw %r, 0($sp)
     .end_macro
@@ -40,33 +65,60 @@
     # pops and puts on register %r
     .macro pop(%r)
         lw %r, 0($sp)
-        addiu $sp, $sp, 4
+        addi $sp, $sp, 4
     .end_macro
     
     .data
 ##############################################################################
 # Immutable Data
 ##############################################################################
+# Allocate space at 0x10010000 so that bitmap at 0x10008000 won't overflow to other variables
 _: .word 1:100000
+
 # The address of the bitmap display. Don't forget to connect it!
 ADDR_DSPL:
     .word 0x10008000
-# The address of the keyboard. Don't forget to connect it!
 
+# The address of the keyboard. Don't forget to connect it!
 ADDR_KBRD:
     .word 0xffff0000
-    
+
+# how many pixels wide is the bitmap
 SCREEN_WIDTH: 
     .word 128
 
+# how many pixels tall is the bitmap
 SCREEN_HEIGHT:
     .word 128
 
+# how units tall is the game
+GAME_HEIGHT:
+    .word 16
+
+# how units wide is the game
+GAME_WIDTH:
+    .word 8
+
+# how many pixels is 1 unit in the game
+PIXELS_PER_GAME_UNIT:
+    .word 8
+    
+# top left corner of the game in screen pixels
+GAME_SCREEN_X:
+    .word 16
+
+# top left corner of the game in screen pixels
+GAME_SCREEN_Y:
+    .word 16
+    
 ##############################################################################
 # Mutable Data
 ##############################################################################
 draw_rectangle_colour_array:
-    .word 0:1000 # 0:num of pixels of screen (width * height)
+    .word 0:100000 # 0:num of pixels of screen (width * height)
+    
+draw_bitmap_array:
+    .word 0:100000
 
 ##############################################################################
 # Code
@@ -77,9 +129,45 @@ draw_rectangle_colour_array:
     # Run the game.
 main:
     jal draw_background
-    # jal draw_background
-    # jal draw_background
-    jal draw_virus
+    # li $t0, -2
+    # li $t1, -2
+    # la $t2, draw_rectangle_colour_array
+    # push($t0)
+    # push($t1)
+    # push($t2)
+    
+    # li $t1, 0 
+    # li $t2, 0 
+    # push($t1)
+    # push($t2)
+    # jal draw_virus
+
+
+    # li $t0, 0x10071aa8
+    # addi $t0, $t0, 4
+    
+    # jal draw_game_block
+    # jal draw_virus
+    
+    # Store value into temp draw bitmap array
+    la $t0, draw_bitmap_array
+    # Store byte 0
+    li $t1, 13
+    sb $t1, 0($t0)
+    # Store byte 1
+    li $t1, 14
+    sb $t1, 1($t0)
+    
+    li $t2, -1
+    li $t3, -1
+    li $t4, 2 
+    li $t5, 1
+    push($t2) # start_x
+    push($t3) # start_y
+    push($t4) # width
+    push($t5) # height
+    push($t0) # bitmap
+    jal draw_bitmap
 
 game_loop:
     # 1a. Check if key has been pressed
@@ -90,7 +178,449 @@ game_loop:
 	# 4. Sleep
 
     # 5. Go back to Step 1
-    j game_loop
+    j EXIT
+    
+# ----------------------------------------------------------------- #
+#                            DRAW BOTTLE                            #
+# ----------------------------------------------------------------- #
+
+# Draws a rectangle at x and y where x and y are given in game unit coordinates.
+# - x (game units)
+# - y (game units)
+# - address to colour array (PIXEL_PER_GAME_UNIT)^2 big
+draw_game_block:
+    # Load arguments
+    pop($t2) # - address to colour array
+    pop($t1) # - y
+    pop($t0) # - x
+    
+    lw $t3, GAME_SCREEN_X
+    lw $t4, GAME_SCREEN_Y
+    lw $t5, PIXELS_PER_GAME_UNIT
+    
+    # how much x to increment
+    mult $t5, $t0
+    mflo $t6
+    
+    # how much y to increment
+    mult $t5, $t1
+    mflo $t7
+    
+    # x and y screen conversions
+    add $t3, $t3, $t6
+    add $t4, $t4, $t7
+    
+    # Put arguments for function
+    push($ra)
+    push_temps()
+    push($t3)
+    push($t4)
+    push($t5)
+    push($t5)
+    push($t2)
+    jal draw_rect
+    pop_temps()
+    pop($ra)
+    jr $ra
+    
+    
+# draw_bottle:
+    # lw $t0, PIXELS_PER_GAME_UNIT
+    # lw $t1, GAME_SCREEN_X
+    # lw $t2, GAME_SCREEN_X
+    
+    
+
+
+
+# start_x - start x in game units
+# start_y - start y in game units
+# width - width of bitmap in game units
+# height - height of bitmap in game units
+# bitmap - address of bitmap. Each block is 8 bits (ex. 5 blocks: 0F 1F 3D 5F 2D)
+draw_bitmap:
+    pop($t0) # bitmap 
+    pop($t1) # height
+    pop($t2) # width
+    pop($t3) # start_y
+    pop($t4) # start_x
+    
+    # t7 = start_y + height
+    # t8 = start_x + width
+    add $t7, $t3, $t1
+    add $t8, $t4, $t2
+    
+    # j = start_y
+    # j = t5
+    add $t5, $zero, $t3
+    BITMAP_Y_LOOP: bge $t5, $t7, END_Y_LOOP
+    
+        # i = start_x
+        # i = t6
+        add $t6, $zero, $t4
+        BITMAP_X_LOOP: bge $t6, $t8, END_X_LOOP
+            # start_x + i
+            # start_y + j
+            # add $t1, $t4, $t6
+            # add $t2, $t3, $t5
+            
+            
+            la $t9, draw_rectangle_colour_array
+            
+           
+            
+            
+            
+            push($ra)
+            push_temps()
+            push($t0)
+            jal load_colours
+            pop_temps()
+            pop($ra)
+
+            push($ra)
+            push_temps()
+            push($t6)
+            push($t5)
+            push($t9)
+            jal draw_game_block
+            pop_temps()
+            pop($ra)
+            
+            
+            # Increment bitmap index
+            addi $t0, $t0, 1
+            
+
+            addi $t6, $t6, 1
+            j BITMAP_X_LOOP
+        BITMAP_X_LOOP_END:
+        addi $t5, $t5, 1
+        j BITMAP_Y_LOOP
+    
+    BITMAP_Y_LOOP_END:
+    jr $ra
+    
+    
+# Gets the corresponding colour array for the bit in the bitmap
+# - bit in the bitmap
+load_colours:
+    pop($t2) # address of bit
+    
+    lb $t2, 0($t2)
+    
+    la $t0, draw_rectangle_colour_array
+    
+    # Nothing
+    bne $t2, $zero, RED_UP_BIT
+    # Draw nothing (8x8 BLACK)
+    # need to do 8x8 black
+    jr $ra
+    
+    
+    # Capsules - UP, DOWN, LEFT, RIGHT
+    
+    # Red Capsules
+    
+    RED_UP_BIT:
+    add $t1, $zero, 1
+    bne, $t2, $t1, RED_DOWN_BIT
+    
+    
+    # -----------------------  RED UP CAPSULE START ----------------------- #
+    
+    
+     # -----------------------  RED UP CAPSULE END ----------------------- #
+    jr $ra
+    RED_DOWN_BIT: 
+    add $t1, $zero, 2
+    bne, $t2, $t1, RED_LEFT_BIT
+    # -----------------------  RED DOWN CAPSULE START ----------------------- #
+    
+    
+     # -----------------------  RED DOWN CAPSULE END ----------------------- #
+    
+    jr $ra
+    RED_LEFT_BIT: 
+    add $t1, $zero, 3
+    bne, $t2, $t1, RED_RIGHT_BIT
+    # -----------------------  RED LEFT CAPSULE START ----------------------- #
+    
+    
+     # -----------------------  RED LEFT CAPSULE END ----------------------- #
+    
+    jr $ra
+    RED_RIGHT_BIT:
+    add $t1, $zero, 4
+    bne, $t2, $t1, BLUE_UP_BIT
+    # -----------------------  RED RIGHT CAPSULE START ----------------------- #
+    
+    
+     # -----------------------  RED RIGHT CAPSULE END ----------------------- #
+    
+    # Blue Capsules
+    
+    jr $ra
+    BLUE_UP_BIT: 
+    add $t1, $zero, 5
+    bne, $t2, $t1, BLUE_DOWN_BIT
+    
+    # -----------------------  BLUE UP CAPSULE START ----------------------- #
+    
+    
+     # -----------------------  BLUE UP CAPSULE END ----------------------- #
+   
+    jr $ra
+    BLUE_DOWN_BIT: 
+    add $t1, $zero, 6
+    bne, $t2, $t1, BLUE_LEFT_BIT
+    
+    # -----------------------  BLUE DOWN CAPSULE START ----------------------- #
+    
+    
+     # -----------------------  BLUE DOWN CAPSULE END ----------------------- #
+    
+    jr $ra
+    BLUE_LEFT_BIT: 
+    add $t1, $zero, 7
+    bne, $t2, $t1, BLUE_RIGHT_BIT
+    
+    # -----------------------  BLUE LEFT CAPSULE START ----------------------- #
+    
+    
+     # -----------------------  BLUE LEFT CAPSULE END ----------------------- #
+    
+    jr $ra
+    BLUE_RIGHT_BIT: 
+    add $t1, $zero, 8
+    bne, $t2, $t1, YELLOW_UP_BIT
+    
+    # -----------------------  BLUE RIGHT CAPSULE START ----------------------- #
+    
+    
+     # -----------------------  BLUE RIGHT CAPSULE END ----------------------- #
+    
+    # Yellow Capsules
+    
+    jr $ra
+    YELLOW_UP_BIT: 
+    add $t1, $zero, 9
+    bne, $t2, $t1, YELLOW_DOWN_BIT
+    
+    # -----------------------  YELLOW UP CAPSULE START ----------------------- #
+    
+    
+    # ----------------------- YELLOW UP CAPSULE END ----------------------- #
+    
+    jr $ra
+    YELLOW_DOWN_BIT: 
+    add $t1, $zero, 10
+    bne, $t2, $t1, YELLOW_LEFT_BIT
+    
+    # -----------------------  YELLOW DOWN CAPSULE START ----------------------- #
+    
+    
+    # ----------------------- YELLOW DOWN CAPSULE END ----------------------- #
+    
+    jr $ra
+    YELLOW_LEFT_BIT:
+    add $t1, $zero, 11
+    bne, $t2, $t1, YELLOW_RIGHT_BIT
+    
+    # -----------------------  YELLOW LEFT CAPSULE START ----------------------- #
+    
+    
+    # ----------------------- YELLOW LEFT CAPSULE END ----------------------- #
+    
+    jr $ra
+    YELLOW_RIGHT_BIT: 
+    add $t1, $zero, 12
+    bne, $t2, $t1, RED_VIRUS_BIT
+    
+    # -----------------------  YELLOW RIGHT CAPSULE START ----------------------- #
+    
+    
+    # ----------------------- YELLOW RIGHT CAPSULE END ----------------------- #
+    
+    jr $ra
+    # Viruses
+    RED_VIRUS_BIT:
+    add $t1, $zero, 13
+    bne, $t2, $t1, BLUE_VIRUS_BIT
+    
+    # -----------------------  RED VIRUS START ----------------------- #
+    # Initialize colours
+    li $t7, 0x471313        # $t7 = dark red
+    li $t8, 0xed1c24        # $t8 = bright red
+    li $t9, 0x000000        # $t9 = black
+    
+    sw $t9, 0($t0)
+    sw $t7, 4($t0)
+    sw $t7, 8($t0)
+    sw $t7, 12($t0)
+    sw $t7, 16($t0)
+    sw $t7, 20($t0)
+    sw $t7, 24($t0)
+    sw $t9, 28($t0)
+    sw $t7, 32($t0)
+    sw $t8, 36($t0)
+    sw $t8, 40($t0)
+    sw $t8, 44($t0)
+    sw $t8, 48($t0)
+    sw $t8, 52($t0)
+    sw $t8, 56($t0)
+    sw $t7, 60($t0)
+    sw $t7, 64($t0)
+    sw $t8, 68($t0)
+    sw $t7, 72($t0)
+    sw $t8, 76($t0)
+    sw $t8, 80($t0)
+    sw $t7, 84($t0)
+    sw $t8, 88($t0)
+    sw $t7, 92($t0)
+    sw $t7, 96($t0)
+    sw $t8, 100($t0)
+    sw $t7, 104($t0)
+    sw $t8, 108($t0)
+    sw $t8, 112($t0)
+    sw $t7, 116($t0)
+    sw $t8, 120($t0)
+    sw $t7, 124($t0)
+    sw $t7, 128($t0)
+    sw $t8, 132($t0)
+    sw $t8, 136($t0)
+    sw $t8, 140($t0)
+    sw $t8, 144($t0)
+    sw $t8, 148($t0)
+    sw $t8, 152($t0)
+    sw $t7, 156($t0)
+    sw $t7, 160($t0)
+    sw $t8, 164($t0)
+    sw $t7, 168($t0)
+    sw $t7, 172($t0)
+    sw $t7, 176($t0)
+    sw $t7, 180($t0)
+    sw $t8, 184($t0)
+    sw $t7, 188($t0)
+    sw $t7, 192($t0)
+    sw $t8, 196($t0)
+    sw $t7, 200($t0)
+    sw $t8, 204($t0)
+    sw $t8, 208($t0)
+    sw $t7, 212($t0)
+    sw $t8, 216($t0)
+    sw $t7, 220($t0)
+    sw $t9, 224($t0)
+    sw $t7, 228($t0)
+    sw $t7, 232($t0)
+    sw $t7, 236($t0)
+    sw $t7, 240($t0)
+    sw $t7, 244($t0)
+    sw $t7, 248($t0)
+    sw $t9, 252($t0)
+    
+    # ----------------------- RED VIRUS END ----------------------- #
+    
+    jr $ra
+    BLUE_VIRUS_BIT:
+    add $t1, $zero, 14
+    bne, $t2, $t1, YELLOW_VIRUS_BIT
+    
+    # -----------------------  BLUE VIRUS START ----------------------- #
+    
+    # Initialize colours
+    li $t7, 0x2f3699        # $t7 = dark blue
+    li $t8, 0x709ad1        # $t8 = light blue
+    li $t9, 0x000000        # $t9 = black
+    
+    sw $t9, 0($t0)
+    sw $t7, 4($t0)
+    sw $t7, 8($t0)
+    sw $t7, 12($t0)
+    sw $t7, 16($t0)
+    sw $t7, 20($t0)
+    sw $t7, 24($t0)
+    sw $t9, 28($t0)
+    sw $t7, 32($t0)
+    sw $t8, 36($t0)
+    sw $t8, 40($t0)
+    sw $t8, 44($t0)
+    sw $t8, 48($t0)
+    sw $t8, 52($t0)
+    sw $t8, 56($t0)
+    sw $t7, 60($t0)
+    sw $t7, 64($t0)
+    sw $t8, 68($t0)
+    sw $t7, 72($t0)
+    sw $t8, 76($t0)
+    sw $t8, 80($t0)
+    sw $t7, 84($t0)
+    sw $t8, 88($t0)
+    sw $t7, 92($t0)
+    sw $t7, 96($t0)
+    sw $t8, 100($t0)
+    sw $t7, 104($t0)
+    sw $t8, 108($t0)
+    sw $t8, 112($t0)
+    sw $t7, 116($t0)
+    sw $t8, 120($t0)
+    sw $t7, 124($t0)
+    sw $t7, 128($t0)
+    sw $t8, 132($t0)
+    sw $t8, 136($t0)
+    sw $t8, 140($t0)
+    sw $t8, 144($t0)
+    sw $t8, 148($t0)
+    sw $t8, 152($t0)
+    sw $t7, 156($t0)
+    sw $t7, 160($t0)
+    sw $t8, 164($t0)
+    sw $t7, 168($t0)
+    sw $t7, 172($t0)
+    sw $t7, 176($t0)
+    sw $t7, 180($t0)
+    sw $t8, 184($t0)
+    sw $t7, 188($t0)
+    sw $t7, 192($t0)
+    sw $t8, 196($t0)
+    sw $t7, 200($t0)
+    sw $t8, 204($t0)
+    sw $t8, 208($t0)
+    sw $t7, 212($t0)
+    sw $t8, 216($t0)
+    sw $t7, 220($t0)
+    sw $t9, 224($t0)
+    sw $t7, 228($t0)
+    sw $t7, 232($t0)
+    sw $t7, 236($t0)
+    sw $t7, 240($t0)
+    sw $t7, 244($t0)
+    sw $t7, 248($t0)
+    sw $t9, 252($t0)
+    
+    # ----------------------- BLUE VIRUS END ----------------------- #
+    
+    jr $ra
+    YELLOW_VIRUS_BIT:
+    add $t1, $zero, 15
+    
+    # ----------------------- YELLOW VIRUS START ----------------------- #
+    
+    
+    # ----------------------- YELLOW VIRUS END ----------------------- #
+    
+    jr $ra
+    
+    
+    
+
+
+
+
+# ----------------------------------------------------------------- #
+#                         DRAW RECTANGLE                            #
+# ----------------------------------------------------------------- #
+
     
 # Arguments: 
 # $t4 - x
@@ -111,6 +641,8 @@ draw_rect:
     
     lw $t5 ADDR_DSPL # load display address into $t5
     # li $t5, 0x10008000
+    
+    # la $t6, ADDR_DSPL
     
     
     # i = $t6
@@ -137,8 +669,6 @@ draw_rect:
             add $t8, $t8, $t6 # t8 = screen width * j + i 
             sll $t8, $t8, 2 # t8 = 4 * screen width * j + 4 * i 
             
-            
-            
             # Getting colour for this pixel
             lw $t9, 0($t0) 
             addi $t0, $t0, 4
@@ -159,6 +689,188 @@ draw_rect:
     jr $ra
     
 
+# ----------------------------------------------------------------- #
+#                           DRAW VIRUSES                            #
+# ----------------------------------------------------------------- #
+
+# Draws a virus at the given coordinates in game units
+# Arguments:
+# x - game pixels
+# y - game pixels
+draw_virus:
+    lw $t0, GAME_SCREEN_X
+    lw $t1, GAME_SCREEN_Y
+    lw $t2, PIXELS_PER_GAME_UNIT
+    pop($t3) # y
+    pop($t4) # x
+    
+    # x = GAME_SCREEN_X + x * PIXELS_PER_GAME_UNIT
+    mult $t4, $t2
+    mflo $t5
+    add $t6, $t0, $t5
+    
+     # y = GAME_SCREEN_Y + y * PIXELS_PER_GAME_UNIT
+     mult $t3, $t2
+     mflo $t5
+     add $t7, $t1, $t5
+     
+     push($ra)
+     push_temps()
+     push($t6)
+     push($t7)
+     jal draw_virus_screen
+     pop_temps()
+     pop($ra)
+     jr $ra
+
+# Draws a virus at the given coordinates in screen pixels
+# Arguments:
+# $t5 - x
+# $t4 - y 
+draw_virus_screen:
+    # Load arguments
+    pop($t4) # Y
+    pop($t5) # X
+    
+    # Initialize colours
+    li $t1, 0x471313        # $t1 = dark red
+    li $t2, 0xed1c24        # $t2 = bright red
+    li $t3, 0x000000        # $t3 = black
+    
+    lw $t6, PIXELS_PER_GAME_UNIT
+    
+    # $t0 = address of draw_recentagle_colour_array
+    
+    la $t0, draw_rectangle_colour_array
+    
+    # Row 1
+    sw $t3, 0($t0)
+    sw $t1, 4($t0)
+    sw $t1, 8($t0)
+    sw $t1, 12($t0)
+    sw $t1, 16($t0)
+    sw $t1, 20($t0)
+    sw $t1, 24($t0)
+    sw $t3, 28($t0)
+    
+    # Row 2
+    sw $t1, 32($t0)
+    sw $t2, 36($t0)
+    sw $t2, 40($t0)
+    sw $t2, 44($t0)
+    sw $t2, 48($t0)
+    sw $t2, 52($t0)
+    sw $t2, 56($t0)
+    sw $t1, 60($t0)
+    
+    # Row 3
+    sw $t1, 64($t0)
+    sw $t2, 68($t0)
+    sw $t1, 72($t0)
+    sw $t2, 76($t0)
+    sw $t2, 80($t0)
+    sw $t1, 84($t0)
+    sw $t2, 88($t0)
+    sw $t1, 92($t0)
+    
+    # Row 4
+    sw $t1, 96($t0)
+    sw $t2, 100($t0)
+    sw $t1, 104($t0)
+    sw $t2, 108($t0)
+    sw $t2, 112($t0)
+    sw $t1, 116($t0)
+    sw $t2, 120($t0)
+    sw $t1, 124($t0)
+    
+    # Row 5
+    sw $t1, 128($t0)
+    sw $t2, 132($t0)
+    sw $t2, 136($t0)
+    sw $t2, 140($t0)
+    sw $t2, 144($t0)
+    sw $t2, 148($t0)
+    sw $t2, 152($t0)
+    sw $t1, 156($t0)
+    
+    # Row 6
+    sw $t1, 160($t0)
+    sw $t2, 164($t0)
+    sw $t1, 168($t0)
+    sw $t1, 172($t0)
+    sw $t1, 176($t0)
+    sw $t1, 180($t0)
+    sw $t2, 184($t0)
+    sw $t1, 188($t0)
+    
+    # Row 7
+    sw $t1, 192($t0)
+    sw $t2, 196($t0)
+    sw $t1, 200($t0)
+    sw $t2, 204($t0)
+    sw $t2, 208($t0)
+    sw $t1, 212($t0)
+    sw $t2, 216($t0)
+    sw $t1, 220($t0)
+    
+    # Row 8
+    sw $t3, 224($t0)
+    sw $t1, 228($t0)
+    sw $t1, 232($t0)
+    sw $t1, 236($t0)
+    sw $t1, 240($t0)
+    sw $t1, 244($t0)
+    sw $t1, 248($t0)
+    sw $t3, 252($t0)
+    
+    # Put arguments for function
+    push($ra)
+    push_temps()
+    push($t5)
+    push($t4)
+    push($t6)
+    push($t6)
+    push($t0)
+    jal draw_rect
+    pop_temps()
+    pop($ra)
+    jr $ra
+    
+    
+# ----------------------------------------------------------------- #
+#                          DRAW BACKGROUND                          #
+# ----------------------------------------------------------------- #
+
+    
+# Draws the entire canvas black
+# Arguments:
+# - None
+# Return: 
+# - Void
+draw_background:
+    li $t0, 0xFFFFFF # Background colour
+    lw $t1, ADDR_DSPL
+    lw $t2, SCREEN_WIDTH
+    lw $t3, SCREEN_HEIGHT
+    
+    # Calculate $t5 = (screen width * screen height) * 4
+    mult $t2, $t3
+    mflo $t4 # screen width * height
+    sll $t4, $t4, 2
+    
+    # Max Address to draw at 
+    add $t5, $t1, $t4
+    
+    # Draw entire canvas
+    BACKGROUND_LOOP: bge $t1, $t5 END_BACKGROUND_LOOP
+        sw $t0, 0($t1)
+        addi $t1, $t1, 4
+        j BACKGROUND_LOOP
+    END_BACKGROUND_LOOP:
+        jr $ra
+        
+        
+        
 # console.log([
     # 3, 1, 1, 1, 1, 1, 1, 3,
     # 1, 2, 2, 2, 2, 2, 2, 1,
@@ -170,110 +882,5 @@ draw_rect:
     # 3, 1, 1, 1, 1, 1, 1, 3,
 # ].map((color, i) => `sw $t${color}, ${i * 4}($t0)`)
 # .join("\n"))
-draw_virus:
-    # Initialize the game
-    li $t1, 0x471313        # $t1 = dark red
-    li $t2, 0xed1c24        # $t2 = bright red
-    li $t3, 0x000000        # $t3 = black
-    
-    # $t0 = address of draw_recentagle_colour_array
-    
-    la $t0, draw_rectangle_colour_array
-    
-    sw $t3, 0($t0)
-    sw $t1, 4($t0)
-    sw $t1, 8($t0)
-    sw $t1, 12($t0)
-    sw $t1, 16($t0)
-    sw $t1, 20($t0)
-    sw $t1, 24($t0)
-    sw $t3, 28($t0)
-    sw $t1, 32($t0)
-    sw $t2, 36($t0)
-    sw $t2, 40($t0)
-    sw $t2, 44($t0)
-    sw $t2, 48($t0)
-    sw $t2, 52($t0)
-    sw $t2, 56($t0)
-    sw $t1, 60($t0)
-    sw $t1, 64($t0)
-    sw $t2, 68($t0)
-    sw $t1, 72($t0)
-    sw $t2, 76($t0)
-    sw $t2, 80($t0)
-    sw $t1, 84($t0)
-    sw $t2, 88($t0)
-    sw $t1, 92($t0)
-    sw $t1, 96($t0)
-    sw $t2, 100($t0)
-    sw $t1, 104($t0)
-    sw $t2, 108($t0)
-    sw $t2, 112($t0)
-    sw $t1, 116($t0)
-    sw $t2, 120($t0)
-    sw $t1, 124($t0)
-    sw $t1, 128($t0)
-    sw $t2, 132($t0)
-    sw $t2, 136($t0)
-    sw $t2, 140($t0)
-    sw $t2, 144($t0)
-    sw $t2, 148($t0)
-    sw $t2, 152($t0)
-    sw $t1, 156($t0)
-    sw $t1, 160($t0)
-    sw $t2, 164($t0)
-    sw $t1, 168($t0)
-    sw $t1, 172($t0)
-    sw $t1, 176($t0)
-    sw $t1, 180($t0)
-    sw $t2, 184($t0)
-    sw $t1, 188($t0)
-    sw $t1, 192($t0)
-    sw $t2, 196($t0)
-    sw $t1, 200($t0)
-    sw $t2, 204($t0)
-    sw $t2, 208($t0)
-    sw $t1, 212($t0)
-    sw $t2, 216($t0)
-    sw $t1, 220($t0)
-    sw $t3, 224($t0)
-    sw $t1, 228($t0)
-    sw $t1, 232($t0)
-    sw $t1, 236($t0)
-    sw $t1, 240($t0)
-    sw $t1, 244($t0)
-    sw $t1, 248($t0)
-    sw $t3, 252($t0)
-    
-    push($ra)
-    pushi($t5, 15)
-    pushi($t5, 10)
-    pushi($t5, 8)
-    pushi($t5, 8)
-    push($t0)
-    jal draw_rect
-    pop($ra)
-    jr $ra
 
-    
-draw_background:
-    li $t0, 0xFFFFFFFF
-    lw $t1, ADDR_DSPL
-    # li $t1, 0x10008000
-    lw $t2, SCREEN_WIDTH
-    lw $t3, SCREEN_HEIGHT
-    mult $t2, $t3
-    mflo $t4 # screen width * height
-    sll $t4, $t4, 2
-    # li $t4 32776
-    add $t5, $t1, $t4
-    
-    BACKGROUND_LOOP: bge $t1, $t5 END_BACKGROUND_LOOP
-        sw $t0, 0($t1)
-        addi $t1, $t1, 4
-        j BACKGROUND_LOOP
-    END_BACKGROUND_LOOP:
-        jr $ra
-        
-        
-END:
+EXIT:
