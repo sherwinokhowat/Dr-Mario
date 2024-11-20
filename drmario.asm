@@ -195,7 +195,9 @@ game_loop:
     # Let's handle S first so that we can get the hard stuff out the way frfr
     lw $t0, ADDR_KBRD              
     lw $t8, 0($s0)                      # Load first word from keyboard
-    beq $t8, 1, handle_key_pressed      # If first word 1, key is pressed
+    bne $t8, 1, skip      # If first word 1, key is pressed
+    jal handle_key_pressed
+    skip:
     
     
 
@@ -319,10 +321,10 @@ handle_key_pressed:
     
     # Check what key was pressed
     beq $a0, 0x71, respond_to_Q     # done
-    beq $a0, 0x71, respond_to_A     
+    beq $a0, 0x61, respond_to_A     
     beq $a0, 0x73, respond_to_S     # working on
-    beq $a0, 0x71, respond_to_D
-    beq $a0, 0x71, respond_to_W
+    beq $a0, 0x64, respond_to_D
+    beq $a0, 0x57, respond_to_W
     
     # Go back home :)
     jr $ra
@@ -331,9 +333,163 @@ respond_to_Q:
     # Quit the game
     li $v0, 10  
     syscall
+    
+    
+    
+    
+    
+    
+# -------------------------------------- A A A A A A A -------------------------------------- #
 
 respond_to_A:
     # Move left by one game unit
+    
+    # 1. Don't do anything if we are loading capsule 
+    lb $t0, capsule_loaded
+    add $t1, $zero, 1 # constant t1 = 1
+    beq $t0, $t1, respond_to_A_return
+    
+    # 2. Check whether we are horizontal or vertical
+    
+    # Get capsule bit
+    lw $t0, capsule_x
+    lw $t1, capsule_y
+    lw $t2, GAME_WIDTH
+    lw $t3, GAME_HEIGHT
+    la $t4, game_bitmap
+    push($ra)
+    push_temps()
+    push($t0)
+    push($t1)
+    push($t2)
+    push($t3)
+    push($t4)
+    jal get_value_in_bitmap
+    pop($s5) # the code for the capsule bit
+    pop_temps()
+    pop($ra)
+    
+    # Check the orientation
+    # Horizontal Left codes (i.e., s5 is 3, 7, or 11)
+    addi $t7, $zero, 3
+    addi $t8, $zero, 7
+    addi $t9, $zero, 11
+    
+    # Checking whether our capsule is horizontal
+    beq $s5, $t7, A_HORIZONTAL
+    beq $s5, $t8, A_HORIZONTAL
+    beq $s5, $t9, A_HORIZONTAL
+    b A_VERTICAL
+    
+    # Handle the shift left when current capsule is vertical
+    A_VERTICAL:
+        # TODO:
+        b respond_to_A_return
+    
+    
+    # Handle the shift left when current capsule is horizontal
+    A_HORIZONTAL:
+        ble $t0, $zero, respond_to_A_return # if max s, then handle the collision
+        # Get the right bit of the capsule
+        
+        # ----------------------
+        # Get bit from below 
+        push($ra)
+        push_temps()
+        addi $t0, $t0, -1 # x - 1 (reset after)
+        push($t0) # x
+        push($t1)
+        push($t2)
+        push($t3)
+        push($t4)
+        jal get_value_in_bitmap # (x,y,w,h,bm)
+        pop($v0)
+        pop_temps()
+        pop($ra)
+        bne $v0, $zero, respond_to_A_return
+        # ----------------------
+            
+            
+        
+        # Get the right bit of the capsule (we already have left)
+        addi $t7,  $t0, 1 # t7 = capsule_x + 1
+        
+        push($ra)
+        push_temps()
+        push($t7) # x
+        push($t1) # y
+        push($t2) 
+        push($t3)
+        push($t4)
+        jal get_value_in_bitmap
+        pop($s6) # the code for the capsule bit
+        pop_temps()
+        pop($ra)
+        
+        # $s5 and $s6 now hold the left and right capsule codes 
+        # Remove the old capsule bits from the map
+        
+        # Get rid of left capsule
+        push($ra)
+        push_temps()
+        push($t0) # x
+        push($t1) # y
+        push($zero) # code - black
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+        
+        # Get rid of right capsule
+        push($ra)
+        push_temps()
+        push($t7) # x
+        push($t1) # y
+        push($zero) # code - black
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+        
+        # Shift the capsule
+        
+        # Start by incrememnt capsule_x - 1
+        addi $t0, $t0, -1
+        
+        # Draw left capsule
+        push($ra)
+        push_temps()
+        push($t0)
+        push($t1)
+        push($s5)
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+        
+        add $t0, $t0, 1 # right bit
+        # Draw right capsule
+        push($ra)
+        push_temps()
+        push($t0)
+        push($t1)
+        push($s6)
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+        
+        addi $t0, $t0, -1
+        # Increment capsule_y accordingly (y doesnt change)
+        sw $t0, capsule_x
+        
+        b respond_to_A_return
+    respond_to_A_return:
+        jr $ra
+    
+    
+    
+    
+    
+    
+    
+# -------------------------------------- S S S S S S S S -------------------------------------- #
     
     # Check collision
     # Move
@@ -424,9 +580,6 @@ respond_to_S:
         jr $ra
         
     S_MOVE_DOWN:
-        # need to check collision here too
-        # the plan is to have collision be its own part then this be the move down which both use
-        
         # Get capsule bit
         lw $t0, capsule_x
         lw $t1, capsule_y
@@ -445,22 +598,65 @@ respond_to_S:
         pop_temps()
         pop($ra)
         
-        # if s5 is horizontal (i.e., s5 is 3, 7, or 11)
+        # Horizontal Left codes (i.e., s5 is 3, 7, or 11)
         addi $t7, $zero, 3
         addi $t8, $zero, 7
         addi $t9, $zero, 11
         
-        beq $s5, $t7, S_MOVE_DOWN_HORIZONTAL
-        beq $s5, $t8, S_MOVE_DOWN_HORIZONTAL
-        beq $s5, $t9, S_MOVE_DOWN_HORIZONTAL
-        b S_MOVE_DOWN_VERTICAL
+        # Checking whether our capsule is horizontal
+        beq $s5, $t7, S_HORIZONTAL
+        beq $s5, $t8, S_HORIZONTAL
+        beq $s5, $t9, S_HORIZONTAL
+        b S_VERTICAL
         
-        S_MOVE_DOWN_VERTICAL:
+        S_VERTICAL:
             # implement this when theres actually rotation xd
             jr $ra
         
         
-        S_MOVE_DOWN_HORIZONTAL:
+        S_HORIZONTAL:
+            lw $t7, GAME_HEIGHT
+            addi $t7, $t7, -1 # game height - 1 since 15 is the max
+            bge $t1, $t7, S_HANDLE_COLLISION # if max s, then handle the collision
+            
+            
+            # ----------------------
+            # Get bit from below 
+            push($ra)
+            push_temps()
+            push($t0) # x
+            
+            addi $t1, $t1, 1 # y + 1 (reset after)
+            push($t1) # y + 1
+            push($t2)
+            push($t3)
+            push($t4)
+            jal get_value_in_bitmap # (x,y,w,h,bm)
+            pop($v0)
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, S_HANDLE_COLLISION
+            # ----------------------
+            
+            # ----------------------
+            # Get bit from below 
+            push($ra)
+            push_temps()
+            addi $t0, $t0, 1
+            push($t0) # x
+            
+            addi $t1, $t1, 1 # y + 1 (reset after)
+            push($t1) # y + 1
+            push($t2)
+            push($t3)
+            push($t4)
+            jal get_value_in_bitmap # (x,y,w,h,bm)
+            pop($v0)
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, S_HANDLE_COLLISION
+            # ----------------------
+        
             # Get right capsule 
             addi $t7,  $t0, 1 # t7 = capsule_x + 1
             
@@ -526,7 +722,18 @@ respond_to_S:
             # Increment capsule_y accordingly (x doesnt change)
             sw $t1, capsule_y
             
+            b respond_to_s_return
+        
+        S_HANDLE_COLLISION:
+
+            # start loading new capsule
+            add $t0, $zero, 1
+            sw $t0, capsule_needed
+            b respond_to_s_return
+            
+        respond_to_s_return:
             jr $ra
+             
             
         
         
@@ -539,21 +746,153 @@ respond_to_S:
         
         # x, y, w, h, bitmap
         
-        
-    
-    
-    
-    jr $ra
     # Move down by one game unit
     
     # Check collision
     # Move
 
 respond_to_D:
-    # Move right by one game unit
+    # Move left by one game unit
     
-    # Check collision
-    # Move
+    # 1. Don't do anything if we are loading capsule 
+    lb $t0, capsule_loaded
+    add $t1, $zero, 1 # constant t1 = 1
+    beq $t0, $t1, respond_to_D_return
+    
+    # 2. Check whether we are horizontal or vertical
+    
+    # Get capsule bit
+    lw $t0, capsule_x
+    lw $t1, capsule_y
+    lw $t2, GAME_WIDTH
+    lw $t3, GAME_HEIGHT
+    la $t4, game_bitmap
+    push($ra)
+    push_temps()
+    push($t0)
+    push($t1)
+    push($t2)
+    push($t3)
+    push($t4)
+    jal get_value_in_bitmap
+    pop($s5) # the code for the capsule bit
+    pop_temps()
+    pop($ra)
+    
+    # Check the orientation
+    # Horizontal Left codes (i.e., s5 is 3, 7, or 11)
+    addi $t7, $zero, 3
+    addi $t8, $zero, 7
+    addi $t9, $zero, 11
+    
+    # Checking whether our capsule is horizontal
+    beq $s5, $t7, D_HORIZONTAL
+    beq $s5, $t8, D_HORIZONTAL
+    beq $s5, $t9, D_HORIZONTAL
+    b D_VERTICAL
+    
+    # Handle the shift left when current capsule is vertical
+    D_VERTICAL:
+        # TODO:
+        b respond_to_D_return
+    
+    
+    # Handle the shift left when current capsule is horizontal
+    D_HORIZONTAL:
+        lb $t7, GAME_WIDTH
+        addi $t7, $t7, -2 # game width - 2 since 15 is the max and we have left capsule
+        bge $t0, $t7, respond_to_D_return # if max s, then handle the collision
+        # Get the right bit of the capsule
+        
+        # ----------------------
+        # Get bit from below 
+        push($ra)
+        push_temps()
+        addi $t0, $t0, 2 # x + 2 (reset after)
+        push($t0) # x
+        push($t1)
+        push($t2)
+        push($t3)
+        push($t4)
+        jal get_value_in_bitmap # (x,y,w,h,bm)
+        pop($v0)
+        pop_temps()
+        pop($ra)
+        bne $v0, $zero, respond_to_A_return
+        # ----------------------
+        
+        # Get the right bit of the capsule (we already have left)
+        addi $t7,  $t0, 1 # t7 = capsule_x + 1
+        
+        push($ra)
+        push_temps()
+        push($t7) # x
+        push($t1) # y
+        push($t2) 
+        push($t3)
+        push($t4)
+        jal get_value_in_bitmap
+        pop($s6) # the code for the capsule bit
+        pop_temps()
+        pop($ra)
+        
+        # $s5 and $s6 now hold the left and right capsule codes 
+        # Remove the old capsule bits from the map
+        
+        # Get rid of left capsule
+        push($ra)
+        push_temps()
+        push($t0) # x
+        push($t1) # y
+        push($zero) # code - black
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+        
+        # Get rid of right capsule
+        push($ra)
+        push_temps()
+        push($t7) # x
+        push($t1) # y
+        push($zero) # code - black
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+        
+        # Shift the capsule
+        
+        # Start by incrememnt capsule_x + 1
+        addi $t0, $t0, 1
+        
+        # Draw left capsule
+        push($ra)
+        push_temps()
+        push($t0)
+        push($t1)
+        push($s5)
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+        
+        add $t0, $t0, 1 # right bit
+        # Draw right capsule
+        push($ra)
+        push_temps()
+        push($t0)
+        push($t1)
+        push($s6)
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+        
+        addi $t0, $t0, -1
+        # Increment capsule_y accordingly (y doesnt change)
+        sw $t0, capsule_x
+        
+        b respond_to_D_return
+    respond_to_D_return:
+        jr $ra
+    
 
 respond_to_W:
     # Rotate capsule
