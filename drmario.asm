@@ -2,16 +2,16 @@
 # This file contains our implementation of Dr Mario.
 #
 # Student 1: Sherwin Okhowat, 1010296225
-# Student 2: Name, Student Number (if applicable)
+# Student 2: Yimin Sun, 1010116143
 #
 # We assert that the code submitted here is entirely our own 
 # creation, and will indicate otherwise when it is not.
 #
 ######################## Bitmap Display Configuration ########################
-# - Unit width in pixels:       TODO
-# - Unit height in pixels:      TODO
-# - Display width in pixels:    TODO
-# - Display height in pixels:   TODO
+# - Unit width in pixels:       1
+# - Unit height in pixels:      1
+# - Display width in pixels:    256
+# - Display height in pixels:   200
 # - Base Address for Display:   0x10008000 ($gp)
 ##############################################################################
 
@@ -95,7 +95,7 @@ SCREEN_WIDTH:
 
 # how many pixels tall is the bitmap
 SCREEN_HEIGHT:
-    .word 128
+    .word 200
 
 # how units tall is the game
 GAME_HEIGHT:
@@ -111,11 +111,11 @@ PIXELS_PER_GAME_UNIT:
     
 # top left corner of the game in screen pixels
 GAME_SCREEN_X:
-    .word 16
+    .word 24
 
 # top left corner of the game in screen pixels
 GAME_SCREEN_Y:
-    .word 16
+    .word 40
     
 ##############################################################################
 # Mutable Data
@@ -123,8 +123,32 @@ GAME_SCREEN_Y:
 draw_rectangle_colour_array:
     .word 0:100000 # 0:num of pixels of screen (width * height)
     
+# bitmap to draw the bottle
+bottle_bitmap:
+    .word 0:1000 # 0: width * height of the bottle
+   
+# bitmap to draw the actual game (playing field)
+game_bitmap:
+    .word 0:1000 # 0: width * height of the game
+
 draw_bitmap_array:
     .word 0:100000
+    
+# capsule x coordinate in game units
+capsule_x:
+    .word 3
+
+# capsule y coordinate in game units
+capsule_y:
+    .word 1
+    
+# check whether we need to load a capsule
+capsule_needed:
+    .byte 1
+    
+# check whether we are loading the capsule
+capsule_loaded:
+    .byte 0
 
 ##############################################################################
 # Code
@@ -132,296 +156,1012 @@ draw_bitmap_array:
 	.text
 	.globl main
 
-    # Run the game.
+# Run the game.
 main:
     jal draw_background
-    # li $t0, -2
-    # li $t1, -2
-    # la $t2, draw_rectangle_colour_array
-    # push($t0)
-    # push($t1)
-    # push($t2)
+    jal load_random_viruses
+    lw $s0, ADDR_KBRD  # s0 = base address of the keyboard
     
-    # li $t1, 0 
-    # li $t2, 0 
-    # push($t1)
-    # push($t2)
-    # jal draw_virus
+
+game_loop:
+    # Check whether we are spawning a capsule
+    
+    # Checking whether we need to spawn a capsule at the top of the bottle
+    LOADING_BOTTLE_BITMAP:
+        lb $t0, capsule_needed # check from memory whether its time to load capsule
+        addiu $t1, $zero, 1 # set t1 = 1
+        addiu $t2, $zero, 0 # set t2 = 0 (t2 will be used for the capsule colour, which is 0-9)
+        bne $t0, $t1, END_LOADING_BOTTLE_BITMAP # if were loading capsule continue
+        
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 
+        li $a1, 9 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        add $t2, $zero, $a0
+        addi $t2, $t2, 1
+        push($t2) # the capsule we are loading into the bottle
+        jal load_bottle_bitmap
+        # No longer loading a capsule
+        sb $zero, capsule_needed
+        addiu $t1, $zero, 1
+        sb $t1, capsule_loaded
+        jal draw_bottle_bitmap 
+    END_LOADING_BOTTLE_BITMAP:
+    jal draw_game_bitmap
+    
+    
+    # Key pressed logic 
+    # Let's handle S first so that we can get the hard stuff out the way frfr
+    lw $t0, ADDR_KBRD              
+    lw $t8, 0($s0)                      # Load first word from keyboard
+    beq $t8, 1, handle_key_pressed      # If first word 1, key is pressed
+    
+    
+
+    
+    # 1a. Check if key has been pressed
+    # 1b. Check which key has been pressed
+    # Check whether keyboard was pressed
+    # 2a. Check for collisions
+	# 2b. Update locations (capsules)
+	# 3. Draw the screen
+	# 4. Sleep
+	
+	# push 0, unless we are loading in a capsule
+	# if you are loading in a capsule, the integer must be random
+	# from 1-9
+	
+	
+	
+	
+	
+	
+
+    # 5. Go back to Step 1
+    j game_loop
+    
+    
+    
+# ----------------------------------------------------------------- #
+#                    DRAW INITIAL VIRUSES                           #
+# ----------------------------------------------------------------- #
 
 
-    # li $t0, 0x10071aa8
-    # addi $t0, $t0, 4
+load_random_viruses:
+    add $s2, $zero, $zero
+    add $t0, $zero, $zero # count variable (loop)
+    addiu $t1, $zero, 4 # constant 4
     
-    # jal draw_game_block
-    # jal draw_virus
+    VIRUSES_LOOP: bge $t0, $t1, END_VIRUS_LOOP # count >= 4 then skip
+        li $v0, 42
+        li $a0, 0
+        li $a1, 9
+        syscall
+        add $t5, $zero, $a0 # t5 stores the rand x
+        
+        li $v0, 42
+        li $a0, 0
+        li $a1, 10
+        syscall
+        addiu $t4, $zero, 5
+        add $t6, $t4, $a0 # t5 stores the rand y
+        
+        # see whats there in the bitmap
+        
+        la $t9, game_bitmap
+        lw $t7, GAME_WIDTH
+        lw $t8, GAME_HEIGHT  
+        push($ra)
+        push_temps()
+        push($t5) # x
+        push($t6) # y
+        push($t7) # w
+        push($t8) # h
+        push($t9) # bitmap
+        jal get_value_in_bitmap # (x,y,w,h,b)
+        pop($s3) # get the code in the bitmap
+        pop_temps()
+        pop($ra)
+        
+        
+        IF_VIRUS_NOT_THERE: bne $s3, $zero, ELSE_VIRUS_NOT_THERE
+            # The virus is not here, so add count and update the bitmap
+            # Get a random colour
+            # virus are code 13,14,15
+             li $v0, 42
+             li $a0, 0
+             li $a1, 3
+             syscall 
+             addiu $t4, $zero, 13
+             add $t3, $t4, $a0 # store the virus id (add 13 for code offset)
+             
+             push($ra)
+             push_temps()
+             push($t5) # x
+             push($t6) # y
+             push($t3) # code for virus
+             jal update_game_bitmap
+             pop_temps()
+             pop($ra)
+             
+             # update count
+             addiu $t0, $t0, 1
+             b INCREMENT
+        ELSE_VIRUS_NOT_THERE:
+            addiu $s2, $s2, 1
     
-    # Store value into temp draw bitmap array
-    la $t0, draw_bitmap_array
-    li $t1, 0
-    sb $t1, 0($t0)
-    li $t1, 0
-    sb $t1, 1($t0)
-    li $t1, 0
-    sb $t1, 2($t0)
-    li $t1, 16
-    sb $t1, 3($t0)
-    li $t1, 13
-    sb $t1, 4($t0)
-    li $t1, 0
-    sb $t1, 5($t0)
-    li $t1, 16
-    sb $t1, 6($t0)
-    li $t1, 0
-    sb $t1, 7($t0)
-    li $t1, 0
-    sb $t1, 8($t0)
-    li $t1, 0
-    sb $t1, 9($t0)
-    li $t1, 0
-    sb $t1, 10($t0)
-    li $t1, 0
-    sb $t1, 11($t0)
-    li $t1, 0
-    sb $t1, 12($t0)
-    li $t1, 16
-    sb $t1, 13($t0)
-    li $t1, 0
-    sb $t1, 14($t0)
-    li $t1, 14
-    sb $t1, 15($t0)
-    li $t1, 16
-    sb $t1, 16($t0)
-    li $t1, 0
-    sb $t1, 17($t0)
-    li $t1, 0
-    sb $t1, 18($t0)
-    li $t1, 0
-    sb $t1, 19($t0)
-    li $t1, 16
-    sb $t1, 20($t0)
-    li $t1, 16
-    sb $t1, 21($t0)
-    li $t1, 16
-    sb $t1, 22($t0)
-    li $t1, 16
-    sb $t1, 23($t0)
-    li $t1, 0
-    sb $t1, 24($t0)
-    li $t1, 0
-    sb $t1, 25($t0)
-    li $t1, 16
-    sb $t1, 26($t0)
-    li $t1, 16
-    sb $t1, 27($t0)
-    li $t1, 16
-    sb $t1, 28($t0)
-    li $t1, 16
-    sb $t1, 29($t0)
-    li $t1, 16
-    sb $t1, 30($t0)
-    li $t1, 5 #I PUT THIS HERE UP BIT 
-    sb $t1, 31($t0)
-    li $t1, 0
-    sb $t1, 32($t0)
-    li $t1, 0
-    sb $t1, 33($t0)
-    li $t1, 0
-    sb $t1, 34($t0)
-    li $t1, 0
-    sb $t1, 35($t0)
-    li $t1, 0
-    sb $t1, 36($t0)
-    li $t1, 0
-    sb $t1, 37($t0)
-    li $t1, 0
-    sb $t1, 38($t0)
-    li $t1, 16
-    sb $t1, 39($t0)
-    li $t1, 16
-    sb $t1, 40($t0)
-    li $t1, 6 # FACING UP CAP
-    sb $t1, 41($t0)
-    li $t1, 0
-    sb $t1, 42($t0)
-    li $t1, 11
-    sb $t1, 43($t0)
-    li $t1, 12
-    sb $t1, 44($t0)
-    li $t1, 3 # CAPSULE THAT I PUT IN
-    sb $t1, 45($t0)
-    li $t1, 4
-    sb $t1, 46($t0)
-    li $t1, 7
-    sb $t1, 47($t0)
-    li $t1, 8
-    sb $t1, 48($t0)
-    li $t1, 16
-    sb $t1, 49($t0)
-    li $t1, 16
-    sb $t1, 50($t0)
-    li $t1, 0
-    sb $t1, 51($t0)
-    li $t1, 0
-    sb $t1, 52($t0)
-    li $t1, 0
-    sb $t1, 53($t0)
-    li $t1, 0
-    sb $t1, 54($t0)
-    li $t1, 0
-    sb $t1, 55($t0)
-    li $t1, 0
-    sb $t1, 56($t0)
-    li $t1, 0
-    sb $t1, 57($t0)
-    li $t1, 0
-    sb $t1, 58($t0)
-    li $t1, 16
-    sb $t1, 59($t0)
-    li $t1, 16
-    sb $t1, 60($t0)
-    li $t1, 0
-    sb $t1, 61($t0)
-    li $t1, 0
-    sb $t1, 62($t0)
-    li $t1, 13
-    sb $t1, 63($t0)
-    li $t1, 0
-    sb $t1, 64($t0)
-    li $t1, 0
-    sb $t1, 65($t0)
-    li $t1, 15
-    sb $t1, 66($t0)
-    li $t1, 0
-    sb $t1, 67($t0)
-    li $t1, 0
-    sb $t1, 68($t0)
-    li $t1, 16
-    sb $t1, 69($t0)
-    li $t1, 16
-    sb $t1, 70($t0)
-    li $t1, 0
-    sb $t1, 71($t0)
-    li $t1, 0
-    sb $t1, 72($t0)
-    li $t1, 0
-    sb $t1, 73($t0)
-    li $t1, 0
-    sb $t1, 74($t0)
-    li $t1, 0
-    sb $t1, 75($t0)
-    li $t1, 0
-    sb $t1, 76($t0)
-    li $t1, 0
-    sb $t1, 77($t0)
-    li $t1, 0
-    sb $t1, 78($t0)
-    li $t1, 16
-    sb $t1, 79($t0)
-    li $t1, 16
-    sb $t1, 80($t0)
-    li $t1, 0
-    sb $t1, 81($t0)
-    li $t1, 0
-    sb $t1, 82($t0)
-    li $t1, 0
-    sb $t1, 83($t0)
-    li $t1, 0
-    sb $t1, 84($t0)
-    li $t1, 0
-    sb $t1, 85($t0)
-    li $t1, 0
-    sb $t1, 86($t0)
-    li $t1, 0
-    sb $t1, 87($t0)
-    li $t1, 0
-    sb $t1, 88($t0)
-    li $t1, 16
-    sb $t1, 89($t0)
-    li $t1, 16
-    sb $t1, 90($t0)
-    li $t1, 0
-    sb $t1, 91($t0)
-    li $t1, 0
-    sb $t1, 92($t0)
-    li $t1, 0
-    sb $t1, 93($t0)
-    li $t1, 0
-    sb $t1, 94($t0)
-    li $t1, 0
-    sb $t1, 95($t0)
-    li $t1, 0
-    sb $t1, 96($t0)
-    li $t1, 0
-    sb $t1, 97($t0)
-    li $t1, 0
-    sb $t1, 98($t0)
-    li $t1, 16
-    sb $t1, 99($t0)
-    li $t1, 16
-    sb $t1, 100($t0)
-    li $t1, 0
-    sb $t1, 101($t0)
-    li $t1, 0
-    sb $t1, 102($t0)
-    li $t1, 0
-    sb $t1, 103($t0)
-    li $t1, 0
-    sb $t1, 104($t0)
-    li $t1, 0
-    sb $t1, 105($t0)
-    li $t1, 0
-    sb $t1, 106($t0)
-    li $t1, 0
-    sb $t1, 107($t0)
-    li $t1, 0
-    sb $t1, 108($t0)
-    li $t1, 16
-    sb $t1, 109($t0)
-    li $t1, 16
-    sb $t1, 110($t0)
-    li $t1, 16
-    sb $t1, 111($t0)
-    li $t1, 16
-    sb $t1, 112($t0)
-    li $t1, 16
-    sb $t1, 113($t0)
-    li $t1, 16
-    sb $t1, 114($t0)
-    li $t1, 16
-    sb $t1, 115($t0)
-    li $t1, 16
-    sb $t1, 116($t0)
-    li $t1, 16
-    sb $t1, 117($t0)
-    li $t1, 16
-    sb $t1, 118($t0)
-    li $t1, 16
-    sb $t1, 119($t0)
+        INCREMENT:
+        b VIRUSES_LOOP
+    END_VIRUS_LOOP:
+    jr $ra
+
+    # int count = 0;
     
-    li $t2, 0
-    li $t3, 0
+    # while (count < 4) {
+        # x = rand(0, 9) 
+        # y = rand(5, 17)
+        
+        # is this x and y already chosen?
+        # well we can just draw on the bitmap then check the bitmap at that location
+    # }
+    
+
+    
+# ----------------------------------------------------------------- #
+#                            KEY PRESSED                            #
+# ----------------------------------------------------------------- #
+
+
+
+handle_key_pressed:
+    lw $a0, 4($s0)                  # Load second word from keyboard
+    
+    # Check what key was pressed
+    beq $a0, 0x71, respond_to_Q     # done
+    beq $a0, 0x71, respond_to_A     
+    beq $a0, 0x73, respond_to_S     # working on
+    beq $a0, 0x71, respond_to_D
+    beq $a0, 0x71, respond_to_W
+    
+    # Go back home :)
+    jr $ra
+    
+respond_to_Q:
+    # Quit the game
+    li $v0, 10  
+    syscall
+
+respond_to_A:
+    # Move left by one game unit
+    
+    # Check collision
+    # Move
+
+respond_to_S:
+    # Check whether we are in a load capsule state ! 
+    lb $t0, capsule_loaded
+    addiu $t1, $zero, 1
+    
+    beq $t0, $t1, S_LOAD_CAPSULE_CASE # if load state = 1
+    bne $t0, $t1, S_MOVE_DOWN # if load state != 1
+    S_LOAD_CAPSULE_CASE:
+        # turn load capsule off
+        sb $zero, capsule_loaded
+        
+        # get the colour and orientation from the bitmap
+        
+        # left side of capsule:
+        addi $t0, $zero, 4 
+        addi $t1, $zero, 2 
+        li $t2, 10
+        li $t3, 20 
+        la $t4, bottle_bitmap
+        
+        push($ra)
+        push($t0) # x
+        push($t1) # y
+        push($t2) # width
+        push($t3) # height
+        push($t4) 
+        jal get_value_in_bitmap
+        pop($s5) # get return value - left side of capsule code
+        pop($ra)
+        
+        # right side of capsule:
+        addi $t0, $zero, 5
+        addi $t1, $zero, 2 
+        li $t2, 10
+        li $t3, 20 
+        la $t4, bottle_bitmap
+        
+        push($ra)
+        push($t0) # x
+        push($t1) # y
+        push($t2) # width
+        push($t3) # height
+        push($t4)
+        jal get_value_in_bitmap
+        pop($s6) # get return value - right side of capsule code
+        pop($ra)
+        
+        # load the new bitmap for bottle
+        push($ra)
+        push($zero)
+        jal load_bottle_bitmap
+        pop($ra)
+        
+        add $t0, $zero, $zero
+        add $t0, $zero, $zero
+        add $t0, $zero, $zero
+        
+        
+        # check for collision below blah blah
+        
+        # move down
+        # its literally just placing it at the starting position
+        # so
+        # get the values in the bitmap for the capsule we want to remove
+        
+        
+        # left side
+        push($ra)
+        pushi($t0, 3) # x
+        pushi($t0, 0) # y
+        push($s5) # code
+        jal update_game_bitmap
+        pop($ra)
+        
+        add $t0, $zero, $zero
+        add $t0, $zero, $zero
+        
+        # right side
+        push($ra)
+        pushi($t0, 4) # x
+        pushi($t0, 0) # y
+        push($s6) # code
+        jal update_game_bitmap
+        pop($ra)
+        
+        
+        push($ra)
+        jal draw_bottle_bitmap
+        pop($ra)
+        jr $ra
+        
+    S_MOVE_DOWN:
+        # need to check collision here too
+        # the plan is to have collision be its own part then this be the move down which both use
+        
+        # get left bit from above
+        # x, y, w, h, bitmap
+        
+        
+    
+    
+    
+    jr $ra
+    # Move down by one game unit
+    
+    # Check collision
+    # Move
+
+respond_to_D:
+    # Move right by one game unit
+    
+    # Check collision
+    # Move
+
+respond_to_W:
+    # Rotate capsule
+    
+    # Check collision
+    # Move
+    
+# Checks whether the player capsule will result in a collision
+# move_x - (game units) the number of units to move in x direction
+# move_y - (game units) the number of units to move in the y direction
+# Returns:
+# - 0 if no collision
+# - 1 if collision
+check_collision:
+    pop($t1) # move_y
+    pop($t0) # move_x
+    
+    # Literally just check
+
+
+
+
+# handle the key pressed
+# asd moves left down right
+# w rotates
+
+
+    
+# ----------------------------------------------------------------- #
+#                            LOAD BITMAP                            #
+# ----------------------------------------------------------------- #
+
+
+# ----------------------------------------------------------------- #
+#                            DRAW BOTTLE                            #
+# ----------------------------------------------------------------- #
+
+# Loads the initial bitmaps
+
+# Arguments:
+# - capsule: whether we should draw a capsule at the top for the bottle
+# 0: no capsule
+# 
+# 1: red-red
+# 2: red-blue
+# 3: red-yellow
+# 
+# 4: blue-blue
+# 5: blue-red
+# 6: blue-yellow
+#
+# 7: yellow-yellow
+# 8: yellow-red
+# 9: yellow-blue
+load_bottle_bitmap:
+    # t0 = bottle bitmap
+    # t1 = constantly changing value used for loading values into bitmap
+    # t6 = which capsule to put
+    # t7 = the left bit of the capsule
+    # t8 = the right bit of the capsule
+    # t9 = constant holding 1, 2, ..., 9 used for if statement checks
+    pop($t6) # get argument (which capsule to put) 
+    la $t0, bottle_bitmap # get bottle bitmap array address
+    
+    addiu $t9, $zero, 1
+    beq $t6, $t9, RED_RED
+    
+    addiu $t9, $zero, 2
+    beq $t6, $t9, RED_BLUE
+    
+    addiu $t9, $zero, 3
+    beq $t6, $t9, RED_YELLOW
+    
+    addiu $t9, $zero, 4
+    beq $t6, $t9, BLUE_BLUE
+    
+    addiu $t9, $zero, 5
+    beq $t6, $t9, BLUE_RED
+    
+    addiu $t9, $zero, 6
+    beq $t6, $t9, BLUE_YELLOW
+    
+    addiu $t9, $zero, 7
+    beq $t6, $t9, YELLOW_YELLOW
+    
+    addiu $t9, $zero, 8
+    beq $t6, $t9, YELLOW_RED
+    
+    addiu $t9, $zero, 9
+    beq $t6, $t9, YELLOW_BLUE
+    
+    # Else:
+    b NOTHING_NOTHING
+    
+    # Nothing
+    NOTHING_NOTHING:
+        addiu $t7, $zero, 0
+        addiu $t8, $zero, 0
+        b STORE_BOTTLE_BITMAP
+    
+    # Left Red
+    RED_RED:
+        addiu $t7, $zero, 3
+        addiu $t8, $zero, 4
+        b STORE_BOTTLE_BITMAP
+    
+    RED_BLUE:
+        addiu $t7, $zero, 3
+        addiu $t8, $zero, 8
+        b STORE_BOTTLE_BITMAP
+    
+    RED_YELLOW:
+        addiu $t7, $zero, 3
+        addiu $t8, $zero, 12
+        b STORE_BOTTLE_BITMAP
+    
+    # Left Blue
+    
+    BLUE_BLUE:
+        addiu $t7, $zero, 7
+        addiu $t8, $zero, 8
+        b STORE_BOTTLE_BITMAP
+    
+    BLUE_RED:
+        addiu $t7, $zero, 7
+        addiu $t8, $zero, 4
+        b STORE_BOTTLE_BITMAP
+    
+    BLUE_YELLOW:
+        addiu $t7, $zero, 7
+        addiu $t8, $zero, 12
+        b STORE_BOTTLE_BITMAP
+    
+    # Left Yellow
+    
+    YELLOW_YELLOW:
+        addiu $t7, $zero, 11
+        addiu $t8, $zero, 12
+        b STORE_BOTTLE_BITMAP
+    
+    YELLOW_RED:
+        addiu $t7, $zero, 11
+        addiu $t8, $zero, 4
+        b STORE_BOTTLE_BITMAP
+    
+    YELLOW_BLUE:
+        addiu $t7, $zero, 11
+        addiu $t8, $zero, 8
+        b STORE_BOTTLE_BITMAP
+        
+        
+    STORE_BOTTLE_BITMAP:
+        li $t1, 0
+        sb $t1, 0($t0)
+        li $t1, 0
+        sb $t1, 1($t0)
+        li $t1, 0
+        sb $t1, 2($t0)
+        li $t1, 16
+        sb $t1, 3($t0)
+        li $t1, 0
+        sb $t1, 4($t0)
+        li $t1, 0
+        sb $t1, 5($t0)
+        li $t1, 16
+        sb $t1, 6($t0) # 1
+        li $t1, 0
+        sb $t1, 7($t0)
+        li $t1, 0
+        sb $t1, 8($t0)
+        li $t1, 0
+        sb $t1, 9($t0)
+        
+        li $t1, 0
+        sb $t1, 10($t0)
+        li $t1, 0
+        sb $t1, 11($t0)
+        li $t1, 0
+        sb $t1, 12($t0)
+        li $t1, 16
+        sb $t1, 13($t0)
+        li $t1, 0
+        sb $t1, 14($t0)
+        li $t1, 0
+        sb $t1, 15($t0) # 2
+        li $t1, 16
+        sb $t1, 16($t0)
+        li $t1, 0
+        sb $t1, 17($t0)
+        li $t1, 0
+        sb $t1, 18($t0)
+        li $t1, 0
+        sb $t1, 19($t0)
+        
+        li $t1, 16
+        sb $t1, 20($t0)
+        li $t1, 16
+        sb $t1, 21($t0)
+        li $t1, 16
+        sb $t1, 22($t0)
+        li $t1, 16
+        sb $t1, 23($t0)
+        # li $t1, CAPL # THIS IS WHERE THE LEFT SIDE OF THE CAPSULE GOES
+        add $t1, $zero, $t7
+        sb $t1, 24($t0)
+        # li $t1, CAPR # THIS IS WHERE THE RIGHT SIDE OF THE CAPSULE GOES
+        add $t1, $zero, $t8
+        sb $t1, 25($t0)
+        li $t1, 16
+        sb $t1, 26($t0) # 3
+        li $t1, 16
+        sb $t1, 27($t0)
+        li $t1, 16
+        sb $t1, 28($t0)
+        li $t1, 16
+        sb $t1, 29($t0)
+        
+        li $t1, 16
+        sb $t1, 30($t0)
+        # li $t1, 0
+        # sb $t1, 31($t0)
+        # li $t1, 0
+        # sb $t1, 32($t0)
+        # li $t1, 0
+        # sb $t1, 33($t0)
+        # li $t1, 0
+        # sb $t1, 34($t0) # 4
+        # li $t1, 0
+        # sb $t1, 35($t0)
+        # li $t1, 0
+        # sb $t1, 36($t0)
+        # li $t1, 0
+        # sb $t1, 37($t0)
+        # li $t1, 0
+        # sb $t1, 38($t0)
+        li $t1, 16
+        sb $t1, 39($t0)
+        
+        li $t1, 16
+        sb $t1, 40($t0)
+        # li $t1, 0
+        # sb $t1, 41($t0)
+        # li $t1, 0
+        # sb $t1, 42($t0)
+        # li $t1, 0
+        # sb $t1, 43($t0)
+        # li $t1, 0
+        # sb $t1, 44($t0)
+        # li $t1, 0
+        # sb $t1, 45($t0)
+        # li $t1, 0
+        # sb $t1, 46($t0)
+        # li $t1, 0
+        # sb $t1, 47($t0)
+        # li $t1, 0
+        # sb $t1, 48($t0)
+        li $t1, 16
+        sb $t1, 49($t0)
+        
+        li $t1, 16
+        sb $t1, 50($t0)
+        # li $t1, 0
+        # sb $t1, 51($t0)
+        # li $t1, 0
+        # sb $t1, 52($t0)
+        # li $t1, 0
+        # sb $t1, 53($t0)
+        # li $t1, 0
+        # sb $t1, 54($t0)
+        # li $t1, 0
+        # sb $t1, 55($t0)
+        # li $t1, 0
+        # sb $t1, 56($t0)
+        # li $t1, 0
+        # sb $t1, 57($t0)
+        # li $t1, 0
+        # sb $t1, 58($t0)
+        li $t1, 16
+        sb $t1, 59($t0)
+        
+        li $t1, 16
+        sb $t1, 50($t0)
+        # li $t1, 0
+        # sb $t1, 51($t0)
+        # li $t1, 0
+        # sb $t1, 52($t0)
+        # li $t1, 0
+        # sb $t1, 53($t0)
+        # li $t1, 0
+        # sb $t1, 54($t0)
+        # li $t1, 0
+        # sb $t1, 55($t0)
+        # li $t1, 0
+        # sb $t1, 56($t0)
+        # li $t1, 0
+        # sb $t1, 57($t0)
+        # li $t1, 0
+        # sb $t1, 58($t0)
+        li $t1, 16
+        sb $t1, 59($t0)
+        
+        li $t1, 16
+        sb $t1, 60($t0)
+        # li $t1, 0
+        # sb $t1, 61($t0)
+        # li $t1, 0
+        # sb $t1, 62($t0)
+        # li $t1, 0
+        # sb $t1, 63($t0)
+        # li $t1, 0
+        # sb $t1, 64($t0)
+        # li $t1, 0
+        # sb $t1, 65($t0)
+        # li $t1, 0
+        # sb $t1, 66($t0)
+        # li $t1, 0
+        # sb $t1, 67($t0)
+        # li $t1, 0
+        # sb $t1, 68($t0)
+        li $t1, 16
+        sb $t1, 69($t0)
+        
+        li $t1, 16
+        sb $t1, 70($t0)
+        # li $t1, 0
+        # sb $t1, 71($t0)
+        # li $t1, 0
+        # sb $t1, 72($t0)
+        # li $t1, 0
+        # sb $t1, 73($t0)
+        # li $t1, 0
+        # sb $t1, 74($t0)
+        # li $t1, 0
+        # sb $t1, 75($t0)
+        # li $t1, 0
+        # sb $t1, 76($t0)
+        # li $t1, 0
+        # sb $t1, 77($t0)
+        # li $t1, 0
+        # sb $t1, 78($t0)
+        li $t1, 16
+        sb $t1, 79($t0)
+        
+        li $t1, 16
+        sb $t1, 80($t0)
+        # li $t1, 0
+        # sb $t1, 81($t0)
+        # li $t1, 0
+        # sb $t1, 82($t0)
+        # li $t1, 0
+        # sb $t1, 83($t0)
+        # li $t1, 0
+        # sb $t1, 84($t0)
+        # li $t1, 0
+        # sb $t1, 85($t0)
+        # li $t1, 0
+        # sb $t1, 86($t0)
+        # li $t1, 0
+        # sb $t1, 87($t0)
+        # li $t1, 0
+        # sb $t1, 88($t0)
+        li $t1, 16
+        sb $t1, 89($t0)
+        
+        li $t1, 16
+        sb $t1, 90($t0)
+        # li $t1, 0
+        # sb $t1, 91($t0)
+        # li $t1, 0
+        # sb $t1, 92($t0)
+        # li $t1, 0
+        # sb $t1, 93($t0)
+        # li $t1, 0
+        # sb $t1, 94($t0)
+        # li $t1, 0
+        # sb $t1, 95($t0)
+        # li $t1, 0
+        # sb $t1, 96($t0)
+        # li $t1, 0
+        # sb $t1, 97($t0)
+        # li $t1, 0
+        # sb $t1, 98($t0)
+        li $t1, 16
+        sb $t1, 99($t0)
+        
+        li $t1, 16
+        sb $t1, 100($t0)
+        # li $t1, 0
+        # sb $t1, 101($t0)
+        # li $t1, 0
+        # sb $t1, 102($t0)
+        # li $t1, 0
+        # sb $t1, 103($t0)
+        # li $t1, 0
+        # sb $t1, 104($t0)
+        # li $t1, 0
+        # sb $t1, 105($t0)
+        # li $t1, 0
+        # sb $t1, 106($t0)
+        # li $t1, 0
+        # sb $t1, 107($t0)
+        # li $t1, 0
+        # sb $t1, 108($t0)
+        li $t1, 16
+        sb $t1, 109($t0)
+        
+        li $t1, 16
+        sb $t1, 110($t0)
+        # li $t1, 0
+        # sb $t1, 111($t0)
+        # li $t1, 0
+        # sb $t1, 112($t0)
+        # li $t1, 0
+        # sb $t1, 113($t0)
+        # li $t1, 0
+        # sb $t1, 114($t0)
+        # li $t1, 0
+        # sb $t1, 115($t0)
+        # li $t1, 0
+        # sb $t1, 116($t0)
+        # li $t1, 0
+        # sb $t1, 117($t0)
+        # li $t1, 0
+        # sb $t1, 118($t0)
+        li $t1, 16
+        sb $t1, 119($t0)
+        
+        li $t1, 16
+        sb $t1, 120($t0)
+        # li $t1, 0
+        # sb $t1, 121($t0)
+        # li $t1, 0
+        # sb $t1, 122($t0)
+        # li $t1, 0
+        # sb $t1, 123($t0)
+        # li $t1, 0
+        # sb $t1, 124($t0)
+        # li $t1, 0
+        # sb $t1, 125($t0)
+        # li $t1, 0
+        # sb $t1, 126($t0)
+        # li $t1, 0
+        # sb $t1, 127($t0)
+        # li $t1, 0
+        # sb $t1, 128($t0)
+        li $t1, 16
+        sb $t1, 129($t0)
+        
+        li $t1, 16
+        sb $t1, 130($t0)
+        # li $t1, 0
+        # sb $t1, 131($t0)
+        # li $t1, 0
+        # sb $t1, 132($t0)
+        # li $t1, 0
+        # sb $t1, 133($t0)
+        # li $t1, 0
+        # sb $t1, 134($t0)
+        # li $t1, 0
+        # sb $t1, 135($t0)
+        # li $t1, 0
+        # sb $t1, 136($t0)
+        # li $t1, 0
+        # sb $t1, 137($t0)
+        # li $t1, 0
+        # sb $t1, 138($t0)
+        li $t1, 16
+        sb $t1, 139($t0)
+        
+        li $t1, 16
+        sb $t1, 140($t0)
+        # li $t1, 0
+        # sb $t1, 141($t0)
+        # li $t1, 0
+        # sb $t1, 142($t0)
+        # li $t1, 0
+        # sb $t1, 143($t0)
+        # li $t1, 0
+        # sb $t1, 144($t0)
+        # li $t1, 0
+        # sb $t1, 145($t0)
+        # li $t1, 0
+        # sb $t1, 146($t0)
+        # li $t1, 0
+        # sb $t1, 147($t0)
+        # li $t1, 0
+        # sb $t1, 148($t0)
+        li $t1, 16
+        sb $t1, 149($t0)
+        
+        li $t1, 16
+        sb $t1, 150($t0)
+        # li $t1, 0
+        # sb $t1, 151($t0)
+        # li $t1, 0
+        # sb $t1, 152($t0)
+        # li $t1, 0
+        # sb $t1, 153($t0)
+        # li $t1, 0
+        # sb $t1, 154($t0)
+        # li $t1, 0
+        # sb $t1, 155($t0)
+        # li $t1, 0
+        # sb $t1, 156($t0)
+        # li $t1, 0
+        # sb $t1, 157($t0)
+        # li $t1, 0
+        # sb $t1, 158($t0)
+        li $t1, 16
+        sb $t1, 159($t0)
+        
+        li $t1, 16
+        sb $t1, 160($t0)
+        # li $t1, 0
+        # sb $t1, 161($t0)
+        # li $t1, 0
+        # sb $t1, 162($t0)
+        # li $t1, 0
+        # sb $t1, 163($t0)
+        # li $t1, 0
+        # sb $t1, 164($t0)
+        # li $t1, 0
+        # sb $t1, 165($t0)
+        # li $t1, 0
+        # sb $t1, 166($t0)
+        # li $t1, 0
+        # sb $t1, 167($t0)
+        # li $t1, 0
+        # sb $t1, 168($t0)
+        li $t1, 16
+        sb $t1, 169($t0)
+        
+        li $t1, 16
+        sb $t1, 170($t0)
+        # li $t1, 0
+        # sb $t1, 171($t0)
+        # li $t1, 0
+        # sb $t1, 172($t0)
+        # li $t1, 0
+        # sb $t1, 173($t0)
+        # li $t1, 0
+        # sb $t1, 174($t0)
+        # li $t1, 0
+        # sb $t1, 175($t0)
+        # li $t1, 0
+        # sb $t1, 176($t0)
+        # li $t1, 0
+        # sb $t1, 177($t0)
+        # li $t1, 0
+        # sb $t1, 178($t0)
+        li $t1, 16
+        sb $t1, 179($t0)
+        
+        li $t1, 16
+        sb $t1, 180($t0)
+        # li $t1, 0
+        # sb $t1, 181($t0)
+        # li $t1, 0
+        # sb $t1, 182($t0)
+        # li $t1, 0
+        # sb $t1, 183($t0)
+        # li $t1, 0
+        # sb $t1, 184($t0)
+        # li $t1, 0
+        # sb $t1, 185($t0)
+        # li $t1, 0
+        # sb $t1, 186($t0)
+        # li $t1, 0
+        # sb $t1, 187($t0)
+        # li $t1, 0
+        # sb $t1, 188($t0)
+        li $t1, 16
+        sb $t1, 189($t0)
+        
+        li $t1, 16
+        sb $t1, 190($t0)
+        li $t1, 16
+        sb $t1, 191($t0)
+        li $t1, 16
+        sb $t1, 192($t0)
+        li $t1, 16
+        sb $t1, 193($t0)
+        li $t1, 16
+        sb $t1, 194($t0)
+        li $t1, 16
+        sb $t1, 195($t0)
+        li $t1, 16
+        sb $t1, 196($t0)
+        li $t1, 16
+        sb $t1, 197($t0)
+        li $t1, 16
+        sb $t1, 198($t0)
+        li $t1, 16
+        sb $t1, 199($t0)
+        
+        
+        # li $t2, 0 # start_x
+        # li $t3, 0 # start_y
+        # li $t4, 10 # width
+        # li $t5, 20 # height
+        # push($ra)
+        # push($t2) # start_x
+        # push($t3) # start_y
+        # push($t4) # width
+        # push($t5) # height
+        # push($t0) # bitmap
+        # jal draw_bitmap
+        # pop($ra)
+        jr $ra
+        
+
+draw_bottle_bitmap:
+    la $t0, bottle_bitmap
+    
+    li $t2, -1 # start_x
+    li $t3, -3 # start_y
     li $t4, 10 # width
-    li $t5, 12 # height
+    li $t5, 20 # height
+    
+    push($ra)
     push($t2) # start_x
     push($t3) # start_y
     push($t4) # width
     push($t5) # height
     push($t0) # bitmap
     jal draw_bitmap
+    pop($ra)
+    jr $ra
+    
+    
+# Updates the game bitmap at the specified x and y to be code
+# - x: (game units)
+# - y: (game units)
+# - code: the code to place in the bitmap at x,y
+update_game_bitmap:
+    pop($t3) # code
+    pop($t2) # y
+    pop($t1) # x
+    
+    la $t8, game_bitmap
+    
+    # index in bitmap should be 4 * (x + y * game width) (game width is 8 i believe)
+    lw $t4, GAME_WIDTH
+    
+    # x + y * w
+    mult $t2, $t4 # y * w
+    mflo $t5
+    
+    add $t5, $t5, $t1 # x + y * w 
+    # sll $t5, $t5, 2 # 4 * (x + y * w )
+    
+    # bitmap + index
+    add $t6, $t8, $t5 # this is the index in the bitmap
+    sb $t3, 0($t6) # put code in its place in the bitmap
+    
+    jr $ra
+    
+# draws the game bitmap the the display
+draw_game_bitmap:
+    la $t0, game_bitmap
+    
+    li $t2, 0 # start_x
+    li $t3, 0 # start_y
+    li $t4, 8 # width
+    li $t5, 16 # height
+    
+    push($ra)
+    push($t2) # start_x
+    push($t3) # start_y
+    push($t4) # width
+    push($t5) # height
+    push($t0) # bitmap
+    jal draw_bitmap
+    pop($ra)
+    jr $ra
+    
+    
+# Get the value in the bitmap at the specified x and y (col / row)
+# - x
+# - y
+# - width
+# - height
+# - bitmap base address
+# Returns:
+# - the value at that location
+get_value_in_bitmap:
+    pop($t4) # bitmap base address
+    pop($t3) # height
+    pop($t2) # width
+    pop($t1) # y
+    pop($t0) # x
+    
+    # 4 * (x + y * width)
+    mult $t1, $t2 # y * width
+    mflo $t5
+    add $t5, $t5, $t0 # x + y * width
+    # sll $t5, $t5, 2 # 4 * (x + y * width) <- this is the index
+    
+    # now we need index + base address
+    add $t6, $t4, $t5
+    
+    lb $t7, 0($t6)
+    push($t7)
+    
+    jr $ra
+    
 
-game_loop:
-    # 1a. Check if key has been pressed
-    # 1b. Check which key has been pressed
-    # 2a. Check for collisions
-	# 2b. Update locations (capsules)
-	# 3. Draw the screen
-	# 4. Sleep
-
-    # 5. Go back to Step 1
-    j EXIT
+            
     
 # ----------------------------------------------------------------- #
-#                            DRAW BOTTLE                            #
+#                         DRAWING HELPERS                           #
 # ----------------------------------------------------------------- #
 
 # Draws a rectangle at x and y where x and y are given in game unit coordinates.
@@ -541,7 +1281,7 @@ load_colours:
     # BACKGROUND
     bne $t2, $zero, RED_UP_BIT
     
-     # ----------------------- WALL START ----------------------- #
+     # ----------------------- NOTHING ----------------------- #
     
     # Initialize colours
     li $t7, 0x000000        # $t7 = dark blue
@@ -613,7 +1353,7 @@ load_colours:
     sw $t7, 248($t0)
     sw $t9, 252($t0)
     
-    # ----------------------- WALL END ----------------------- #
+    # ----------------------- NOTHING END ----------------------- #
     
     jr $ra
     
@@ -2202,7 +2942,3 @@ draw_background:
     # 1, 1, 2, 2, 2, 2, 2, 2,
 # ].map((color, i) => `sw $t${color}, ${i * 4}($t0)`)
 # .join("\n"))
-
-EXIT:
-    li $v0, 10  
-    syscall
