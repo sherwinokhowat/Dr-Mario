@@ -136,11 +136,11 @@ draw_bitmap_array:
     
 # capsule x coordinate in game units
 capsule_x:
-    .word 3
+    .word 0
 
 # capsule y coordinate in game units
 capsule_y:
-    .word 1
+    .word 0
     
 # check whether we need to load a capsule
 capsule_needed:
@@ -391,18 +391,10 @@ respond_to_S:
         jal load_bottle_bitmap
         pop($ra)
         
-        add $t0, $zero, $zero
-        add $t0, $zero, $zero
-        add $t0, $zero, $zero
-        
         
         # check for collision below blah blah
         
         # move down
-        # its literally just placing it at the starting position
-        # so
-        # get the values in the bitmap for the capsule we want to remove
-        
         
         # left side
         push($ra)
@@ -412,9 +404,6 @@ respond_to_S:
         jal update_game_bitmap
         pop($ra)
         
-        add $t0, $zero, $zero
-        add $t0, $zero, $zero
-        
         # right side
         push($ra)
         pushi($t0, 4) # x
@@ -423,6 +412,11 @@ respond_to_S:
         jal update_game_bitmap
         pop($ra)
         
+        # set capsule x and y to initial pos
+        addiu, $t0, $zero, 3 
+        addiu, $t1, $zero, 0
+        sw $t0, capsule_x
+        sw $t1, capsule_y
         
         push($ra)
         jal draw_bottle_bitmap
@@ -433,7 +427,116 @@ respond_to_S:
         # need to check collision here too
         # the plan is to have collision be its own part then this be the move down which both use
         
+        # Get capsule bit
+        lw $t0, capsule_x
+        lw $t1, capsule_y
+        lw $t2, GAME_WIDTH
+        lw $t3, GAME_HEIGHT
+        la $t4, game_bitmap
+        push($ra)
+        push_temps()
+        push($t0)
+        push($t1)
+        push($t2)
+        push($t3)
+        push($t4)
+        jal get_value_in_bitmap
+        pop($s5) # the code for the capsule bit
+        pop_temps()
+        pop($ra)
+        
+        # if s5 is horizontal (i.e., s5 is 3, 7, or 11)
+        addi $t7, $zero, 3
+        addi $t8, $zero, 7
+        addi $t9, $zero, 11
+        
+        beq $s5, $t7, S_MOVE_DOWN_HORIZONTAL
+        beq $s5, $t8, S_MOVE_DOWN_HORIZONTAL
+        beq $s5, $t9, S_MOVE_DOWN_HORIZONTAL
+        b S_MOVE_DOWN_VERTICAL
+        
+        S_MOVE_DOWN_VERTICAL:
+            # implement this when theres actually rotation xd
+            jr $ra
+        
+        
+        S_MOVE_DOWN_HORIZONTAL:
+            # Get right capsule 
+            addi $t7,  $t0, 1 # t7 = capsule_x + 1
+            
+            push($ra)
+            push_temps()
+            push($t7) # x
+            push($t1) # y
+            push($t2) 
+            push($t3)
+            push($t4)
+            jal get_value_in_bitmap
+            pop($s6) # the code for the capsule bit
+            pop_temps()
+            pop($ra)
+            
+            # s5 and s6 hold the left and right capsule codes
+            
+            # get rid of old ones
+            
+            # Get rid of left capsule
+            push($ra)
+            push_temps()
+            push($t0) # x
+            push($t1) # y
+            push($zero) # code - black
+            jal update_game_bitmap
+            pop_temps()
+            pop($ra)
+            
+            # Get rid of right capsule
+            push($ra)
+            push_temps()
+            push($t7) # x
+            push($t1) # y
+            push($zero) # code - black
+            jal update_game_bitmap
+            pop_temps()
+            pop($ra)
+            
+            # Increment y 
+            addi $t1, $t1, 1
+            
+            # Draw left capsule
+            push($ra)
+            push_temps()
+            push($t0)
+            push($t1)
+            push($s5)
+            jal update_game_bitmap
+            pop_temps()
+            pop($ra)
+            
+            # Draw right capsule
+            push($ra)
+            push_temps()
+            push($t7)
+            push($t1)
+            push($s6)
+            jal update_game_bitmap
+            pop_temps()
+            pop($ra)
+            
+            # Increment capsule_y accordingly (x doesnt change)
+            sw $t1, capsule_y
+            
+            jr $ra
+            
+        
+        
+        # First, check what orientation we are (i.e., horizontal vs vertical)
+        
+        
         # get left bit from above
+        
+        
+        
         # x, y, w, h, bitmap
         
         
