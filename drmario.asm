@@ -19,67 +19,141 @@
 # Macros
 ##############################################################################
 
-    # Macro for pushing temporary registers onto the stack
-    .macro push_temps()
-            push($t0)
-            push($t1)
-            push($t2)
-            push($t3)
-            push($t4)
-            push($t5)
-            push($t6)
-            push($t7)
-            push($t8)
-            push($t9)
-    .end_macro
-    
-    # Macro for popping temporary registers from the stack
-    .macro pop_temps()
-        pop($t9)
-        pop($t8)
-        pop($t7)
-        pop($t6)
-        pop($t5)
-        pop($t4)
-        pop($t3)
-        pop($t2)
-        pop($t1)
-        pop($t0)
-   .end_macro
+# Macro for pushing temporary registers onto the stack
+.macro push_temps()
+        push($t0)
+        push($t1)
+        push($t2)
+        push($t3)
+        push($t4)
+        push($t5)
+        push($t6)
+        push($t7)
+        push($t8)
+        push($t9)
+.end_macro
 
-    # Push the value stored in %r onto the stack
-    # Arguments: 
-    # - %r: The register to push onto the stack
-    .macro push(%r)
-        addi $sp, $sp, -4
-        sw %r, 0($sp) 
-    .end_macro
-    
-    # Push the value %v onto the stack using register %r
-    # Arguments: 
-    # - %r: The register used to push
-    # - %v: The value to push
-    .macro pushi(%r, %v)
-        addi $sp, $sp, -4
-        li %r, %v
-        sw %r, 0($sp)
-    .end_macro
-    
-    # pops and puts on register %r
-    # Pops the top value on the stack and stores it in register %r
-    # Arguments:
-    # - %r: The register to store the popped value in
-    .macro pop(%r)
-        lw %r, 0($sp)
-        addi $sp, $sp, 4
-    .end_macro
-    
-    .data
+# Macro for popping temporary registers from the stack
+.macro pop_temps()
+    pop($t9)
+    pop($t8)
+    pop($t7)
+    pop($t6)
+    pop($t5)
+    pop($t4)
+    pop($t3)
+    pop($t2)
+    pop($t1)
+    pop($t0)
+.end_macro
+
+# Push the value stored in %r onto the stack
+# Arguments: 
+# - %r: The register to push onto the stack
+.macro push(%r)
+    addi $sp, $sp, -4
+    sw %r, 0($sp) 
+.end_macro
+
+# Push the value %v onto the stack using register %r
+# Arguments: 
+# - %r: The register used to push
+# - %v: The value to push
+.macro pushi(%r, %v)
+    addi $sp, $sp, -4
+    li %r, %v
+    sw %r, 0($sp)
+.end_macro
+
+# pops and puts on register %r
+# Pops the top value on the stack and stores it in register %r
+# Arguments:
+# - %r: The register to store the popped value in
+.macro pop(%r)
+    lw %r, 0($sp)
+    addi $sp, $sp, 4
+.end_macro
+
+.macro BACKGROUND_SPRITE_CODE()
+    0
+.end_macro
+
+.macro RED_UP_CAPSULE_SPRITE_CODE()
+    1
+.end_macro
+
+.macro RED_DOWN_CAPSULE_SPRITE_CODE()
+    2
+.end_macro
+
+.macro RED_LEFT_CAPSULE_SPRITE_CODE()
+    3
+.end_macro
+
+.macro RED_RIGHT_CAPSULE_SPRITE_CODE()
+    4
+.end_macro
+
+.macro BLUE_UP_CAPSULE_SPRITE_CODE()
+    5
+.end_macro
+
+.macro BLUE_DOWN_CAPSULE_SPRITE_CODE()
+    6
+.end_macro
+
+.macro BLUE_LEFT_CAPSULE_SPRITE_CODE()
+    7
+.end_macro
+
+.macro BLUE_RIGHT_CAPSULE_SPRITE_CODE()
+    8
+.end_macro
+
+.macro YELLOW_UP_CAPSULE_SPRITE_CODE()
+    9
+.end_macro
+
+.macro YELLOW_DOWN_CAPSULE_SPRITE_CODE()
+    10
+.end_macro
+
+.macro YELLOW_LEFT_CAPSULE_SPRITE_CODE()
+    11
+.end_macro
+
+.macro YELLOW_RIGHT_CAPSULE_SPRITE_CODE()
+    12
+.end_macro
+
+.macro RED_VIRUS_SPRITE_CODE()
+    13
+.end_macro
+
+.macro BLUE_VIRUS_SPRITE_CODE()
+    14
+.end_macro
+
+.macro YELLOW_VIRUS_SPRITE_CODE()
+    15
+.end_macro
+
+.macro WALL_SPRITE_CODE()
+    16
+.end_macro
+
+##############################################################################
+# START DATA
+##############################################################################
+
+.data
+
 ##############################################################################
 # Immutable Data
 ##############################################################################
+
 # Allocate space at 0x10010000 so that bitmap at 0x10008000 won't overflow to other variables
-_: .word 1:100000
+.word 1:100000
 
 # The address of the bitmap display. Don't forget to connect it!
 ADDR_DSPL:
@@ -88,7 +162,7 @@ ADDR_DSPL:
 # The address of the keyboard. Don't forget to connect it!
 ADDR_KBRD:
     .word 0xffff0000
-
+    
 # how many pixels wide is the bitmap
 SCREEN_WIDTH: 
     .word 256
@@ -117,22 +191,1348 @@ GAME_SCREEN_X:
 GAME_SCREEN_Y:
     .word 40
     
+    
+##############################################################################
+# Sprites data
+##############################################################################
+    
+BACKGROUND_SPRITE:
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+
+RED_UP_CAPSULE_SPRITE:
+    .word 0x000000
+    .word 0x000000
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x000000
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xf5f0f5
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xf5f0f5
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xf5f0f5
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xf5f0f5
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+
+RED_DOWN_CAPSULE_SPRITE:
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xf5f0f5
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xf5f0f5
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xf5f0f5
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xf5f0f5
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x000000
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x000000
+    .word 0x000000
+
+RED_LEFT_CAPSULE_SPRITE:
+    .word 0x000000
+    .word 0x000000
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x000000
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xf5f0f5
+    .word 0xf5f0f5
+    .word 0xf5f0f5
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xf5f0f5
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x000000
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x000000
+    .word 0x000000
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+
+RED_RIGHT_CAPSULE_SPRITE:
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x000000
+    .word 0x000000
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x000000
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xf5f0f5
+    .word 0xf5f0f5
+    .word 0xf5f0f5
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xf5f0f5
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x471313
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0xed1c24
+    .word 0x471313
+    .word 0x000000
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x471313
+    .word 0x000000
+    .word 0x000000
+
+BLUE_UP_CAPSULE_SPRITE:
+    .word 0x000000
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0xf5f0f5
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0xf5f0f5
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0xf5f0f5
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0xf5f0f5
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+
+BLUE_DOWN_CAPSULE_SPRITE:
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0xf5f0f5
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0xf5f0f5
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0xf5f0f5
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0xf5f0f5
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x000000
+
+BLUE_LEFT_CAPSULE_SPRITE:
+    .word 0x000000
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0xf5f0f5
+    .word 0xf5f0f5
+    .word 0xf5f0f5
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0xf5f0f5
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+
+BLUE_RIGHT_CAPSULE_SPRITE:
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0xf5f0f5
+    .word 0xf5f0f5
+    .word 0xf5f0f5
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0xf5f0f5
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x00b7ef
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x000000
+
+YELLOW_UP_CAPSULE_SPRITE:
+    .word 0x000000
+    .word 0x000000
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0x000000
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xf5f0f5
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xf5f0f5
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xf5f0f5
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xf5f0f5
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+
+YELLOW_DOWN_CAPSULE_SPRITE:
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xf5f0f5
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xf5f0f5
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xf5f0f5
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xf5f0f5
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0x000000
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0x000000
+    .word 0x000000
+
+YELLOW_LEFT_CAPSULE_SPRITE:
+    .word 0x000000
+    .word 0x000000
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0x000000
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xf5f0f5
+    .word 0xf5f0f5
+    .word 0xf5f0f5
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xf5f0f5
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0x000000
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0x000000
+    .word 0x000000
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+
+YELLOW_RIGHT_CAPSULE_SPRITE:
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0x000000
+    .word 0x000000
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0x000000
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xf5f0f5
+    .word 0xf5f0f5
+    .word 0xf5f0f5
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xf5f0f5
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xffc20e
+    .word 0xCC7722
+    .word 0x000000
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0xCC7722
+    .word 0x000000
+    .word 0x000000
+
+RED_VIRUS_SPRITE:
+    .word 0x000000
+    .word 0x000000
+    .word 0xe35f5f
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xe35f5f
+    .word 0x000000
+    .word 0xe35f5f
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xe35f5f
+    .word 0x000000
+    .word 0x000000
+    .word 0xe35f5f
+    .word 0xff0000
+    .word 0xff0000
+    .word 0xff0000
+    .word 0xff0000
+    .word 0xe35f5f
+    .word 0x000000
+    .word 0xff0000
+    .word 0xff0000
+    .word 0xff0000
+    .word 0xff0000
+    .word 0xff0000
+    .word 0xff0000
+    .word 0xff0000
+    .word 0xff0000
+    .word 0xff0000
+    .word 0x000000
+    .word 0x000000
+    .word 0xff0000
+    .word 0xff0000
+    .word 0x000000
+    .word 0x000000
+    .word 0xff0000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0xa70000
+    .word 0x000000
+    .word 0xa70000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xa70000
+    .word 0x000000
+
+BLUE_VIRUS_SPRITE:
+    .word 0x000000
+    .word 0x000000
+    .word 0x99d9ea
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x99d9ea
+    .word 0x000000
+    .word 0x99d9ea
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x99d9ea
+    .word 0x000000
+    .word 0x000000
+    .word 0x99d9ea
+    .word 0x4d6df3
+    .word 0x4d6df3
+    .word 0x4d6df3
+    .word 0x4d6df3
+    .word 0x99d9ea
+    .word 0x000000
+    .word 0x4d6df3
+    .word 0x4d6df3
+    .word 0x4d6df3
+    .word 0x4d6df3
+    .word 0x4d6df3
+    .word 0x4d6df3
+    .word 0x4d6df3
+    .word 0x4d6df3
+    .word 0x4d6df3
+    .word 0x000000
+    .word 0x000000
+    .word 0x4d6df3
+    .word 0x4d6df3
+    .word 0x000000
+    .word 0x000000
+    .word 0x4d6df3
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x2f3699
+    .word 0x000000
+
+YELLOW_VIRUS_SPRITE:
+    .word 0x000000
+    .word 0x000000
+    .word 0xffde1a
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xffde1a
+    .word 0x000000
+    .word 0xffde1a
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xffde1a
+    .word 0x000000
+    .word 0x000000
+    .word 0xffde1a
+    .word 0xffce00
+    .word 0xffce00
+    .word 0xffce00
+    .word 0xffce00
+    .word 0xffde1a
+    .word 0x000000
+    .word 0xffce00
+    .word 0xffce00
+    .word 0xffce00
+    .word 0xffce00
+    .word 0xffce00
+    .word 0xffce00
+    .word 0xffce00
+    .word 0xffce00
+    .word 0xffce00
+    .word 0x000000
+    .word 0x000000
+    .word 0xffce00
+    .word 0xffce00
+    .word 0x000000
+    .word 0x000000
+    .word 0xffce00
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0xffa700
+    .word 0x000000
+    .word 0xffa700
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xffa700
+    .word 0x000000
+
+WALL_SPRITE:
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+
 ##############################################################################
 # Mutable Data
 ##############################################################################
+canvas:
+    .word 0:100000
+
 draw_rectangle_colour_array:
     .word 0:100000 # 0:num of pixels of screen (width * height)
     
 # bitmap to draw the bottle
 bottle_bitmap:
-    .word 0:1000 # 0: width * height of the bottle
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 16
+    .byte 16
    
 # bitmap to draw the actual game (playing field)
 game_bitmap:
-    .word 0:1000 # 0: width * height of the game
-
-draw_bitmap_array:
-    .word 0:100000
+    .byte 0:1000 # 0: width * height of the game
     
 # capsule x coordinate in game units
 capsule_x:
@@ -147,842 +1547,105 @@ capsule_needed:
     .byte 1
     
 # check whether we are loading the capsule
-capsule_loaded:
+capsule_loading:
+    .byte 0
+    
+# orientation of capsule (horizontal / vertical)
+capsule_orientation:
     .byte 0
 
 ##############################################################################
-# Code
+# START CODE
 ##############################################################################
-	.text
-	.globl main
+.text
+.globl main
 
-# Run the game.
+##############################################################################
+# CODE_ENTRANCE
+##############################################################################
 main:
+    li $t0, 1
+    sb $t0, capsule_needed
+
     jal draw_background
-    jal load_random_viruses
-    lw $s0, ADDR_KBRD  # s0 = base address of the keyboard
+    # jal load_random_viruses
+    jal game_loop
     
-
-game_loop:
-    # Check whether we are spawning a capsule
-    
-    # Checking whether we need to spawn a capsule at the top of the bottle
-    LOADING_BOTTLE_BITMAP:
-        lb $t0, capsule_needed # check from memory whether its time to load capsule
-        addiu $t1, $zero, 1 # set t1 = 1
-        addiu $t2, $zero, 0 # set t2 = 0 (t2 will be used for the capsule colour, which is 0-9)
-        bne $t0, $t1, END_LOADING_BOTTLE_BITMAP # if were loading capsule continue
-        
-        # Choose random capsule colour (1-9)
-        li $v0, 42 # rng sys id 
-        li $a0, 0 
-        li $a1, 9 # upper bound (exclusive)
-        syscall # the return is stored in $a0
-        add $t2, $zero, $a0
-        addi $t2, $t2, 1
-        push($t2) # the capsule we are loading into the bottle
-        jal load_bottle_bitmap
-        # No longer loading a capsule
-        sb $zero, capsule_needed
-        addiu $t1, $zero, 1
-        sb $t1, capsule_loaded
-        jal draw_bottle_bitmap 
-    END_LOADING_BOTTLE_BITMAP:
-    jal draw_game_bitmap
-    
-    
-    # Key pressed logic 
-    # Let's handle S first so that we can get the hard stuff out the way frfr
-    lw $t0, ADDR_KBRD              
-    lw $t8, 0($s0)                      # Load first word from keyboard
-    bne $t8, 1, skip      # If first word 1, key is pressed
-    jal handle_key_pressed
-    skip:
-    
-    
-
-    
-    # 1a. Check if key has been pressed
-    # 1b. Check which key has been pressed
-    # Check whether keyboard was pressed
-    # 2a. Check for collisions
-	# 2b. Update locations (capsules)
-	# 3. Draw the screen
-	# 4. Sleep
-	
-	# push 0, unless we are loading in a capsule
-	# if you are loading in a capsule, the integer must be random
-	# from 1-9
-	
-	
-	
-	
-	
-	
-
-    # 5. Go back to Step 1
-    j game_loop
-    
-    
-    
-# ----------------------------------------------------------------- #
-#                    DRAW INITIAL VIRUSES                           #
-# ----------------------------------------------------------------- #
-
-
-load_random_viruses:
-    add $s2, $zero, $zero
-    add $t0, $zero, $zero # count variable (loop)
-    addiu $t1, $zero, 4 # constant 4
-    
-    VIRUSES_LOOP: bge $t0, $t1, END_VIRUS_LOOP # count >= 4 then skip
-        li $v0, 42
-        li $a0, 0
-        li $a1, 9
-        syscall
-        add $t5, $zero, $a0 # t5 stores the rand x
-        
-        li $v0, 42
-        li $a0, 0
-        li $a1, 10
-        syscall
-        addiu $t4, $zero, 5
-        add $t6, $t4, $a0 # t5 stores the rand y
-        
-        # see whats there in the bitmap
-        
-        la $t9, game_bitmap
-        lw $t7, GAME_WIDTH
-        lw $t8, GAME_HEIGHT  
-        push($ra)
-        push_temps()
-        push($t5) # x
-        push($t6) # y
-        push($t7) # w
-        push($t8) # h
-        push($t9) # bitmap
-        jal get_value_in_bitmap # (x,y,w,h,b)
-        pop($s3) # get the code in the bitmap
-        pop_temps()
-        pop($ra)
-        
-        
-        IF_VIRUS_NOT_THERE: bne $s3, $zero, ELSE_VIRUS_NOT_THERE
-            # The virus is not here, so add count and update the bitmap
-            # Get a random colour
-            # virus are code 13,14,15
-             li $v0, 42
-             li $a0, 0
-             li $a1, 3
-             syscall 
-             addiu $t4, $zero, 13
-             add $t3, $t4, $a0 # store the virus id (add 13 for code offset)
-             
-             push($ra)
-             push_temps()
-             push($t5) # x
-             push($t6) # y
-             push($t3) # code for virus
-             jal update_game_bitmap
-             pop_temps()
-             pop($ra)
-             
-             # update count
-             addiu $t0, $t0, 1
-             b INCREMENT
-        ELSE_VIRUS_NOT_THERE:
-            addiu $s2, $s2, 1
-    
-        INCREMENT:
-        b VIRUSES_LOOP
-    END_VIRUS_LOOP:
-    jr $ra
-
-    # int count = 0;
-    
-    # while (count < 4) {
-        # x = rand(0, 9) 
-        # y = rand(5, 17)
-        
-        # is this x and y already chosen?
-        # well we can just draw on the bitmap then check the bitmap at that location
-    # }
-    
-
-    
-# ----------------------------------------------------------------- #
-#                            KEY PRESSED                            #
-# ----------------------------------------------------------------- #
-
-
-
-handle_key_pressed:
-    lw $a0, 4($s0)                  # Load second word from keyboard
-    
-    # Check what key was pressed
-    beq $a0, 0x71, respond_to_Q     # done
-    beq $a0, 0x61, respond_to_A     
-    beq $a0, 0x73, respond_to_S     # working on
-    beq $a0, 0x64, respond_to_D
-    beq $a0, 0x57, respond_to_W
-    
-    # Go back home :)
-    jr $ra
-    
-respond_to_Q:
-    # Quit the game
+    # Exit
     li $v0, 10  
     syscall
-    
-    
-    
-    
-    
-    
-# -------------------------------------- A A A A A A A -------------------------------------- #
 
-respond_to_A:
-    # Move left by one game unit
+##############################################################################
+# GAME LOOP
+##############################################################################
+game_loop:
+    jal update_bottle_bitmap
+    jal draw_bottle_bitmap
+    jal draw_game_bitmap
+    jal push_canvas
     
-    # 1. Don't do anything if we are loading capsule 
-    lb $t0, capsule_loaded
-    add $t1, $zero, 1 # constant t1 = 1
-    beq $t0, $t1, respond_to_A_return
-    
-    # 2. Check whether we are horizontal or vertical
-    
-    # Get capsule bit
-    lw $t0, capsule_x
-    lw $t1, capsule_y
-    lw $t2, GAME_WIDTH
-    lw $t3, GAME_HEIGHT
-    la $t4, game_bitmap
-    push($ra)
-    push_temps()
-    push($t0)
-    push($t1)
-    push($t2)
-    push($t3)
-    push($t4)
-    jal get_value_in_bitmap
-    pop($s5) # the code for the capsule bit
-    pop_temps()
-    pop($ra)
-    
-    # Check the orientation
-    # Horizontal Left codes (i.e., s5 is 3, 7, or 11)
-    addi $t7, $zero, 3
-    addi $t8, $zero, 7
-    addi $t9, $zero, 11
-    
-    # Checking whether our capsule is horizontal
-    beq $s5, $t7, A_HORIZONTAL
-    beq $s5, $t8, A_HORIZONTAL
-    beq $s5, $t9, A_HORIZONTAL
-    b A_VERTICAL
-    
-    # Handle the shift left when current capsule is vertical
-    A_VERTICAL:
-        # TODO:
-        b respond_to_A_return
-    
-    
-    # Handle the shift left when current capsule is horizontal
-    A_HORIZONTAL:
-        ble $t0, $zero, respond_to_A_return # if max s, then handle the collision
-        # Get the right bit of the capsule
-        
-        # ----------------------
-        # Get bit from below 
-        push($ra)
-        push_temps()
-        addi $t0, $t0, -1 # x - 1 (reset after)
-        push($t0) # x
-        push($t1)
-        push($t2)
-        push($t3)
-        push($t4)
-        jal get_value_in_bitmap # (x,y,w,h,bm)
-        pop($v0)
-        pop_temps()
-        pop($ra)
-        bne $v0, $zero, respond_to_A_return
-        # ----------------------
-            
-            
-        
-        # Get the right bit of the capsule (we already have left)
-        addi $t7,  $t0, 1 # t7 = capsule_x + 1
-        
-        push($ra)
-        push_temps()
-        push($t7) # x
-        push($t1) # y
-        push($t2) 
-        push($t3)
-        push($t4)
-        jal get_value_in_bitmap
-        pop($s6) # the code for the capsule bit
-        pop_temps()
-        pop($ra)
-        
-        # $s5 and $s6 now hold the left and right capsule codes 
-        # Remove the old capsule bits from the map
-        
-        # Get rid of left capsule
-        push($ra)
-        push_temps()
-        push($t0) # x
-        push($t1) # y
-        push($zero) # code - black
-        jal update_game_bitmap
-        pop_temps()
-        pop($ra)
-        
-        # Get rid of right capsule
-        push($ra)
-        push_temps()
-        push($t7) # x
-        push($t1) # y
-        push($zero) # code - black
-        jal update_game_bitmap
-        pop_temps()
-        pop($ra)
-        
-        # Shift the capsule
-        
-        # Start by incrememnt capsule_x - 1
-        addi $t0, $t0, -1
-        
-        # Draw left capsule
-        push($ra)
-        push_temps()
-        push($t0)
-        push($t1)
-        push($s5)
-        jal update_game_bitmap
-        pop_temps()
-        pop($ra)
-        
-        add $t0, $t0, 1 # right bit
-        # Draw right capsule
-        push($ra)
-        push_temps()
-        push($t0)
-        push($t1)
-        push($s6)
-        jal update_game_bitmap
-        pop_temps()
-        pop($ra)
-        
-        addi $t0, $t0, -1
-        # Increment capsule_y accordingly (y doesnt change)
-        sw $t0, capsule_x
-        
-        b respond_to_A_return
-    respond_to_A_return:
-        jr $ra
-    
-    
-    
-    
-    
-    
-    
-# -------------------------------------- S S S S S S S S -------------------------------------- #
-    
-    # Check collision
-    # Move
+    jal handle_key_press
+    # jal handle_s_press
 
-respond_to_S:
-    # Check whether we are in a load capsule state ! 
-    lb $t0, capsule_loaded
-    addiu $t1, $zero, 1
-    
-    beq $t0, $t1, S_LOAD_CAPSULE_CASE # if load state = 1
-    bne $t0, $t1, S_MOVE_DOWN # if load state != 1
-    S_LOAD_CAPSULE_CASE:
-        # turn load capsule off
-        sb $zero, capsule_loaded
-        
-        # get the colour and orientation from the bitmap
-        
-        # left side of capsule:
-        addi $t0, $zero, 4 
-        addi $t1, $zero, 2 
-        li $t2, 10
-        li $t3, 20 
-        la $t4, bottle_bitmap
-        
-        push($ra)
-        push($t0) # x
-        push($t1) # y
-        push($t2) # width
-        push($t3) # height
-        push($t4) 
-        jal get_value_in_bitmap
-        pop($s5) # get return value - left side of capsule code
-        pop($ra)
-        
-        # right side of capsule:
-        addi $t0, $zero, 5
-        addi $t1, $zero, 2 
-        li $t2, 10
-        li $t3, 20 
-        la $t4, bottle_bitmap
-        
-        push($ra)
-        push($t0) # x
-        push($t1) # y
-        push($t2) # width
-        push($t3) # height
-        push($t4)
-        jal get_value_in_bitmap
-        pop($s6) # get return value - right side of capsule code
-        pop($ra)
-        
-        # load the new bitmap for bottle
-        push($ra)
-        push($zero)
-        jal load_bottle_bitmap
-        pop($ra)
-        
-        
-        # check for collision below blah blah
-        
-        # move down
-        
-        # left side
-        push($ra)
-        pushi($t0, 3) # x
-        pushi($t0, 0) # y
-        push($s5) # code
-        jal update_game_bitmap
-        pop($ra)
-        
-        # right side
-        push($ra)
-        pushi($t0, 4) # x
-        pushi($t0, 0) # y
-        push($s6) # code
-        jal update_game_bitmap
-        pop($ra)
-        
-        # set capsule x and y to initial pos
-        addiu, $t0, $zero, 3 
-        addiu, $t1, $zero, 0
-        sw $t0, capsule_x
-        sw $t1, capsule_y
-        
-        push($ra)
-        jal draw_bottle_bitmap
-        pop($ra)
-        jr $ra
-        
-    S_MOVE_DOWN:
-        # Get capsule bit
-        lw $t0, capsule_x
-        lw $t1, capsule_y
-        lw $t2, GAME_WIDTH
-        lw $t3, GAME_HEIGHT
-        la $t4, game_bitmap
-        push($ra)
-        push_temps()
-        push($t0)
-        push($t1)
-        push($t2)
-        push($t3)
-        push($t4)
-        jal get_value_in_bitmap
-        pop($s5) # the code for the capsule bit
-        pop_temps()
-        pop($ra)
-        
-        # Horizontal Left codes (i.e., s5 is 3, 7, or 11)
-        addi $t7, $zero, 3
-        addi $t8, $zero, 7
-        addi $t9, $zero, 11
-        
-        # Checking whether our capsule is horizontal
-        beq $s5, $t7, S_HORIZONTAL
-        beq $s5, $t8, S_HORIZONTAL
-        beq $s5, $t9, S_HORIZONTAL
-        b S_VERTICAL
-        
-        S_VERTICAL:
-            # implement this when theres actually rotation xd
-            jr $ra
-        
-        
-        S_HORIZONTAL:
-            lw $t7, GAME_HEIGHT
-            addi $t7, $t7, -1 # game height - 1 since 15 is the max
-            bge $t1, $t7, S_HANDLE_COLLISION # if max s, then handle the collision
-            
-            
-            # ----------------------
-            # Get bit from below 
-            push($ra)
-            push_temps()
-            push($t0) # x
-            
-            addi $t1, $t1, 1 # y + 1 (reset after)
-            push($t1) # y + 1
-            push($t2)
-            push($t3)
-            push($t4)
-            jal get_value_in_bitmap # (x,y,w,h,bm)
-            pop($v0)
-            pop_temps()
-            pop($ra)
-            bne $v0, $zero, S_HANDLE_COLLISION
-            # ----------------------
-            
-            # ----------------------
-            # Get bit from below 
-            push($ra)
-            push_temps()
-            addi $t0, $t0, 1
-            push($t0) # x
-            
-            addi $t1, $t1, 1 # y + 1 (reset after)
-            push($t1) # y + 1
-            push($t2)
-            push($t3)
-            push($t4)
-            jal get_value_in_bitmap # (x,y,w,h,bm)
-            pop($v0)
-            pop_temps()
-            pop($ra)
-            bne $v0, $zero, S_HANDLE_COLLISION
-            # ----------------------
-        
-            # Get right capsule 
-            addi $t7,  $t0, 1 # t7 = capsule_x + 1
-            
-            push($ra)
-            push_temps()
-            push($t7) # x
-            push($t1) # y
-            push($t2) 
-            push($t3)
-            push($t4)
-            jal get_value_in_bitmap
-            pop($s6) # the code for the capsule bit
-            pop_temps()
-            pop($ra)
-            
-            # s5 and s6 hold the left and right capsule codes
-            
-            # get rid of old ones
-            
-            # Get rid of left capsule
-            push($ra)
-            push_temps()
-            push($t0) # x
-            push($t1) # y
-            push($zero) # code - black
-            jal update_game_bitmap
-            pop_temps()
-            pop($ra)
-            
-            # Get rid of right capsule
-            push($ra)
-            push_temps()
-            push($t7) # x
-            push($t1) # y
-            push($zero) # code - black
-            jal update_game_bitmap
-            pop_temps()
-            pop($ra)
-            
-            # Increment y 
-            addi $t1, $t1, 1
-            
-            # Draw left capsule
-            push($ra)
-            push_temps()
-            push($t0)
-            push($t1)
-            push($s5)
-            jal update_game_bitmap
-            pop_temps()
-            pop($ra)
-            
-            # Draw right capsule
-            push($ra)
-            push_temps()
-            push($t7)
-            push($t1)
-            push($s6)
-            jal update_game_bitmap
-            pop_temps()
-            pop($ra)
-            
-            # Increment capsule_y accordingly (x doesnt change)
-            sw $t1, capsule_y
-            
-            b respond_to_s_return
-        
-        S_HANDLE_COLLISION:
+    j game_loop
 
-            # start loading new capsule
-            add $t0, $zero, 1
-            sw $t0, capsule_needed
-            b respond_to_s_return
-            
-        respond_to_s_return:
-            jr $ra
-             
-            
-        
-        
-        # First, check what orientation we are (i.e., horizontal vs vertical)
-        
-        
-        # get left bit from above
-        
-        
-        
-        # x, y, w, h, bitmap
-        
-    # Move down by one game unit
-    
-    # Check collision
-    # Move
+##############################################################################
+# Update bottle bitmap
+##############################################################################
 
-respond_to_D:
-    # Move left by one game unit
+update_bottle_bitmap:
+    lb $t0, capsule_needed
+    lb $t3, capsule_loading
     
-    # 1. Don't do anything if we are loading capsule 
-    lb $t0, capsule_loaded
-    add $t1, $zero, 1 # constant t1 = 1
-    beq $t0, $t1, respond_to_D_return
-    
-    # 2. Check whether we are horizontal or vertical
-    
-    # Get capsule bit
-    lw $t0, capsule_x
-    lw $t1, capsule_y
-    lw $t2, GAME_WIDTH
-    lw $t3, GAME_HEIGHT
-    la $t4, game_bitmap
-    push($ra)
-    push_temps()
-    push($t0)
-    push($t1)
-    push($t2)
-    push($t3)
-    push($t4)
-    jal get_value_in_bitmap
-    pop($s5) # the code for the capsule bit
-    pop_temps()
-    pop($ra)
-    
-    # Check the orientation
-    # Horizontal Left codes (i.e., s5 is 3, 7, or 11)
-    addi $t7, $zero, 3
-    addi $t8, $zero, 7
-    addi $t9, $zero, 11
-    
-    # Checking whether our capsule is horizontal
-    beq $s5, $t7, D_HORIZONTAL
-    beq $s5, $t8, D_HORIZONTAL
-    beq $s5, $t9, D_HORIZONTAL
-    b D_VERTICAL
-    
-    # Handle the shift left when current capsule is vertical
-    D_VERTICAL:
-        # TODO:
-        b respond_to_D_return
+    # needed => IF_CAPSULE_NEEDED
+    # not needed/ loading => RETURN
+    # not needed/not loading => draw black
     
     
-    # Handle the shift left when current capsule is horizontal
-    D_HORIZONTAL:
-        lb $t7, GAME_WIDTH
-        addi $t7, $t7, -2 # game width - 2 since 15 is the max and we have left capsule
-        bge $t0, $t7, respond_to_D_return # if max s, then handle the collision
-        # Get the right bit of the capsule
+    bne $t0, $zero, IF_CAPSULE_NEEDED    #  needed => capsule needed
+    bne $t3, $zero, UPDATE_BOTTLE_BITMAP_EXIT   # not needed and loading => leave
+    # not needed and not loading => draw black
+    li $t2, 0
+    j END_IF_CAPSULE_NEEDED
+    
+    
+    IF_CAPSULE_NEEDED:
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 # lower bound
+        li $a1, 9 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        addi $t2, $a0, 1
+        li $t0, 1
+        sb $t0, capsule_loading
+    END_IF_CAPSULE_NEEDED:
         
-        # ----------------------
-        # Get bit from below 
-        push($ra)
-        push_temps()
-        addi $t0, $t0, 2 # x + 2 (reset after)
-        push($t0) # x
-        push($t1)
-        push($t2)
-        push($t3)
-        push($t4)
-        jal get_value_in_bitmap # (x,y,w,h,bm)
-        pop($v0)
-        pop_temps()
-        pop($ra)
-        bne $v0, $zero, respond_to_A_return
-        # ----------------------
-        
-        # Get the right bit of the capsule (we already have left)
-        addi $t7,  $t0, 1 # t7 = capsule_x + 1
-        
-        push($ra)
-        push_temps()
-        push($t7) # x
-        push($t1) # y
-        push($t2) 
-        push($t3)
-        push($t4)
-        jal get_value_in_bitmap
-        pop($s6) # the code for the capsule bit
-        pop_temps()
-        pop($ra)
-        
-        # $s5 and $s6 now hold the left and right capsule codes 
-        # Remove the old capsule bits from the map
-        
-        # Get rid of left capsule
-        push($ra)
-        push_temps()
-        push($t0) # x
-        push($t1) # y
-        push($zero) # code - black
-        jal update_game_bitmap
-        pop_temps()
-        pop($ra)
-        
-        # Get rid of right capsule
-        push($ra)
-        push_temps()
-        push($t7) # x
-        push($t1) # y
-        push($zero) # code - black
-        jal update_game_bitmap
-        pop_temps()
-        pop($ra)
-        
-        # Shift the capsule
-        
-        # Start by incrememnt capsule_x + 1
-        addi $t0, $t0, 1
-        
-        # Draw left capsule
-        push($ra)
-        push_temps()
-        push($t0)
-        push($t1)
-        push($s5)
-        jal update_game_bitmap
-        pop_temps()
-        pop($ra)
-        
-        add $t0, $t0, 1 # right bit
-        # Draw right capsule
-        push($ra)
-        push_temps()
-        push($t0)
-        push($t1)
-        push($s6)
-        jal update_game_bitmap
-        pop_temps()
-        pop($ra)
-        
-        addi $t0, $t0, -1
-        # Increment capsule_y accordingly (y doesnt change)
-        sw $t0, capsule_x
-        
-        b respond_to_D_return
-    respond_to_D_return:
-        jr $ra
-    
-
-respond_to_W:
-    # Rotate capsule
-    
-    # Check collision
-    # Move
-    
-# Checks whether the player capsule will result in a collision
-# move_x - (game units) the number of units to move in x direction
-# move_y - (game units) the number of units to move in the y direction
-# Returns:
-# - 0 if no collision
-# - 1 if collision
-check_collision:
-    pop($t1) # move_y
-    pop($t0) # move_x
-    
-    # Literally just check
-
-
-
-
-# handle the key pressed
-# asd moves left down right
-# w rotates
-
-
-    
-# ----------------------------------------------------------------- #
-#                            LOAD BITMAP                            #
-# ----------------------------------------------------------------- #
-
-
-# ----------------------------------------------------------------- #
-#                            DRAW BOTTLE                            #
-# ----------------------------------------------------------------- #
-
-# Loads the initial bitmaps
-
-# Arguments:
-# - capsule: whether we should draw a capsule at the top for the bottle
-# 0: no capsule
-# 
-# 1: red-red
-# 2: red-blue
-# 3: red-yellow
-# 
-# 4: blue-blue
-# 5: blue-red
-# 6: blue-yellow
-#
-# 7: yellow-yellow
-# 8: yellow-red
-# 9: yellow-blue
-load_bottle_bitmap:
     # t0 = bottle bitmap
     # t1 = constantly changing value used for loading values into bitmap
     # t6 = which capsule to put
     # t7 = the left bit of the capsule
     # t8 = the right bit of the capsule
     # t9 = constant holding 1, 2, ..., 9 used for if statement checks
-    pop($t6) # get argument (which capsule to put) 
     la $t0, bottle_bitmap # get bottle bitmap array address
     
     addiu $t9, $zero, 1
-    beq $t6, $t9, RED_RED
-    
+    beq $t2, $t9, RED_RED
     addiu $t9, $zero, 2
-    beq $t6, $t9, RED_BLUE
-    
+    beq $t2, $t9, RED_BLUE
     addiu $t9, $zero, 3
-    beq $t6, $t9, RED_YELLOW
-    
+    beq $t2, $t9, RED_YELLOW
     addiu $t9, $zero, 4
-    beq $t6, $t9, BLUE_BLUE
-    
+    beq $t2, $t9, BLUE_BLUE
     addiu $t9, $zero, 5
-    beq $t6, $t9, BLUE_RED
-    
+    beq $t2, $t9, BLUE_RED
     addiu $t9, $zero, 6
-    beq $t6, $t9, BLUE_YELLOW
-    
+    beq $t2, $t9, BLUE_YELLOW
     addiu $t9, $zero, 7
-    beq $t6, $t9, YELLOW_YELLOW
-    
+    beq $t2, $t9, YELLOW_YELLOW
     addiu $t9, $zero, 8
-    beq $t6, $t9, YELLOW_RED
-    
+    beq $t2, $t9, YELLOW_RED
     addiu $t9, $zero, 9
-    beq $t6, $t9, YELLOW_BLUE
+    beq $t2, $t9, YELLOW_BLUE
     
     # Else:
     b NOTHING_NOTHING
@@ -1043,485 +1706,815 @@ load_bottle_bitmap:
         addiu $t8, $zero, 8
         b STORE_BOTTLE_BITMAP
         
-        
     STORE_BOTTLE_BITMAP:
-        li $t1, 0
-        sb $t1, 0($t0)
-        li $t1, 0
-        sb $t1, 1($t0)
-        li $t1, 0
-        sb $t1, 2($t0)
-        li $t1, 16
-        sb $t1, 3($t0)
-        li $t1, 0
-        sb $t1, 4($t0)
-        li $t1, 0
-        sb $t1, 5($t0)
-        li $t1, 16
-        sb $t1, 6($t0) # 1
-        li $t1, 0
-        sb $t1, 7($t0)
-        li $t1, 0
-        sb $t1, 8($t0)
-        li $t1, 0
-        sb $t1, 9($t0)
+        # THIS IS WHERE THE LEFT SIDE OF THE CAPSULE GOES
+        sb $t7, 24($t0)
+        # THIS IS WHERE THE RIGHT SIDE OF THE CAPSULE GOES
+        sb $t8, 25($t0)
+  
+        # capsule_needed = 0
+        sb $zero, capsule_needed
+        # capsule_loading = 1
+        # addiu $t1, $zero, 1
+        # sb $t1, capsule_loading
+        jr $ra
         
-        li $t1, 0
-        sb $t1, 10($t0)
-        li $t1, 0
-        sb $t1, 11($t0)
-        li $t1, 0
-        sb $t1, 12($t0)
-        li $t1, 16
-        sb $t1, 13($t0)
-        li $t1, 0
-        sb $t1, 14($t0)
-        li $t1, 0
-        sb $t1, 15($t0) # 2
-        li $t1, 16
-        sb $t1, 16($t0)
-        li $t1, 0
-        sb $t1, 17($t0)
-        li $t1, 0
-        sb $t1, 18($t0)
-        li $t1, 0
-        sb $t1, 19($t0)
+    UPDATE_BOTTLE_BITMAP_EXIT:
+        jr $ra
+
+##############################################################################
+# KEYBOARD FUNCTIONS
+##############################################################################
+
+handle_key_press:
+    # Key pressed logic 
+    # Let's handle S first so that we can get the hard stuff out the way frfr
+    lw $t0, ADDR_KBRD              
+    lw $t8, 0($t0)                      # Load first word from keyboard
+    bne $t8, 1, skip_handle_key_press      # If keyboard not pressed
+
+    lw $a0, 4($t0)                  # Load second word from keyboard
+
+    # beq $a0, 0x71, respond_to_Q     # done
+    beq $a0, 0x61, handle_a_press     
+    beq $a0, 0x73, handle_s_press     # working on
+    beq $a0, 0x64, handle_d_press
+    beq $a0, 0x77, handle_w_press
+    
+    skip_handle_key_press:
+    jr $ra
+    
+    
+
+handle_s_press:
+    # capsule_needed = capsule colliding at bottom
+    lb $t0 capsule_needed
+    
+    
+    # If (capsule_needed) spawn a capsule into bottle bitmap
+    # Else If (capsule_loading) move capsule from bottle bitmap to game bitmap
+    # Else move_capsule(down)
+    
+    # Check whether we are in a load capsule state ! 
+    lb $t0, capsule_loading
+    li $t1, 1 # $t1 = 1
+    
+    beq $t0, $t1, S_LOAD_CAPSULE_CASE # if load state = 1
+    bne $t0, $t1, S_MOVE_DOWN # if load state != 1
+    S_LOAD_CAPSULE_CASE:
+        # turn load capsule off
+        sb $zero, capsule_loading
         
-        li $t1, 16
-        sb $t1, 20($t0)
-        li $t1, 16
-        sb $t1, 21($t0)
-        li $t1, 16
-        sb $t1, 22($t0)
-        li $t1, 16
-        sb $t1, 23($t0)
-        # li $t1, CAPL # THIS IS WHERE THE LEFT SIDE OF THE CAPSULE GOES
-        add $t1, $zero, $t7
-        sb $t1, 24($t0)
-        # li $t1, CAPR # THIS IS WHERE THE RIGHT SIDE OF THE CAPSULE GOES
-        add $t1, $zero, $t8
-        sb $t1, 25($t0)
-        li $t1, 16
-        sb $t1, 26($t0) # 3
-        li $t1, 16
-        sb $t1, 27($t0)
-        li $t1, 16
-        sb $t1, 28($t0)
-        li $t1, 16
-        sb $t1, 29($t0)
+        # ----- Get the colours from the bitmap -----
         
-        li $t1, 16
-        sb $t1, 30($t0)
-        # li $t1, 0
-        # sb $t1, 31($t0)
-        # li $t1, 0
-        # sb $t1, 32($t0)
-        # li $t1, 0
-        # sb $t1, 33($t0)
-        # li $t1, 0
-        # sb $t1, 34($t0) # 4
-        # li $t1, 0
-        # sb $t1, 35($t0)
-        # li $t1, 0
-        # sb $t1, 36($t0)
-        # li $t1, 0
-        # sb $t1, 37($t0)
-        # li $t1, 0
-        # sb $t1, 38($t0)
-        li $t1, 16
-        sb $t1, 39($t0)
+        # left side of capsule:
+        addi $t0, $zero, 4 
+        addi $t1, $zero, 2 
+        li $t2, 10
+        li $t3, 20 
+        la $t4, bottle_bitmap
         
-        li $t1, 16
-        sb $t1, 40($t0)
-        # li $t1, 0
-        # sb $t1, 41($t0)
-        # li $t1, 0
-        # sb $t1, 42($t0)
-        # li $t1, 0
-        # sb $t1, 43($t0)
-        # li $t1, 0
-        # sb $t1, 44($t0)
-        # li $t1, 0
-        # sb $t1, 45($t0)
-        # li $t1, 0
-        # sb $t1, 46($t0)
-        # li $t1, 0
-        # sb $t1, 47($t0)
-        # li $t1, 0
-        # sb $t1, 48($t0)
-        li $t1, 16
-        sb $t1, 49($t0)
+        push($ra)
+        push($t0) # x
+        push($t1) # y
+        push($t2) # width
+        push($t3) # height
+        push($t4) 
+        jal get_value_in_bitmap # return value in $v0
+        add $s5, $zero, $v0
+        pop($ra)
         
-        li $t1, 16
-        sb $t1, 50($t0)
-        # li $t1, 0
-        # sb $t1, 51($t0)
-        # li $t1, 0
-        # sb $t1, 52($t0)
-        # li $t1, 0
-        # sb $t1, 53($t0)
-        # li $t1, 0
-        # sb $t1, 54($t0)
-        # li $t1, 0
-        # sb $t1, 55($t0)
-        # li $t1, 0
-        # sb $t1, 56($t0)
-        # li $t1, 0
-        # sb $t1, 57($t0)
-        # li $t1, 0
-        # sb $t1, 58($t0)
-        li $t1, 16
-        sb $t1, 59($t0)
+        # right side of capsule:
+        addi $t0, $zero, 5
+        addi $t1, $zero, 2 
+        li $t2, 10
+        li $t3, 20 
+        la $t4, bottle_bitmap
         
-        li $t1, 16
-        sb $t1, 50($t0)
-        # li $t1, 0
-        # sb $t1, 51($t0)
-        # li $t1, 0
-        # sb $t1, 52($t0)
-        # li $t1, 0
-        # sb $t1, 53($t0)
-        # li $t1, 0
-        # sb $t1, 54($t0)
-        # li $t1, 0
-        # sb $t1, 55($t0)
-        # li $t1, 0
-        # sb $t1, 56($t0)
-        # li $t1, 0
-        # sb $t1, 57($t0)
-        # li $t1, 0
-        # sb $t1, 58($t0)
-        li $t1, 16
-        sb $t1, 59($t0)
+        push($ra)
+        push($t0) # x
+        push($t1) # y
+        push($t2) # width
+        push($t3) # height
+        push($t4)
+        jal get_value_in_bitmap  # return value in $v0
+        add $s6, $zero, $v0
+        pop($ra)
         
-        li $t1, 16
-        sb $t1, 60($t0)
-        # li $t1, 0
-        # sb $t1, 61($t0)
-        # li $t1, 0
-        # sb $t1, 62($t0)
-        # li $t1, 0
-        # sb $t1, 63($t0)
-        # li $t1, 0
-        # sb $t1, 64($t0)
-        # li $t1, 0
-        # sb $t1, 65($t0)
-        # li $t1, 0
-        # sb $t1, 66($t0)
-        # li $t1, 0
-        # sb $t1, 67($t0)
-        # li $t1, 0
-        # sb $t1, 68($t0)
-        li $t1, 16
-        sb $t1, 69($t0)
+        # ----- Check collision -----
+        li $a0, 3
+        li $a1, 0
+        li $a2, 0
+        li $a3, 0
+        push($ra)
+        jal check_collision 
+        pop($ra)
+        bne $v0, $zero, S_EXIT
         
-        li $t1, 16
-        sb $t1, 70($t0)
-        # li $t1, 0
-        # sb $t1, 71($t0)
-        # li $t1, 0
-        # sb $t1, 72($t0)
-        # li $t1, 0
-        # sb $t1, 73($t0)
-        # li $t1, 0
-        # sb $t1, 74($t0)
-        # li $t1, 0
-        # sb $t1, 75($t0)
-        # li $t1, 0
-        # sb $t1, 76($t0)
-        # li $t1, 0
-        # sb $t1, 77($t0)
-        # li $t1, 0
-        # sb $t1, 78($t0)
-        li $t1, 16
-        sb $t1, 79($t0)
+        li $a0, 4
+        li $a1, 0
+        li $a2, 0
+        li $a3, 0
+        push($ra)
+        jal check_collision 
+        pop($ra)
+        bne $v0, $zero, S_EXIT
         
-        li $t1, 16
-        sb $t1, 80($t0)
-        # li $t1, 0
-        # sb $t1, 81($t0)
-        # li $t1, 0
-        # sb $t1, 82($t0)
-        # li $t1, 0
-        # sb $t1, 83($t0)
-        # li $t1, 0
-        # sb $t1, 84($t0)
-        # li $t1, 0
-        # sb $t1, 85($t0)
-        # li $t1, 0
-        # sb $t1, 86($t0)
-        # li $t1, 0
-        # sb $t1, 87($t0)
-        # li $t1, 0
-        # sb $t1, 88($t0)
-        li $t1, 16
-        sb $t1, 89($t0)
+        # ----- Draw -----
         
-        li $t1, 16
-        sb $t1, 90($t0)
-        # li $t1, 0
-        # sb $t1, 91($t0)
-        # li $t1, 0
-        # sb $t1, 92($t0)
-        # li $t1, 0
-        # sb $t1, 93($t0)
-        # li $t1, 0
-        # sb $t1, 94($t0)
-        # li $t1, 0
-        # sb $t1, 95($t0)
-        # li $t1, 0
-        # sb $t1, 96($t0)
-        # li $t1, 0
-        # sb $t1, 97($t0)
-        # li $t1, 0
-        # sb $t1, 98($t0)
-        li $t1, 16
-        sb $t1, 99($t0)
+        # left side
+        push($ra)
+        pushi($t0, 3) # x
+        pushi($t0, 0) # y
+        push($s5) # code
+        jal update_game_bitmap
+        pop($ra)
         
-        li $t1, 16
-        sb $t1, 100($t0)
-        # li $t1, 0
-        # sb $t1, 101($t0)
-        # li $t1, 0
-        # sb $t1, 102($t0)
-        # li $t1, 0
-        # sb $t1, 103($t0)
-        # li $t1, 0
-        # sb $t1, 104($t0)
-        # li $t1, 0
-        # sb $t1, 105($t0)
-        # li $t1, 0
-        # sb $t1, 106($t0)
-        # li $t1, 0
-        # sb $t1, 107($t0)
-        # li $t1, 0
-        # sb $t1, 108($t0)
-        li $t1, 16
-        sb $t1, 109($t0)
+        # right side
+        push($ra)
+        pushi($t0, 4) # x
+        pushi($t0, 0) # y
+        push($s6) # code
+        jal update_game_bitmap
+        pop($ra)
         
-        li $t1, 16
-        sb $t1, 110($t0)
-        # li $t1, 0
-        # sb $t1, 111($t0)
-        # li $t1, 0
-        # sb $t1, 112($t0)
-        # li $t1, 0
-        # sb $t1, 113($t0)
-        # li $t1, 0
-        # sb $t1, 114($t0)
-        # li $t1, 0
-        # sb $t1, 115($t0)
-        # li $t1, 0
-        # sb $t1, 116($t0)
-        # li $t1, 0
-        # sb $t1, 117($t0)
-        # li $t1, 0
-        # sb $t1, 118($t0)
-        li $t1, 16
-        sb $t1, 119($t0)
+        # set capsule x and y to initial pos
+        addiu, $t0, $zero, 3 
+        addiu, $t1, $zero, 0
+        sw $t0, capsule_x
+        sw $t1, capsule_y
         
-        li $t1, 16
-        sb $t1, 120($t0)
-        # li $t1, 0
-        # sb $t1, 121($t0)
-        # li $t1, 0
-        # sb $t1, 122($t0)
-        # li $t1, 0
-        # sb $t1, 123($t0)
-        # li $t1, 0
-        # sb $t1, 124($t0)
-        # li $t1, 0
-        # sb $t1, 125($t0)
-        # li $t1, 0
-        # sb $t1, 126($t0)
-        # li $t1, 0
-        # sb $t1, 127($t0)
-        # li $t1, 0
-        # sb $t1, 128($t0)
-        li $t1, 16
-        sb $t1, 129($t0)
+        # Return
+        b END_HANDLE_S_PRESS
+    S_MOVE_DOWN:
+        # Check collision
+        li $a0, 1
+        push($ra)
+        jal check_collision_capsule 
+        pop($ra)
+        bne $v0, $zero, S_MOVE_DOWN_COLLISION
         
-        li $t1, 16
-        sb $t1, 130($t0)
-        # li $t1, 0
-        # sb $t1, 131($t0)
-        # li $t1, 0
-        # sb $t1, 132($t0)
-        # li $t1, 0
-        # sb $t1, 133($t0)
-        # li $t1, 0
-        # sb $t1, 134($t0)
-        # li $t1, 0
-        # sb $t1, 135($t0)
-        # li $t1, 0
-        # sb $t1, 136($t0)
-        # li $t1, 0
-        # sb $t1, 137($t0)
-        # li $t1, 0
-        # sb $t1, 138($t0)
-        li $t1, 16
-        sb $t1, 139($t0)
+        # Move the capsule
+        push($ra)
+        li $a0, 0
+        li $a1, 1
+        jal move_capsule
+        pop($ra)
+        jr $ra
+
+    S_MOVE_DOWN_COLLISION:
+        li $t0, 1
+        sb $t0, capsule_needed
+        li $t0, 0
+        sb $t0, capsule_orientation
+        jr $ra
         
-        li $t1, 16
-        sb $t1, 140($t0)
-        # li $t1, 0
-        # sb $t1, 141($t0)
-        # li $t1, 0
-        # sb $t1, 142($t0)
-        # li $t1, 0
-        # sb $t1, 143($t0)
-        # li $t1, 0
-        # sb $t1, 144($t0)
-        # li $t1, 0
-        # sb $t1, 145($t0)
-        # li $t1, 0
-        # sb $t1, 146($t0)
-        # li $t1, 0
-        # sb $t1, 147($t0)
-        # li $t1, 0
-        # sb $t1, 148($t0)
-        li $t1, 16
-        sb $t1, 149($t0)
+    END_HANDLE_S_PRESS:
+        jr $ra
         
-        li $t1, 16
-        sb $t1, 150($t0)
-        # li $t1, 0
-        # sb $t1, 151($t0)
-        # li $t1, 0
-        # sb $t1, 152($t0)
-        # li $t1, 0
-        # sb $t1, 153($t0)
-        # li $t1, 0
-        # sb $t1, 154($t0)
-        # li $t1, 0
-        # sb $t1, 155($t0)
-        # li $t1, 0
-        # sb $t1, 156($t0)
-        # li $t1, 0
-        # sb $t1, 157($t0)
-        # li $t1, 0
-        # sb $t1, 158($t0)
-        li $t1, 16
-        sb $t1, 159($t0)
+    S_EXIT:
+        j exit
+    
+handle_a_press:
+    # Capsule loading => do nothing
+    lb $t0, capsule_loading
+    bne $t0, $zero, END_HANDLE_A_PRESS
+
+    # Check collision
+    li $a0, 2
+    push($ra)
+    jal check_collision_capsule 
+    pop($ra)
+    bne $v0, $zero, END_HANDLE_A_PRESS
+    
+    # Move the capsule
+    push($ra)
+    li $a0, -1
+    li $a1, 0
+    jal move_capsule
+    pop($ra)
+    
+    END_HANDLE_A_PRESS:
+        jr $ra
+
+handle_d_press:
+    # Capsule loading => do nothing
+    lb $t0, capsule_loading
+    bne $t0, $zero, END_HANDLE_D_PRESS
+
+    # Check collision
+    li $a0, 3
+    push($ra)
+    jal check_collision_capsule 
+    pop($ra)
+    bne $v0, $zero, END_HANDLE_D_PRESS
+    
+    # Move the capsule
+    push($ra)
+    li $a0, 1
+    li $a1, 0
+    jal move_capsule
+    pop($ra)
+    
+    END_HANDLE_D_PRESS:
+        jr $ra
+
+handle_w_press:
+    # Capsule loading => do nothing
+    lb $t0, capsule_loading
+    bne $t0, $zero, END_HANDLE_W_PRESS
+    
+    push($ra)
+    jal rotate_capsule
+    pop($ra)
+    
+    END_HANDLE_W_PRESS:
+        jr $ra
+
+##############################################################################
+# CAPSULE MOVEMENT FUNCTIONS
+##############################################################################
+
+# Arguments
+# $a0 - direction (0/1/2/3) (UP/DOWN/LEFT/RIGHT)
+# Returns
+# $v0 - colliding (0/1)
+check_collision_capsule:
+    lb $t0, capsule_x
+    lb $t1, capsule_y
+    lb $t2, capsule_orientation
+    
+    beq $t2, $zero, CHECK_HORIZONTAL_COLLISION
+    CHECK_VERTICAL_COLLISION:
+        addi $t3, $t0, 0 # other x = capsulex 
+        addi $t4, $t1, -1 # other y = capsuley - 1
         
-        li $t1, 16
-        sb $t1, 160($t0)
-        # li $t1, 0
-        # sb $t1, 161($t0)
-        # li $t1, 0
-        # sb $t1, 162($t0)
-        # li $t1, 0
-        # sb $t1, 163($t0)
-        # li $t1, 0
-        # sb $t1, 164($t0)
-        # li $t1, 0
-        # sb $t1, 165($t0)
-        # li $t1, 0
-        # sb $t1, 166($t0)
-        # li $t1, 0
-        # sb $t1, 167($t0)
-        # li $t1, 0
-        # sb $t1, 168($t0)
-        li $t1, 16
-        sb $t1, 169($t0)
+        # Check going up
+        li $t5, 0 # constant t5 = 0
+        beq $a0, $t5, CHECK_VERTICAL_COLLISION_UP
         
-        li $t1, 16
-        sb $t1, 170($t0)
-        # li $t1, 0
-        # sb $t1, 171($t0)
-        # li $t1, 0
-        # sb $t1, 172($t0)
-        # li $t1, 0
-        # sb $t1, 173($t0)
-        # li $t1, 0
-        # sb $t1, 174($t0)
-        # li $t1, 0
-        # sb $t1, 175($t0)
-        # li $t1, 0
-        # sb $t1, 176($t0)
-        # li $t1, 0
-        # sb $t1, 177($t0)
-        # li $t1, 0
-        # sb $t1, 178($t0)
-        li $t1, 16
-        sb $t1, 179($t0)
+        # Check going down
+        li $t5, 1 # constant t5 = 1
+        beq $a0, $t5, CHECK_VERTICAL_COLLISION_DOWN
         
-        li $t1, 16
-        sb $t1, 180($t0)
-        # li $t1, 0
-        # sb $t1, 181($t0)
-        # li $t1, 0
-        # sb $t1, 182($t0)
-        # li $t1, 0
-        # sb $t1, 183($t0)
-        # li $t1, 0
-        # sb $t1, 184($t0)
-        # li $t1, 0
-        # sb $t1, 185($t0)
-        # li $t1, 0
-        # sb $t1, 186($t0)
-        # li $t1, 0
-        # sb $t1, 187($t0)
-        # li $t1, 0
-        # sb $t1, 188($t0)
-        li $t1, 16
-        sb $t1, 189($t0)
+        # Check going left
+        li $t5, 2 # constant t5 = 2
+        beq $a0, $t5, CHECK_VERTICAL_COLLISION_LEFT
         
-        li $t1, 16
-        sb $t1, 190($t0)
-        li $t1, 16
-        sb $t1, 191($t0)
-        li $t1, 16
-        sb $t1, 192($t0)
-        li $t1, 16
-        sb $t1, 193($t0)
-        li $t1, 16
-        sb $t1, 194($t0)
-        li $t1, 16
-        sb $t1, 195($t0)
-        li $t1, 16
-        sb $t1, 196($t0)
-        li $t1, 16
-        sb $t1, 197($t0)
-        li $t1, 16
-        sb $t1, 198($t0)
-        li $t1, 16
-        sb $t1, 199($t0)
+        # Check going right
+        li $t5, 3 # constant t5 = 3
+        beq $a0, $t5, CHECK_VERTICAL_COLLISION_RIGHT
         
+        # error 
+        j CHECK_COLLISION_CAPSULE_RETURN
         
-        # li $t2, 0 # start_x
-        # li $t3, 0 # start_y
-        # li $t4, 10 # width
-        # li $t5, 20 # height
-        # push($ra)
-        # push($t2) # start_x
-        # push($t3) # start_y
-        # push($t4) # width
-        # push($t5) # height
-        # push($t0) # bitmap
-        # jal draw_bitmap
-        # pop($ra)
+        CHECK_VERTICAL_COLLISION_UP:
+            # Check right capsule going up 
+            add $a0, $zero, $t3 # otherX 
+            add $a1, $zero, $t4 # otherY
+            addi $a2, $zero, 0 # dirX
+            addi $a3, $zero, -1 # dirY
+            
+            # NOTE: only need to check other capsule going up 
+            push($ra)
+            push_temps()
+            jal check_collision # return value stored in v0
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, CHECK_COLLISION_CAPSULE_RETURN # return if collision
+            j CHECK_COLLISION_CAPSULE_RETURN # end of check
+        
+        CHECK_VERTICAL_COLLISION_DOWN:
+            # Check bottom capsule going down 
+            add $a0, $zero, $t0 # capsulex 
+            add $a1, $zero, $t1 # capsuley
+            addi $a2, $zero, 0 # dirX
+            addi $a3, $zero, 1 # dirY
+            
+            # NOTE: only need to check bottom capsule going down 
+            push($ra)
+            push_temps()
+            jal check_collision # return value stored in v0
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, CHECK_COLLISION_CAPSULE_RETURN # return if collision
+            j CHECK_COLLISION_CAPSULE_RETURN # end of check
+        
+        CHECK_VERTICAL_COLLISION_LEFT:
+            # Check bottom capsule going left
+            add $a0, $zero, $t0 # capsule_x
+            add $a1, $zero, $t1 # capsule_y
+            addi $a2, $zero, -1 # dirX
+            addi $a3, $zero, 0 # dirY
+            
+            push($ra)
+            push_temps()
+            jal check_collision # return value stored in v0
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, CHECK_COLLISION_CAPSULE_RETURN # return if collision
+            
+            # Check top capsule going left
+            add $a0, $zero, $t3 # otherX 
+            add $a1, $zero, $t4 # otherY
+            addi $a2, $zero, -1 # dirX
+            addi $a3, $zero, 0 # dirY
+            
+            push($ra)
+            push_temps()
+            jal check_collision # return value stored in v0
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, CHECK_COLLISION_CAPSULE_RETURN # return if collision
+            j CHECK_COLLISION_CAPSULE_RETURN # end of check
+        
+        CHECK_VERTICAL_COLLISION_RIGHT:
+            # Check bottom capsule going right
+            add $a0, $zero, $t0 # capsule_x
+            add $a1, $zero, $t1 # capsule_y
+            addi $a2, $zero, 1 # dirX
+            addi $a3, $zero, 0 # dirY
+            
+            push($ra)
+            push_temps()
+            jal check_collision # return value stored in v0
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, CHECK_COLLISION_CAPSULE_RETURN # return if collision
+            
+            # Check top capsule going right
+            add $a0, $zero, $t3 # otherX 
+            add $a1, $zero, $t4 # otherY
+            addi $a2, $zero, 1 # dirX
+            addi $a3, $zero, 0 # dirY
+            
+            push($ra)
+            push_temps()
+            jal check_collision # return value stored in v0
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, CHECK_COLLISION_CAPSULE_RETURN # return if collision
+            j CHECK_COLLISION_CAPSULE_RETURN # end of check
+    
+    CHECK_HORIZONTAL_COLLISION:
+        addi $t3, $t0, 1 # other x = capsulex + 1
+        addi $t4, $t1, 0 # other y = capsuley
+        
+        # Check going up
+        li $t5, 0 # constant t5 = 0
+        beq $a0, $t5, CHECK_HORIZONTAL_COLLISION_UP
+        
+        # Check going down
+        li $t5, 1 # constant t5 = 1
+        beq $a0, $t5, CHECK_HORIZONTAL_COLLISION_DOWN
+        
+        # Check going left
+        li $t5, 2 # constant t5 = 2
+        beq $a0, $t5, CHECK_HORIZONTAL_COLLISION_LEFT
+        
+        # Check going right
+        li $t5, 3 # constant t5 = 3
+        beq $a0, $t5, CHECK_HORIZONTAL_COLLISION_RIGHT
+        
+        CHECK_HORIZONTAL_COLLISION_UP:
+            # Check left capsule going up
+            add $a0, $zero, $t0 # capsule_x
+            add $a1, $zero, $t1 # capsule_y
+            addi $a2, $zero, 0 # dirX
+            addi $a3, $zero, -1 # dirY
+            
+            push($ra)
+            push_temps()
+            jal check_collision # return value stored in v0
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, CHECK_COLLISION_CAPSULE_RETURN # return if collision
+            
+            # Check right capsule going up 
+            add $a0, $zero, $t3 # otherX 
+            add $a1, $zero, $t4 # otherY
+            addi $a2, $zero, 0 # dirX
+            addi $a3, $zero, -1 # dirY
+            
+            push($ra)
+            push_temps()
+            jal check_collision # return value stored in v0
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, CHECK_COLLISION_CAPSULE_RETURN # return if collision
+            j CHECK_COLLISION_CAPSULE_RETURN # end of check
+        
+        CHECK_HORIZONTAL_COLLISION_DOWN:
+            # Check left capsule going down
+            add $a0, $zero, $t0 # capsule_x
+            add $a1, $zero, $t1 # capsule_y
+            addi $a2, $zero, 0 # dirX
+            addi $a3, $zero, 1 # dirY
+            
+            push($ra)
+            push_temps()
+            jal check_collision # return value stored in v0
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, CHECK_COLLISION_CAPSULE_RETURN # return if collision
+            
+            # Check right capsule going down 
+            add $a0, $zero, $t3 # otherX 
+            add $a1, $zero, $t4 # otherY
+            addi $a2, $zero, 0 # dirX
+            addi $a3, $zero, 1 # dirY
+            
+            push($ra)
+            push_temps()
+            jal check_collision # return value stored in v0
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, CHECK_COLLISION_CAPSULE_RETURN # return if collision
+            j CHECK_COLLISION_CAPSULE_RETURN # end of check
+        
+        CHECK_HORIZONTAL_COLLISION_LEFT:
+            # Check left capsule going left
+            add $a0, $zero, $t0 # capsule_x
+            add $a1, $zero, $t1 # capsule_y
+            addi $a2, $zero, -1 # dirX
+            addi $a3, $zero, 0 # dirY
+            
+            # NOTE: Only need to check left capsule
+            push($ra)
+            push_temps()
+            jal check_collision # return value stored in v0
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, CHECK_COLLISION_CAPSULE_RETURN # return if collision
+            
+            j CHECK_COLLISION_CAPSULE_RETURN # end of check
+        
+        CHECK_HORIZONTAL_COLLISION_RIGHT:
+            # Check right capsule going right 
+            add $a0, $zero, $t3 # otherX 
+            add $a1, $zero, $t4 # otherY
+            addi $a2, $zero, 1 # dirX
+            addi $a3, $zero, 0 # dirY
+            
+            # NOTE: Only need to check right capsule
+            push($ra)
+            push_temps()
+            jal check_collision # return value stored in v0
+            pop_temps()
+            pop($ra)
+            bne $v0, $zero, CHECK_COLLISION_CAPSULE_RETURN # return if collision
+            j CHECK_COLLISION_CAPSULE_RETURN # end of check
+        
+    CHECK_COLLISION_CAPSULE_RETURN:
+        # return value already stored in v0, so just return
         jr $ra
         
 
-draw_bottle_bitmap:
-    la $t0, bottle_bitmap
+# Arguments
+# $a0 - x
+# $a1 - y
+# $a2 - direction x
+# $a3 - direction y
+# Returns
+# $v0 - colliding (0/1)
+check_collision:
+    # check collision
+    add $t1, $a0, $a2 # x + dirX
+    add $t2, $a1, $a3 # y + dirY
+    lw $t3, GAME_WIDTH
+    lw $t4, GAME_HEIGHT
+    la $t5, game_bitmap
     
-    li $t2, -1 # start_x
-    li $t3, -3 # start_y
-    li $t4, 10 # width
-    li $t5, 20 # height
     
+    # check out of bounds
+    blt $t1, $zero, IF_CHECK_COLLISION_OUT_BOUNDS
+    bge $t1, $t3, IF_CHECK_COLLISION_OUT_BOUNDS
+    blt $t2, $zero, IF_CHECK_COLLISION_OUT_BOUNDS
+    bge $t2, $t4, IF_CHECK_COLLISION_OUT_BOUNDS
+    j END_IF_CHECK_COLLISION_OUT_BOUNDS
+    IF_CHECK_COLLISION_OUT_BOUNDS:
+        li $v0, 1
+        jr $ra
+    END_IF_CHECK_COLLISION_OUT_BOUNDS:
+    
+    # Check other object
     push($ra)
-    push($t2) # start_x
-    push($t3) # start_y
-    push($t4) # width
-    push($t5) # height
-    push($t0) # bitmap
-    jal draw_bitmap
+    push($t1)
+    push($t2)
+    push($t3)
+    push($t4)
+    push($t5)
+    jal get_value_in_bitmap
     pop($ra)
+    
+    # v0 = v0
     jr $ra
     
+
+# Arguments
+# a0 - dirX
+# a1 - dirY
+move_capsule:
+    lb $t0, capsule_x
+    lb $t1, capsule_y
+    lb $t2, capsule_orientation
+    
+    beq $t2, $zero, MOVE_CAPSULE_HORIZONTAL
+    MOVE_CAPSULE_VERTICAL:
+        addi $t3, $t0, 0 # other x = capsulex 
+        addi $t4, $t1, -1 # other y = capsuley - 1
+        j MOVE_CAPSULE_ERASE
+    
+    MOVE_CAPSULE_HORIZONTAL:
+        addi $t3, $t0, 1 # other x = capsulex + 1
+        addi $t4, $t1, 0 # other y = capsuley
+        j MOVE_CAPSULE_ERASE
+        
+    MOVE_CAPSULE_ERASE:
+        lw $t6, GAME_WIDTH
+        lw $t7, GAME_HEIGHT
+        la $t5, game_bitmap
+        
+        # -- Get capsule colours / codes -- 
+        # Get code of Left / Bottom capsule
+        push($ra)
+        push_temps()
+        push($t0)
+        push($t1)
+        push($t6)
+        push($t7)
+        push($t5)
+        jal get_value_in_bitmap # return value in v0
+        pop_temps()
+        pop($ra)
+        add $t8, $zero, $v0 # store Left / Bottom code
+        
+        # Get code of Right / Top capsule
+        push($ra)
+        push_temps()
+        push($t3)
+        push($t4)
+        push($t6)
+        push($t7)
+        push($t5)
+        jal get_value_in_bitmap # return value in v0
+        pop_temps()
+        pop($ra)
+        add $t9, $zero, $v0 # store Right / Top code
+        
+        # ----- Erase -----
+        
+        # Left / Bottom capsule
+        push($ra)
+        push_temps()
+        push($t0)
+        push($t1)
+        push($zero)
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+        
+        # Right / Top capsule
+        push($ra)
+        push_temps()
+        push($t3)
+        push($t4)
+        push($zero)
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+    
+    MOVE_CAPSULE_DRAW:
+        
+        # -- Draw the updated capsule -- 
+        # Left / Bottom capsule
+        push($ra)
+        push_temps()
+        add $t0, $t0, $a0 # x = capsulex + dirX
+        push($t0)
+        add $t1, $t1, $a1 # y = capsuley + dirY
+        push($t1)
+        push($t8)
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+        
+        # Right / Top capsule
+        push($ra)
+        push_temps()
+        add $t3, $t3, $a0 # x = otherx + dirX
+        push($t3)
+        add $t4, $t4, $a1 # y = othery + dirY
+        push($t4)
+        push($t9)
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+        
+        # Update capsule x and y 
+        add $t0, $t0, $a0
+        add $t1, $t1, $a1
+        sb $t0, capsule_x
+        sb $t1, capsule_y
+        
+        jr $ra
+        
+        
+    
+    
+    
+    
+# Rotate capsule clockwise
+# Won't rotate if collides
+rotate_capsule:
+    lb $t0, capsule_x
+    lb $t1, capsule_y
+    lb $t2, capsule_orientation
+    
+    beq $t2, $zero, ROTATE_HORIZONTAL
+    ROTATE_VERTICAL:
+        # Return if left collides on right
+        push($ra)
+        push_temps()
+        add $a0, $t0, $zero # x
+        add $a1, $t1, $zero # y
+        li $a2, 1 # dirX
+        li $a3, 0 # dirY
+        jal check_collision # returns in $v0
+        pop_temps()
+        pop($ra)
+        bne $v0, $zero END_ROTATE
+    
+        addi $t3, $t0, 0 # other x = capsulex
+        addi $t4, $t1, -1 # other y = capsuley - 1
+        
+        # Top to right
+        push($ra)
+        push_temps()
+        add $a0, $t3, $zero # otherX
+        add $a1, $t4, $zero # otherY
+        li $a2, 1 # Move right
+        li $a3, 1 # Move down
+        pushi($t0, 3)
+        jal translate_game_bit
+        pop_temps()
+        pop($ra)
+        
+        # rotate left
+        push($ra)
+        push_temps()
+        add $a0, $t0, $zero # capsule x
+        add $a1, $t1, $zero # capsule y
+        li $a2, 0 # Stay same
+        li $a3, 0 # Stay same
+        pushi($t0, 1)
+        jal translate_game_bit
+        pop_temps()
+        pop($ra)
+        
+        li $t0, 0
+        sb $t0, capsule_orientation
+        
+        j END_ROTATE
+        
+    ROTATE_HORIZONTAL:
+        # Return if left collides on top
+        push($ra)
+        push_temps()
+        add $a0, $t0, $zero # x
+        add $a1, $t1, $zero # y
+        li $a2, 0 # dirX
+        li $a3, -1 # dirY
+        jal check_collision # returns in $v0
+        pop_temps()
+        pop($ra)
+        bne $v0, $zero END_ROTATE
+    
+        addi $t3, $t0, 1 # other x = capsulex + 1
+        addi $t4, $t1, 0 # other y = capsuley
+        
+        # left goes to top
+        push($ra)
+        push_temps()
+        add $a0, $t0, $zero # capsuleX
+        add $a1, $t1, $zero # capsuleY
+        li $a2, 0 # X stays the same
+        li $a3, -1 # Move up
+        pushi($t0, -2)
+        jal translate_game_bit
+        pop_temps()
+        pop($ra)
+        
+        # right goes to left
+        push($ra)
+        push_temps()
+        add $a0, $t3, $zero # otherX
+        add $a1, $t4, $zero # otherY
+        li $a2, -1 # Move left
+        li $a3, 0 # Y stays the same
+        pushi($t0, -2)
+        jal translate_game_bit
+        pop_temps()
+        pop($ra)
+        
+        li $t0, 1
+        sb $t0, capsule_orientation
+    
+    END_ROTATE:
+        jr $ra
+        
+        
+        
+    
+    
+    # Get capsule position
+    # Get capsule rotation
+
+##############################################################################
+# GAME BITMAP HELPER FUNCTIONS
+##############################################################################
+
+# $a0 - x
+# $a1 - y
+# $a2 - dirX
+# $a3 - dirY
+# - sprite code offset
+translate_game_bit:
+    pop($t9) # sprite code offset
+
+    # get value in bitmap x,y
+    push($ra)
+    jal get_value_in_game_bitmap # uses a0, a1 for x, y and returns in $v0
+    pop($ra)
+    
+    # Erase current thing
+    push($ra)
+    push($a0)
+    push($a1)
+    push($zero)
+    jal update_game_bitmap
+    pop($ra)
+    
+    # update value in bitmap x+dirX, y+dirY
+    add $t0, $a0, $a2 # x + dirX
+    add $t1, $a1, $a3 # y + dirY
+    add $t3, $v0, $t9 # sprite code + sprite code offset
+    push($ra)
+    push($t0)
+    push($t1)
+    push($t3)
+    jal update_game_bitmap
+    pop($ra)
+    
+# Get the value in the bitmap at the specified x and y (col / row)
+# $a0 - x
+# $a1 - y
+# Returns:
+# v0 - the value at that location
+get_value_in_game_bitmap:
+    lw $t0, GAME_WIDTH
+    lw $t1, GAME_HEIGHT
+    la $t2, game_bitmap
+    
+    push($ra)
+    push($a0)
+    push($a1)
+    push($t0)
+    push($t1)
+    push($t2)
+    jal get_value_in_bitmap # return in $v0
+    pop($ra)
+    
+    jr $ra
+    
+
+# Get the value in the bitmap at the specified x and y (col / row)
+# - x
+# - y
+# - width
+# - height
+# - bitmap base address
+# Returns:
+# v0 - the value at that location
+get_value_in_bitmap:
+    pop($t4) # bitmap base address
+    pop($t3) # height
+    pop($t2) # width
+    pop($t1) # y
+    pop($t0) # x
+    
+    # 4 * (x + y * width)
+    mult $t1, $t2 # y * width
+    mflo $t5
+    add $t5, $t5, $t0 # x + y * width
+    
+    # now we need index + base address
+    add $t6, $t4, $t5
+    
+    lb $t7, 0($t6)
+
+    add $v0, $t7, $zero
+    jr $ra
     
 # Updates the game bitmap at the specified x and y to be code
 # - x: (game units)
@@ -1542,14 +2535,88 @@ update_game_bitmap:
     mflo $t5
     
     add $t5, $t5, $t1 # x + y * w 
-    # sll $t5, $t5, 2 # 4 * (x + y * w )
     
     # bitmap + index
     add $t6, $t8, $t5 # this is the index in the bitmap
     sb $t3, 0($t6) # put code in its place in the bitmap
     
     jr $ra
+
+##############################################################################
+# GAME INIT FUNCTIONS
+##############################################################################
+
+load_random_viruses:
+    add $s2, $zero, $zero
+    add $t0, $zero, $zero # count variable (loop)
+    addiu $t1, $zero, 4 # constant 4
     
+    VIRUSES_LOOP: bge $t0, $t1, END_VIRUS_LOOP # count >= 4 then skip
+        li $v0, 42
+        li $a0, 0
+        li $a1, 9
+        syscall
+        add $t5, $zero, $a0 # t5 stores the rand x
+        
+        li $v0, 42
+        li $a0, 0
+        li $a1, 10
+        syscall
+        addiu $t4, $zero, 5
+        add $t6, $t4, $a0 # t5 stores the rand y
+        
+        # see whats there in the bitmap
+        
+        la $t9, game_bitmap
+        lw $t7, GAME_WIDTH
+        lw $t8, GAME_HEIGHT  
+        push($ra)
+        push_temps()
+        push($t5) # x
+        push($t6) # y
+        push($t7) # w
+        push($t8) # h
+        push($t9) # bitmap
+        jal get_value_in_bitmap # (x,y,w,h,b)
+        pop_temps()
+        pop($ra)
+        
+        
+        IF_VIRUS_NOT_THERE: bne $v0, $zero, ELSE_VIRUS_NOT_THERE
+            # The virus is not here, so add count and update the bitmap
+            # Get a random colour
+            # virus are code 13,14,15
+             li $v0, 42
+             li $a0, 0
+             li $a1, 3
+             syscall 
+             addiu $t4, $zero, 13
+             add $t3, $t4, $a0 # store the virus id (add 13 for code offset)
+             
+             push($ra)
+             push_temps()
+             push($t5) # x
+             push($t6) # y
+             push($t3) # code for virus
+             jal update_game_bitmap
+             pop_temps()
+             pop($ra)
+             
+             # update count
+             addiu $t0, $t0, 1
+             b INCREMENT
+        ELSE_VIRUS_NOT_THERE:
+            addiu $s2, $s2, 1
+    
+        INCREMENT:
+        b VIRUSES_LOOP
+    END_VIRUS_LOOP:
+    jr $ra
+
+##############################################################################
+# GAME DRAWING FUNCTIONS
+##############################################################################
+
 # draws the game bitmap the the display
 draw_game_bitmap:
     la $t0, game_bitmap
@@ -1569,42 +2636,24 @@ draw_game_bitmap:
     pop($ra)
     jr $ra
     
+# draws the game bitmap the the display
+draw_bottle_bitmap:
+    la $t0, bottle_bitmap
     
-# Get the value in the bitmap at the specified x and y (col / row)
-# - x
-# - y
-# - width
-# - height
-# - bitmap base address
-# Returns:
-# - the value at that location
-get_value_in_bitmap:
-    pop($t4) # bitmap base address
-    pop($t3) # height
-    pop($t2) # width
-    pop($t1) # y
-    pop($t0) # x
+    li $t2, -1 # start_x
+    li $t3, -3 # start_y
+    li $t4, 10 # width
+    li $t5, 20 # height
     
-    # 4 * (x + y * width)
-    mult $t1, $t2 # y * width
-    mflo $t5
-    add $t5, $t5, $t0 # x + y * width
-    # sll $t5, $t5, 2 # 4 * (x + y * width) <- this is the index
-    
-    # now we need index + base address
-    add $t6, $t4, $t5
-    
-    lb $t7, 0($t6)
-    push($t7)
-    
+    push($ra)
+    push($t2) # start_x
+    push($t3) # start_y
+    push($t4) # width
+    push($t5) # height
+    push($t0) # bitmap
+    jal draw_bitmap
+    pop($ra)
     jr $ra
-    
-
-            
-    
-# ----------------------------------------------------------------- #
-#                         DRAWING HELPERS                           #
-# ----------------------------------------------------------------- #
 
 # Draws a rectangle at x and y where x and y are given in game unit coordinates.
 # - x (game units)
@@ -1644,7 +2693,6 @@ draw_game_block:
     pop_temps()
     pop($ra)
     jr $ra
-    
 
 # start_x - start x in game units
 # start_y - start y in game units
@@ -1652,7 +2700,7 @@ draw_game_block:
 # height - height of bitmap in game units
 # bitmap - address of bitmap. Each block is 8 bits (ex. 5 blocks: 0F 1F 3D 5F 2D)
 draw_bitmap:
-    pop($t0) # bitmap 
+    pop($t0) # bitmap position
     pop($t1) # height
     pop($t2) # width
     pop($t3) # start_y
@@ -1672,1414 +2720,132 @@ draw_bitmap:
         # i = t6
         add $t6, $zero, $t4
         BITMAP_X_LOOP: bge $t6, $t8, BITMAP_X_LOOP_END
-            # start_x + i
-            # start_y + j
-            # add $t1, $t4, $t6
-            # add $t2, $t3, $t5
-            
-            
             la $t9, draw_rectangle_colour_array
             
             push($ra)
             push_temps()
-            push($t0)
-            jal load_colours
+            lb $a0, 0($t0)
+            jal get_sprite
             pop_temps()
             pop($ra)
 
             push($ra)
             push_temps()
-            push($t6)
-            push($t5)
-            push($t9)
+            push($t6) # x
+            push($t5) # y
+            push($v0) # colour array
             jal draw_game_block
             pop_temps()
             pop($ra)
             
-            
             # Increment bitmap index
             addi $t0, $t0, 1
             
-
             addi $t6, $t6, 1
             j BITMAP_X_LOOP
         BITMAP_X_LOOP_END:
         addi $t5, $t5, 1
         j BITMAP_Y_LOOP
-    
     BITMAP_Y_LOOP_END:
     jr $ra
-    
-    
-# Gets the corresponding colour array for the bit in the bitmap
-# - bit in the bitmap
-load_colours:
-    pop($t2) # address of bit
-    
-    lb $t2, 0($t2)
-    
-    la $t0, draw_rectangle_colour_array
-    
-    # BACKGROUND
-    bne $t2, $zero, RED_UP_BIT
-    
-     # ----------------------- NOTHING ----------------------- #
-    
-    # Initialize colours
-    li $t7, 0x000000        # $t7 = dark blue
-    li $t8, 0x000000        # $t8 = light blue
-    li $t9, 0x000000        # $t9 = black
-    
-    sw $t9, 0($t0)
-    sw $t7, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t7, 24($t0)
-    sw $t9, 28($t0)
-    sw $t7, 32($t0)
-    sw $t8, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t8, 56($t0)
-    sw $t7, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t7, 72($t0)
-    sw $t8, 76($t0)
-    sw $t8, 80($t0)
-    sw $t7, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t7, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t7, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t8, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t7, 168($t0)
-    sw $t7, 172($t0)
-    sw $t7, 176($t0)
-    sw $t7, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t7, 192($t0)
-    sw $t8, 196($t0)
-    sw $t7, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t7, 212($t0)
-    sw $t8, 216($t0)
-    sw $t7, 220($t0)
-    sw $t9, 224($t0)
-    sw $t7, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t7, 248($t0)
-    sw $t9, 252($t0)
-    
-    # ----------------------- NOTHING END ----------------------- #
-    
-    jr $ra
-    
-    
-    # Capsules - UP, DOWN, LEFT, RIGHT
-    
-    # Red Capsules
-    
-    RED_UP_BIT:
-    add $t1, $zero, 1
-    bne, $t2, $t1, RED_DOWN_BIT
-    
-    
-    # -----------------------  RED UP CAPSULE START ----------------------- #
-    li $t6, 0x000000 # black
-    li $t7, 0x471313 # $t7 = dark red
-    li $t8, 0xed1c24 # $t8 = bright red
-    li $t9, 0xf5f0f5 # very light grey
-    
-    sw $t6, 0($t0)
-    sw $t6, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t6, 24($t0)
-    sw $t6, 28($t0)
-    sw $t6, 32($t0)
-    sw $t7, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t7, 56($t0)
-    sw $t6, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t8, 72($t0)
-    sw $t8, 76($t0)
-    sw $t9, 80($t0)
-    sw $t8, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t8, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t9, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t9, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t8, 168($t0)
-    sw $t8, 172($t0)
-    sw $t8, 176($t0)
-    sw $t9, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t7, 192($t0)
-    sw $t8, 196($t0)
-    sw $t8, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t8, 212($t0)
-    sw $t8, 216($t0)
-    sw $t7, 220($t0)
-    sw $t7, 224($t0)
-    sw $t7, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t7, 248($t0)
-    sw $t7, 252($t0)
-        
-    
-     # -----------------------  RED UP CAPSULE END ----------------------- #
-    jr $ra
-    RED_DOWN_BIT: 
-    add $t1, $zero, 2
-    bne, $t2, $t1, RED_LEFT_BIT
-    # -----------------------  RED DOWN CAPSULE START ----------------------- #
-    li $t6, 0x000000 # black
-    li $t7, 0x471313 # $t7 = dark red
-    li $t8, 0xed1c24 # $t8 = bright red
-    li $t9, 0xf5f0f5 # very light grey
-    
-    
-    sw $t7, 0($t0)
-    sw $t7, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t7, 24($t0)
-    sw $t7, 28($t0)
-    sw $t7, 32($t0)
-    sw $t8, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t8, 56($t0)
-    sw $t7, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t8, 72($t0)
-    sw $t8, 76($t0)
-    sw $t8, 80($t0)
-    sw $t9, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t8, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t9, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t9, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t8, 168($t0)
-    sw $t8, 172($t0)
-    sw $t9, 176($t0)
-    sw $t8, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t6, 192($t0)
-    sw $t7, 196($t0)
-    sw $t8, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t8, 212($t0)
-    sw $t7, 216($t0)
-    sw $t6, 220($t0)
-    sw $t6, 224($t0)
-    sw $t6, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t6, 248($t0)
-    sw $t6, 252($t0)
-        
-    
-     # -----------------------  RED DOWN CAPSULE END ----------------------- #
-    
-    jr $ra
-    RED_LEFT_BIT: 
-    add $t1, $zero, 3
-    bne, $t2, $t1, RED_RIGHT_BIT
-    # -----------------------  RED LEFT CAPSULE START ----------------------- #
-    
-    li $t6, 0x000000 # black
-    li $t7, 0x471313 # $t7 = dark red
-    li $t8, 0xed1c24 # $t8 = bright red
-    li $t9, 0xf5f0f5 # very light grey
-    
-    sw $t6, 0($t0)
-    sw $t6, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t7, 24($t0)
-    sw $t7, 28($t0)
-    sw $t6, 32($t0)
-    sw $t7, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t8, 56($t0)
-    sw $t7, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t8, 72($t0)
-    sw $t9, 76($t0)
-    sw $t9, 80($t0)
-    sw $t9, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t9, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t8, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t8, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t8, 168($t0)
-    sw $t8, 172($t0)
-    sw $t8, 176($t0)
-    sw $t8, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t6, 192($t0)
-    sw $t7, 196($t0)
-    sw $t8, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t8, 212($t0)
-    sw $t8, 216($t0)
-    sw $t7, 220($t0)
-    sw $t6, 224($t0)
-    sw $t6, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t7, 248($t0)
-    sw $t7, 252($t0)
-    
-    
-     # -----------------------  RED LEFT CAPSULE END ----------------------- #
-    
-    jr $ra
-    RED_RIGHT_BIT:
-    add $t1, $zero, 4
-    bne, $t2, $t1, BLUE_UP_BIT
-    # -----------------------  RED RIGHT CAPSULE START ----------------------- #
-    li $t6, 0x000000 # black
-    li $t7, 0x471313 # $t7 = dark red
-    li $t8, 0xed1c24 # $t8 = bright red
-    li $t9, 0xf5f0f5 # very light grey
-    
-    sw $t7, 0($t0)
-    sw $t7, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t6, 24($t0)
-    sw $t6, 28($t0)
-    sw $t7, 32($t0)
-    sw $t8, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t7, 56($t0)
-    sw $t6, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t9, 72($t0)
-    sw $t9, 76($t0)
-    sw $t9, 80($t0)
-    sw $t8, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t8, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t9, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t8, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t8, 168($t0)
-    sw $t8, 172($t0)
-    sw $t8, 176($t0)
-    sw $t8, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t7, 192($t0)
-    sw $t8, 196($t0)
-    sw $t8, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t8, 212($t0)
-    sw $t7, 216($t0)
-    sw $t6, 220($t0)
-    sw $t7, 224($t0)
-    sw $t7, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t6, 248($t0)
-    sw $t6, 252($t0)
-    
-    
-     # -----------------------  RED RIGHT CAPSULE END ----------------------- #
-    
-    # Blue Capsules
-    
-    jr $ra
-    BLUE_UP_BIT: 
-    add $t1, $zero, 5
-    bne, $t2, $t1, BLUE_DOWN_BIT
-    
-    # -----------------------  BLUE UP CAPSULE START ----------------------- #
-    li $t6, 0x000000 # black
-    li $t7, 0x2f3699 # dark blue
-    li $t8, 0x00b7ef # light blue
-    li $t9, 0xf5f0f5 # very light grey
-    
-    sw $t6, 0($t0)
-    sw $t6, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t6, 24($t0)
-    sw $t6, 28($t0)
-    sw $t6, 32($t0)
-    sw $t7, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t7, 56($t0)
-    sw $t6, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t8, 72($t0)
-    sw $t8, 76($t0)
-    sw $t9, 80($t0)
-    sw $t8, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t8, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t9, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t9, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t8, 168($t0)
-    sw $t8, 172($t0)
-    sw $t8, 176($t0)
-    sw $t9, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t7, 192($t0)
-    sw $t8, 196($t0)
-    sw $t8, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t8, 212($t0)
-    sw $t8, 216($t0)
-    sw $t7, 220($t0)
-    sw $t7, 224($t0)
-    sw $t7, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t7, 248($t0)
-    sw $t7, 252($t0)
-    
-    
-     # -----------------------  BLUE UP CAPSULE END ----------------------- #
-   
-    jr $ra
-    BLUE_DOWN_BIT: 
-    add $t1, $zero, 6
-    bne, $t2, $t1, BLUE_LEFT_BIT
-    
-    # -----------------------  BLUE DOWN CAPSULE START ----------------------- #
-    li $t6, 0x000000 # black
-    li $t7, 0x2f3699 # dark blue
-    li $t8, 0x00b7ef # light blue
-    li $t9, 0xf5f0f5 # very light grey
-    
-    sw $t7, 0($t0)
-    sw $t7, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t7, 24($t0)
-    sw $t7, 28($t0)
-    sw $t7, 32($t0)
-    sw $t8, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t8, 56($t0)
-    sw $t7, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t8, 72($t0)
-    sw $t8, 76($t0)
-    sw $t8, 80($t0)
-    sw $t9, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t8, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t9, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t9, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t8, 168($t0)
-    sw $t8, 172($t0)
-    sw $t9, 176($t0)
-    sw $t8, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t6, 192($t0)
-    sw $t7, 196($t0)
-    sw $t8, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t8, 212($t0)
-    sw $t7, 216($t0)
-    sw $t6, 220($t0)
-    sw $t6, 224($t0)
-    sw $t6, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t6, 248($t0)
-    sw $t6, 252($t0)
-    
-    
-     # -----------------------  BLUE DOWN CAPSULE END ----------------------- #
-    
-    jr $ra
-    BLUE_LEFT_BIT: 
-    add $t1, $zero, 7
-    bne, $t2, $t1, BLUE_RIGHT_BIT
-    
-    # -----------------------  BLUE LEFT CAPSULE START ----------------------- #
-    li $t6, 0x000000 # black
-    li $t7, 0x2f3699 # dark blue
-    li $t8, 0x00b7ef # light blue
-    li $t9, 0xf5f0f5 # very light grey
-    
-    sw $t6, 0($t0)
-    sw $t6, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t7, 24($t0)
-    sw $t7, 28($t0)
-    sw $t6, 32($t0)
-    sw $t7, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t8, 56($t0)
-    sw $t7, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t8, 72($t0)
-    sw $t9, 76($t0)
-    sw $t9, 80($t0)
-    sw $t9, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t9, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t8, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t8, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t8, 168($t0)
-    sw $t8, 172($t0)
-    sw $t8, 176($t0)
-    sw $t8, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t6, 192($t0)
-    sw $t7, 196($t0)
-    sw $t8, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t8, 212($t0)
-    sw $t8, 216($t0)
-    sw $t7, 220($t0)
-    sw $t6, 224($t0)
-    sw $t6, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t7, 248($t0)
-    sw $t7, 252($t0)
-    
-     # -----------------------  BLUE LEFT CAPSULE END ----------------------- #
-    
-    jr $ra
-    BLUE_RIGHT_BIT: 
-    add $t1, $zero, 8
-    bne, $t2, $t1, YELLOW_UP_BIT
-    
-    # -----------------------  BLUE RIGHT CAPSULE START ----------------------- #
-    
-    li $t6, 0x000000 # black
-    li $t7, 0x2f3699 # dark blue
-    li $t8, 0x00b7ef # light blue
-    li $t9, 0xf5f0f5 # very light grey
-    
-    sw $t7, 0($t0)
-    sw $t7, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t6, 24($t0)
-    sw $t6, 28($t0)
-    sw $t7, 32($t0)
-    sw $t8, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t7, 56($t0)
-    sw $t6, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t9, 72($t0)
-    sw $t9, 76($t0)
-    sw $t9, 80($t0)
-    sw $t8, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t8, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t9, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t8, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t8, 168($t0)
-    sw $t8, 172($t0)
-    sw $t8, 176($t0)
-    sw $t8, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t7, 192($t0)
-    sw $t8, 196($t0)
-    sw $t8, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t8, 212($t0)
-    sw $t7, 216($t0)
-    sw $t6, 220($t0)
-    sw $t7, 224($t0)
-    sw $t7, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t6, 248($t0)
-    sw $t6, 252($t0)
-    
-    
-     # -----------------------  BLUE RIGHT CAPSULE END ----------------------- #
-    
-    # Yellow Capsules
-    
-    jr $ra
-    YELLOW_UP_BIT: 
-    add $t1, $zero, 9
-    bne, $t2, $t1, YELLOW_DOWN_BIT
-    
-    # -----------------------  YELLOW UP CAPSULE START ----------------------- #
-    li $t6, 0x000000 # black
-    li $t7, 0xCC7722 # $t7 = orange
-    li $t8, 0xffc20e # $t8 = gold
-    li $t9, 0xf5f0f5 # very light grey
-    
-    sw $t6, 0($t0)
-    sw $t6, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t6, 24($t0)
-    sw $t6, 28($t0)
-    sw $t6, 32($t0)
-    sw $t7, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t7, 56($t0)
-    sw $t6, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t8, 72($t0)
-    sw $t8, 76($t0)
-    sw $t9, 80($t0)
-    sw $t8, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t8, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t9, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t9, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t8, 168($t0)
-    sw $t8, 172($t0)
-    sw $t8, 176($t0)
-    sw $t9, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t7, 192($t0)
-    sw $t8, 196($t0)
-    sw $t8, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t8, 212($t0)
-    sw $t8, 216($t0)
-    sw $t7, 220($t0)
-    sw $t7, 224($t0)
-    sw $t7, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t7, 248($t0)
-    sw $t7, 252($t0)
-    
-    
-    # ----------------------- YELLOW UP CAPSULE END ----------------------- #
-    
-    jr $ra
-    YELLOW_DOWN_BIT: 
-    add $t1, $zero, 10
-    bne, $t2, $t1, YELLOW_LEFT_BIT
-    
-    # -----------------------  YELLOW DOWN CAPSULE START ----------------------- #
-    li $t6, 0x000000 # black
-    li $t7, 0xCC7722 # $t7 = orange
-    li $t8, 0xffc20e # $t8 = gold
-    li $t9, 0xf5f0f5 # very light grey
-    
-    sw $t7, 0($t0)
-    sw $t7, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t7, 24($t0)
-    sw $t7, 28($t0)
-    sw $t7, 32($t0)
-    sw $t8, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t8, 56($t0)
-    sw $t7, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t8, 72($t0)
-    sw $t8, 76($t0)
-    sw $t8, 80($t0)
-    sw $t9, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t8, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t9, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t9, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t8, 168($t0)
-    sw $t8, 172($t0)
-    sw $t9, 176($t0)
-    sw $t8, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t6, 192($t0)
-    sw $t7, 196($t0)
-    sw $t8, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t8, 212($t0)
-    sw $t7, 216($t0)
-    sw $t6, 220($t0)
-    sw $t6, 224($t0)
-    sw $t6, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t6, 248($t0)
-    sw $t6, 252($t0)
-    
-    
-    # ----------------------- YELLOW DOWN CAPSULE END ----------------------- #
-    
-    jr $ra
-    YELLOW_LEFT_BIT:
-    add $t1, $zero, 11
-    bne, $t2, $t1, YELLOW_RIGHT_BIT
-    
-    # -----------------------  YELLOW LEFT CAPSULE START ----------------------- #
-    
-    li $t6, 0x000000 # black
-    li $t7, 0xCC7722 # $t7 = orange
-    li $t8, 0xffc20e # $t8 = gold
-    li $t9, 0xf5f0f5 # very light grey
-    
-    sw $t6, 0($t0)
-    sw $t6, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t7, 24($t0)
-    sw $t7, 28($t0)
-    sw $t6, 32($t0)
-    sw $t7, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t8, 56($t0)
-    sw $t7, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t8, 72($t0)
-    sw $t9, 76($t0)
-    sw $t9, 80($t0)
-    sw $t9, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t9, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t8, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t8, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t8, 168($t0)
-    sw $t8, 172($t0)
-    sw $t8, 176($t0)
-    sw $t8, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t6, 192($t0)
-    sw $t7, 196($t0)
-    sw $t8, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t8, 212($t0)
-    sw $t8, 216($t0)
-    sw $t7, 220($t0)
-    sw $t6, 224($t0)
-    sw $t6, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t7, 248($t0)
-    sw $t7, 252($t0)
-    
-    
-    # ----------------------- YELLOW LEFT CAPSULE END ----------------------- #
-    
-    jr $ra
-    YELLOW_RIGHT_BIT: 
-    add $t1, $zero, 12
-    bne, $t2, $t1, RED_VIRUS_BIT
-    
-    # -----------------------  YELLOW RIGHT CAPSULE START ----------------------- #
-    
-    li $t6, 0x000000 # black
-    li $t7, 0xCC7722 # $t7 = orange
-    li $t8, 0xffc20e # $t8 = gold
-    li $t9, 0xf5f0f5 # very light grey
-    
-     sw $t7, 0($t0)
-    sw $t7, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t6, 24($t0)
-    sw $t6, 28($t0)
-    sw $t7, 32($t0)
-    sw $t8, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t7, 56($t0)
-    sw $t6, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t9, 72($t0)
-    sw $t9, 76($t0)
-    sw $t9, 80($t0)
-    sw $t8, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t8, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t9, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t8, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t8, 168($t0)
-    sw $t8, 172($t0)
-    sw $t8, 176($t0)
-    sw $t8, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t7, 192($t0)
-    sw $t8, 196($t0)
-    sw $t8, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t8, 212($t0)
-    sw $t7, 216($t0)
-    sw $t6, 220($t0)
-    sw $t7, 224($t0)
-    sw $t7, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t6, 248($t0)
-    sw $t6, 252($t0)
-    
-    # ----------------------- YELLOW RIGHT CAPSULE END ----------------------- #
-    
-    jr $ra
-    # Viruses
-    RED_VIRUS_BIT:
-    add $t1, $zero, 13
-    bne, $t2, $t1, BLUE_VIRUS_BIT
-    
-    # -----------------------  RED VIRUS START ----------------------- #
-    # Initialize colours
-    li $t6, 0x000000 # black
-    li $t7, 0xa70000 # darker red
-    li $t8, 0xff0000 # lighter red
-    li $t9, 0xcff5252 # even more lighter red
-    
-    sw $t6, 0($t0)
-    sw $t6, 4($t0)
-    sw $t9, 8($t0)
-    sw $t6, 12($t0)
-    sw $t6, 16($t0)
-    sw $t6, 20($t0)
-    sw $t6, 24($t0)
-    sw $t9, 28($t0)
-    sw $t6, 32($t0)
-    sw $t9, 36($t0)
-    sw $t6, 40($t0)
-    sw $t6, 44($t0)
-    sw $t6, 48($t0)
-    sw $t6, 52($t0)
-    sw $t9, 56($t0)
-    sw $t6, 60($t0)
-    sw $t6, 64($t0)
-    sw $t9, 68($t0)
-    sw $t8, 72($t0)
-    sw $t8, 76($t0)
-    sw $t8, 80($t0)
-    sw $t8, 84($t0)
-    sw $t9, 88($t0)
-    sw $t6, 92($t0)
-    sw $t8, 96($t0)
-    sw $t8, 100($t0)
-    sw $t8, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t8, 116($t0)
-    sw $t8, 120($t0)
-    sw $t8, 124($t0)
-    sw $t8, 128($t0)
-    sw $t6, 132($t0)
-    sw $t6, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t6, 148($t0)
-    sw $t6, 152($t0)
-    sw $t8, 156($t0)
-    sw $t7, 160($t0)
-    sw $t7, 164($t0)
-    sw $t7, 168($t0)
-    sw $t7, 172($t0)
-    sw $t7, 176($t0)
-    sw $t7, 180($t0)
-    sw $t7, 184($t0)
-    sw $t7, 188($t0)
-    sw $t7, 192($t0)
-    sw $t7, 196($t0)
-    sw $t7, 200($t0)
-    sw $t7, 204($t0)
-    sw $t7, 208($t0)
-    sw $t7, 212($t0)
-    sw $t7, 216($t0)
-    sw $t7, 220($t0)
-    sw $t6, 224($t0)
-    sw $t7, 228($t0)
-    sw $t6, 232($t0)
-    sw $t6, 236($t0)
-    sw $t6, 240($t0)
-    sw $t6, 244($t0)
-    sw $t7, 248($t0)
-    sw $t6, 252($t0)
-    
-    # ----------------------- RED VIRUS END ----------------------- #
-    
-    jr $ra
-    BLUE_VIRUS_BIT:
-    add $t1, $zero, 14
-    bne, $t2, $t1, YELLOW_VIRUS_BIT
-    
-    # -----------------------  BLUE VIRUS START ----------------------- #
-    
-     # Initialize colours
-    li $t6, 0x000000 # black
-    li $t7, 0x2f3699 # darker blue
-    li $t8, 0x4d6df3 # lighter blue
-    li $t9, 0x99d9ea # even more lighter blue
-    
-    sw $t6, 0($t0)
-    sw $t6, 4($t0)
-    sw $t9, 8($t0)
-    sw $t6, 12($t0)
-    sw $t6, 16($t0)
-    sw $t6, 20($t0)
-    sw $t6, 24($t0)
-    sw $t9, 28($t0)
-    sw $t6, 32($t0)
-    sw $t9, 36($t0)
-    sw $t6, 40($t0)
-    sw $t6, 44($t0)
-    sw $t6, 48($t0)
-    sw $t6, 52($t0)
-    sw $t9, 56($t0)
-    sw $t6, 60($t0)
-    sw $t6, 64($t0)
-    sw $t9, 68($t0)
-    sw $t8, 72($t0)
-    sw $t8, 76($t0)
-    sw $t8, 80($t0)
-    sw $t8, 84($t0)
-    sw $t9, 88($t0)
-    sw $t6, 92($t0)
-    sw $t8, 96($t0)
-    sw $t8, 100($t0)
-    sw $t8, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t8, 116($t0)
-    sw $t8, 120($t0)
-    sw $t8, 124($t0)
-    sw $t8, 128($t0)
-    sw $t6, 132($t0)
-    sw $t6, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t6, 148($t0)
-    sw $t6, 152($t0)
-    sw $t8, 156($t0)
-    sw $t7, 160($t0)
-    sw $t7, 164($t0)
-    sw $t7, 168($t0)
-    sw $t7, 172($t0)
-    sw $t7, 176($t0)
-    sw $t7, 180($t0)
-    sw $t7, 184($t0)
-    sw $t7, 188($t0)
-    sw $t7, 192($t0)
-    sw $t7, 196($t0)
-    sw $t7, 200($t0)
-    sw $t7, 204($t0)
-    sw $t7, 208($t0)
-    sw $t7, 212($t0)
-    sw $t7, 216($t0)
-    sw $t7, 220($t0)
-    sw $t6, 224($t0)
-    sw $t7, 228($t0)
-    sw $t6, 232($t0)
-    sw $t6, 236($t0)
-    sw $t6, 240($t0)
-    sw $t6, 244($t0)
-    sw $t7, 248($t0)
-    sw $t6, 252($t0)
-    
-    # ----------------------- BLUE VIRUS END ----------------------- #
-    
-    jr $ra
-    YELLOW_VIRUS_BIT:
-    add $t1, $zero, 15
-    bne, $t2, $t1, WALL_BIT
-    
-    # ----------------------- YELLOW VIRUS START ----------------------- #
-    
-    # Initialize colours
-    li $t6, 0x000000 # black
-    li $t7, 0xffa700 # darker yellow
-    li $t8, 0xffce00 # lighter yellow
-    li $t9, 0xffde1a # even more lighter yellow
-    
-    sw $t6, 0($t0)
-    sw $t6, 4($t0)
-    sw $t9, 8($t0)
-    sw $t6, 12($t0)
-    sw $t6, 16($t0)
-    sw $t6, 20($t0)
-    sw $t6, 24($t0)
-    sw $t9, 28($t0)
-    sw $t6, 32($t0)
-    sw $t9, 36($t0)
-    sw $t6, 40($t0)
-    sw $t6, 44($t0)
-    sw $t6, 48($t0)
-    sw $t6, 52($t0)
-    sw $t9, 56($t0)
-    sw $t6, 60($t0)
-    sw $t6, 64($t0)
-    sw $t9, 68($t0)
-    sw $t8, 72($t0)
-    sw $t8, 76($t0)
-    sw $t8, 80($t0)
-    sw $t8, 84($t0)
-    sw $t9, 88($t0)
-    sw $t6, 92($t0)
-    sw $t8, 96($t0)
-    sw $t8, 100($t0)
-    sw $t8, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t8, 116($t0)
-    sw $t8, 120($t0)
-    sw $t8, 124($t0)
-    sw $t8, 128($t0)
-    sw $t6, 132($t0)
-    sw $t6, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t6, 148($t0)
-    sw $t6, 152($t0)
-    sw $t8, 156($t0)
-    sw $t7, 160($t0)
-    sw $t7, 164($t0)
-    sw $t7, 168($t0)
-    sw $t7, 172($t0)
-    sw $t7, 176($t0)
-    sw $t7, 180($t0)
-    sw $t7, 184($t0)
-    sw $t7, 188($t0)
-    sw $t7, 192($t0)
-    sw $t7, 196($t0)
-    sw $t7, 200($t0)
-    sw $t7, 204($t0)
-    sw $t7, 208($t0)
-    sw $t7, 212($t0)
-    sw $t7, 216($t0)
-    sw $t7, 220($t0)
-    sw $t6, 224($t0)
-    sw $t7, 228($t0)
-    sw $t6, 232($t0)
-    sw $t6, 236($t0)
-    sw $t6, 240($t0)
-    sw $t6, 244($t0)
-    sw $t7, 248($t0)
-    sw $t6, 252($t0)
-    
-    # ----------------------- YELLOW VIRUS END ----------------------- #
-    
-    jr $ra
-    WALL_BIT:
-    add $t1, $zero, 16
-    
-    # ----------------------- WALL START ----------------------- #
-    
-    # Initialize colours
-    li $t7, 0xFFFFFF        # $t7 = dark blue
-    li $t8, 0xFFFFFF        # $t8 = light blue
-    li $t9, 0xFFFFFF        # $t9 = black
-    
-    sw $t9, 0($t0)
-    sw $t7, 4($t0)
-    sw $t7, 8($t0)
-    sw $t7, 12($t0)
-    sw $t7, 16($t0)
-    sw $t7, 20($t0)
-    sw $t7, 24($t0)
-    sw $t9, 28($t0)
-    sw $t7, 32($t0)
-    sw $t8, 36($t0)
-    sw $t8, 40($t0)
-    sw $t8, 44($t0)
-    sw $t8, 48($t0)
-    sw $t8, 52($t0)
-    sw $t8, 56($t0)
-    sw $t7, 60($t0)
-    sw $t7, 64($t0)
-    sw $t8, 68($t0)
-    sw $t7, 72($t0)
-    sw $t8, 76($t0)
-    sw $t8, 80($t0)
-    sw $t7, 84($t0)
-    sw $t8, 88($t0)
-    sw $t7, 92($t0)
-    sw $t7, 96($t0)
-    sw $t8, 100($t0)
-    sw $t7, 104($t0)
-    sw $t8, 108($t0)
-    sw $t8, 112($t0)
-    sw $t7, 116($t0)
-    sw $t8, 120($t0)
-    sw $t7, 124($t0)
-    sw $t7, 128($t0)
-    sw $t8, 132($t0)
-    sw $t8, 136($t0)
-    sw $t8, 140($t0)
-    sw $t8, 144($t0)
-    sw $t8, 148($t0)
-    sw $t8, 152($t0)
-    sw $t7, 156($t0)
-    sw $t7, 160($t0)
-    sw $t8, 164($t0)
-    sw $t7, 168($t0)
-    sw $t7, 172($t0)
-    sw $t7, 176($t0)
-    sw $t7, 180($t0)
-    sw $t8, 184($t0)
-    sw $t7, 188($t0)
-    sw $t7, 192($t0)
-    sw $t8, 196($t0)
-    sw $t7, 200($t0)
-    sw $t8, 204($t0)
-    sw $t8, 208($t0)
-    sw $t7, 212($t0)
-    sw $t8, 216($t0)
-    sw $t7, 220($t0)
-    sw $t9, 224($t0)
-    sw $t7, 228($t0)
-    sw $t7, 232($t0)
-    sw $t7, 236($t0)
-    sw $t7, 240($t0)
-    sw $t7, 244($t0)
-    sw $t7, 248($t0)
-    sw $t9, 252($t0)
-    
-    # ----------------------- WALL END ----------------------- #
-    
-    jr $ra
-    
 
-# ----------------------------------------------------------------- #
-#                         DRAW RECTANGLE                            #
-# ----------------------------------------------------------------- #
+# Arguments:
+# - Sprite code ($a0)
+# Returns:
+# - Address to sprite colour array in $v0
+get_sprite:
+    li $t1, BACKGROUND_SPRITE_CODE()
+    beq $a0, $t1, RETURN_BACKGROUND_SPRITE
+    li $t1, RED_UP_CAPSULE_SPRITE_CODE()
+    beq $a0, $t1, RETURN_RED_UP_CAPSULE_SPRITE
+    li $t1, RED_DOWN_CAPSULE_SPRITE_CODE()
+    beq $a0, $t1, RETURN_RED_DOWN_CAPSULE_SPRITE
+    li $t1, RED_LEFT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t1, RETURN_RED_LEFT_CAPSULE_SPRITE
+    li $t1, RED_RIGHT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t1, RETURN_RED_RIGHT_CAPSULE_SPRITE
+    li $t1, BLUE_UP_CAPSULE_SPRITE_CODE()
+    beq $a0, $t1, RETURN_BLUE_UP_CAPSULE_SPRITE
+    li $t1, BLUE_DOWN_CAPSULE_SPRITE_CODE()
+    beq $a0, $t1, RETURN_BLUE_DOWN_CAPSULE_SPRITE
+    li $t1, BLUE_LEFT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t1, RETURN_BLUE_LEFT_CAPSULE_SPRITE
+    li $t1, BLUE_RIGHT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t1, RETURN_BLUE_RIGHT_CAPSULE_SPRITE
+    li $t1, YELLOW_UP_CAPSULE_SPRITE_CODE()
+    beq $a0, $t1, RETURN_YELLOW_UP_CAPSULE_SPRITE
+    li $t1, YELLOW_DOWN_CAPSULE_SPRITE_CODE()
+    beq $a0, $t1, RETURN_YELLOW_DOWN_CAPSULE_SPRITE
+    li $t1, YELLOW_LEFT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t1, RETURN_YELLOW_LEFT_CAPSULE_SPRITE
+    li $t1, YELLOW_RIGHT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t1, RETURN_YELLOW_RIGHT_CAPSULE_SPRITE
+    li $t1, RED_VIRUS_SPRITE_CODE()
+    beq $a0, $t1, RETURN_RED_VIRUS_SPRITE
+    li $t1, BLUE_VIRUS_SPRITE_CODE()
+    beq $a0, $t1, RETURN_BLUE_VIRUS_SPRITE
+    li $t1, YELLOW_VIRUS_SPRITE_CODE()
+    beq $a0, $t1, RETURN_YELLOW_VIRUS_SPRITE
+    li $t1, WALL_SPRITE_CODE()
+    beq $a0, $t1, RETURN_WALL_SPRITE
+    
+    
+    RETURN_BACKGROUND_SPRITE:
+        la $v0, BACKGROUND_SPRITE
+        jr $ra
+    RETURN_RED_UP_CAPSULE_SPRITE:
+        la $v0, RED_UP_CAPSULE_SPRITE
+        jr $ra
+    RETURN_RED_DOWN_CAPSULE_SPRITE:
+        la $v0, RED_DOWN_CAPSULE_SPRITE
+        jr $ra
+    RETURN_RED_LEFT_CAPSULE_SPRITE:
+        la $v0, RED_LEFT_CAPSULE_SPRITE
+        jr $ra
+    RETURN_RED_RIGHT_CAPSULE_SPRITE:
+        la $v0, RED_RIGHT_CAPSULE_SPRITE
+        jr $ra
+    RETURN_BLUE_UP_CAPSULE_SPRITE:
+        la $v0, BLUE_UP_CAPSULE_SPRITE
+        jr $ra
+    RETURN_BLUE_DOWN_CAPSULE_SPRITE:
+        la $v0, BLUE_DOWN_CAPSULE_SPRITE
+        jr $ra
+    RETURN_BLUE_LEFT_CAPSULE_SPRITE:
+        la $v0, BLUE_LEFT_CAPSULE_SPRITE
+        jr $ra
+    RETURN_BLUE_RIGHT_CAPSULE_SPRITE:
+        la $v0, BLUE_RIGHT_CAPSULE_SPRITE
+        jr $ra
+    RETURN_YELLOW_UP_CAPSULE_SPRITE:
+        la $v0, YELLOW_UP_CAPSULE_SPRITE
+        jr $ra
+    RETURN_YELLOW_DOWN_CAPSULE_SPRITE:
+        la $v0, YELLOW_DOWN_CAPSULE_SPRITE
+        jr $ra
+    RETURN_YELLOW_LEFT_CAPSULE_SPRITE:
+        la $v0, YELLOW_LEFT_CAPSULE_SPRITE
+        jr $ra
+    RETURN_YELLOW_RIGHT_CAPSULE_SPRITE:
+        la $v0, YELLOW_RIGHT_CAPSULE_SPRITE
+        jr $ra
+    RETURN_RED_VIRUS_SPRITE:
+        la $v0, RED_VIRUS_SPRITE
+        jr $ra
+    RETURN_BLUE_VIRUS_SPRITE:
+        la $v0, BLUE_VIRUS_SPRITE
+        jr $ra
+    RETURN_YELLOW_VIRUS_SPRITE:
+        la $v0, YELLOW_VIRUS_SPRITE
+        jr $ra
+    RETURN_WALL_SPRITE:
+        la $v0, WALL_SPRITE
+        jr $ra
 
+
+##############################################################################
+# SCREEN DRAWING FUNCTIONS
+##############################################################################
     
 # Arguments: 
 # $t4 - x (screen unit)
@@ -3098,22 +2864,10 @@ draw_rect:
     pop($t3) # Y
     pop($t4) # X
     
-    lw $t5 ADDR_DSPL # load display address into $t5
-    # li $t5, 0x10008000
+    la $t5 canvas # load canvas address into $t5
     
-    # la $t6, ADDR_DSPL
-    
-    
-    # i = $t6
-    # j = $t7
-    # x + width = $t2
-    # y + height = $t1
     add $t2, $t2, $t4
     add $t1, $t1, $t3
-    
-    # lw $t7, 4($t0)
-    
-    # sw $t7, 0($t5)
     
     add $t7, $t3, $zero # Initialize i counter
     Y_LOOP: bge $t7, $t1, END_Y_LOOP
@@ -3122,7 +2876,7 @@ draw_rect:
         X_LOOP: bge $t6, $t2, END_X_LOOP
             # Calculating coordinate on bitmap
             lw $t8, SCREEN_WIDTH # t8 = screen width (256)
-
+            
             mult $t8, $t7 # t8 = screen width * j
             mflo $t8
             add $t8, $t8, $t6 # t8 = screen width * j + i 
@@ -3146,159 +2900,6 @@ draw_rect:
             j Y_LOOP
     END_Y_LOOP:
     jr $ra
-    
-
-# ----------------------------------------------------------------- #
-#                           DRAW VIRUSES                            #
-# ----------------------------------------------------------------- #
-
-# Draws a virus at the given coordinates in game units
-# Arguments:
-# x - game pixels
-# y - game pixels
-draw_virus:
-    lw $t0, GAME_SCREEN_X
-    lw $t1, GAME_SCREEN_Y
-    lw $t2, PIXELS_PER_GAME_UNIT
-    pop($t3) # y
-    pop($t4) # x
-    
-    # x = GAME_SCREEN_X + x * PIXELS_PER_GAME_UNIT
-    mult $t4, $t2
-    mflo $t5
-    add $t6, $t0, $t5
-    
-     # y = GAME_SCREEN_Y + y * PIXELS_PER_GAME_UNIT
-     mult $t3, $t2
-     mflo $t5
-     add $t7, $t1, $t5
-     
-     push($ra)
-     push_temps()
-     push($t6)
-     push($t7)
-     jal draw_virus_screen
-     pop_temps()
-     pop($ra)
-     jr $ra
-
-# Draws a virus at the given coordinates in screen pixels
-# Arguments:
-# $t5 - x
-# $t4 - y 
-draw_virus_screen:
-    # Load arguments
-    pop($t4) # Y
-    pop($t5) # X
-    
-    # Initialize colours
-    li $t1, 0x471313        # $t1 = dark red
-    li $t2, 0xed1c24        # $t2 = bright red
-    li $t3, 0x000000        # $t3 = black
-    
-    lw $t6, PIXELS_PER_GAME_UNIT
-    
-    # $t0 = address of draw_recentagle_colour_array
-    
-    la $t0, draw_rectangle_colour_array
-    
-    # Row 1
-    sw $t3, 0($t0)
-    sw $t1, 4($t0)
-    sw $t1, 8($t0)
-    sw $t1, 12($t0)
-    sw $t1, 16($t0)
-    sw $t1, 20($t0)
-    sw $t1, 24($t0)
-    sw $t3, 28($t0)
-    
-    # Row 2
-    sw $t1, 32($t0)
-    sw $t2, 36($t0)
-    sw $t2, 40($t0)
-    sw $t2, 44($t0)
-    sw $t2, 48($t0)
-    sw $t2, 52($t0)
-    sw $t2, 56($t0)
-    sw $t1, 60($t0)
-    
-    # Row 3
-    sw $t1, 64($t0)
-    sw $t2, 68($t0)
-    sw $t1, 72($t0)
-    sw $t2, 76($t0)
-    sw $t2, 80($t0)
-    sw $t1, 84($t0)
-    sw $t2, 88($t0)
-    sw $t1, 92($t0)
-    
-    # Row 4
-    sw $t1, 96($t0)
-    sw $t2, 100($t0)
-    sw $t1, 104($t0)
-    sw $t2, 108($t0)
-    sw $t2, 112($t0)
-    sw $t1, 116($t0)
-    sw $t2, 120($t0)
-    sw $t1, 124($t0)
-    
-    # Row 5
-    sw $t1, 128($t0)
-    sw $t2, 132($t0)
-    sw $t2, 136($t0)
-    sw $t2, 140($t0)
-    sw $t2, 144($t0)
-    sw $t2, 148($t0)
-    sw $t2, 152($t0)
-    sw $t1, 156($t0)
-    
-    # Row 6
-    sw $t1, 160($t0)
-    sw $t2, 164($t0)
-    sw $t1, 168($t0)
-    sw $t1, 172($t0)
-    sw $t1, 176($t0)
-    sw $t1, 180($t0)
-    sw $t2, 184($t0)
-    sw $t1, 188($t0)
-    
-    # Row 7
-    sw $t1, 192($t0)
-    sw $t2, 196($t0)
-    sw $t1, 200($t0)
-    sw $t2, 204($t0)
-    sw $t2, 208($t0)
-    sw $t1, 212($t0)
-    sw $t2, 216($t0)
-    sw $t1, 220($t0)
-    
-    # Row 8
-    sw $t3, 224($t0)
-    sw $t1, 228($t0)
-    sw $t1, 232($t0)
-    sw $t1, 236($t0)
-    sw $t1, 240($t0)
-    sw $t1, 244($t0)
-    sw $t1, 248($t0)
-    sw $t3, 252($t0)
-    
-    # Put arguments for function
-    push($ra)
-    push_temps()
-    push($t5)
-    push($t4)
-    push($t6)
-    push($t6)
-    push($t0)
-    jal draw_rect
-    pop_temps()
-    pop($ra)
-    jr $ra
-    
-    
-# ----------------------------------------------------------------- #
-#                          DRAW BACKGROUND                          #
-# ----------------------------------------------------------------- #
 
     
 # Draws the entire canvas black
@@ -3308,7 +2909,7 @@ draw_virus_screen:
 # - Void
 draw_background:
     li $t0, 0x000000 # Background colour
-    lw $t1, ADDR_DSPL
+    la $t1, canvas
     lw $t2, SCREEN_WIDTH
     lw $t3, SCREEN_HEIGHT
     
@@ -3326,61 +2927,36 @@ draw_background:
         addi $t1, $t1, 4
         j BACKGROUND_LOOP
     END_BACKGROUND_LOOP:
-        jr $ra
+    
+    jr $ra
+
+# Draws canvas to the screen
+push_canvas:
+    lw $t2, ADDR_DSPL
+    la $t3, canvas
+    lw $t5, SCREEN_WIDTH
+    lw $t6, SCREEN_HEIGHT
+    mult $t5, $t6
+    mflo $t1
+    sll $t1, $t1, 2
+
+    li $t0, 0
+    
+    PUSH_CANVAS_LOOP: bge $t0, $t1 END_PUSH_CANVAS_LOOP
+        add $t4, $t2, $t0 # address at display
+        add $t5, $t3, $t0 # address at canvas
+        lw $t6, 0($t5) # value at canvas
+        sw $t6, 0($t4) # store at display
         
+        addi $t0, $t0, 4
         
-        
-# console.log([
-    # 3, 1, 1, 1, 1, 1, 1, 3,
-    # 1, 2, 2, 2, 2, 2, 2, 1,
-    # 1, 2, 1, 2, 2, 1, 2, 1,
-    # 1, 2, 1, 2, 2, 1, 2, 1,
-    # 1, 2, 2, 2, 2, 2, 2, 1,
-    # 1, 2, 1, 1, 1, 1, 2, 1,
-    # 1, 2, 1, 2, 2, 1, 2, 1, 
-    # 3, 1, 1, 1, 1, 1, 1, 3,
-# ].map((color, i) => `sw $t${color}, ${i * 4}($t0)`)
-# .join("\n"))
-
-# console.log([
-    # 0, 0, 0, 1, 0, 0, 1, 0, 0, 0,
-    # 0, 0, 0, 1, 0, 0, 1, 0, 0, 0,
-    # 1, 1, 1, 1, 0, 0, 1, 1, 1, 1,
-    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    # 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    # 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-# ].map((color, i) => `li $t1, ${color === 1 ? 16 : 0}\nsb $t1, ${i}($t0)`)
-# .join("\n"))
-
-
-# virus
-# console.log([
-    # 1, 1, 4, 1, 1, 1, 1, 4,
-    # 1, 4, 1, 1, 1, 1, 4, 1,
-    # 1, 4, 3, 3, 3, 3, 4, 1,
-    # 3, 3, 3, 3, 3, 3, 3, 3,
-    # 3, 1, 1, 3, 3, 1, 1, 3,
-    # 2, 2, 2, 2, 2, 2, 2, 2,
-    # 2, 2, 2, 2, 2, 2, 2, 2,
-    # 1, 2, 1, 1, 1, 1, 2, 1,
-# ].map((color, i) => `sw $t${5 + color}, ${i * 4}($t0)`)
-# .join("\n"))
-
-# LEFT CAPSULE:
-# console.log([
-    # 1, 1, 2, 2, 2, 2, 2, 2,
-    # 1, 2, 3, 3, 3, 3, 3, 2,
-    # 2, 3, 3, 4, 4, 4, 3, 2,
-    # 2, 3, 4, 3, 3, 3, 3, 2,
-    # 2, 3, 3, 3, 3, 3, 3, 2,
-    # 2, 3, 3, 3, 3, 3, 3, 2,
-    # 1, 2, 3, 3, 3, 3, 3, 2,
-    # 1, 1, 2, 2, 2, 2, 2, 2,
-# ].map((color, i) => `sw $t${color}, ${i * 4}($t0)`)
-# .join("\n"))
+        j PUSH_CANVAS_LOOP
+    END_PUSH_CANVAS_LOOP:
+    
+    jr $ra
+    
+    
+exit:
+    # Quit the game
+    li $v0, 10  
+    syscall
