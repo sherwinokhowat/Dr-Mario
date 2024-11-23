@@ -1559,6 +1559,9 @@ capsule_orientation:
     
 need_clear:
     .byte 1
+    
+gravity_timer:
+    .word 0
 
 ##############################################################################
 # START CODE
@@ -1592,13 +1595,17 @@ main:
 # GAME LOOP
 ##############################################################################
 game_loop:
+
+    
     # jal update_bottle_bitmap
     jal draw_bottle_bitmap
     jal draw_game_bitmap
     jal push_canvas
     
-    jal handle_key_press
+    jal handle_a_press
     # jal handle_s_press
+    jal run_timer
+    beq $v0, $zero, END_IF_GRAVITY
     jal gravity
     bne $v0, $zero, IF_GRAVITY
     beq $v0, $zero, IF_NOT_GRAVITY
@@ -1633,6 +1640,23 @@ game_loop:
             # spawn new capsule in bottle map
 
     j game_loop
+
+# $a0 - timer address
+# $a1 - timer interval
+# $v0 - timer ticked (0/1)
+run_timer:
+    lw $t0, gravity_timer
+    addi $t0, $t0, 1
+    sw $t0, gravity_timer
+    li $t1, 10
+    seq $t2, $t0, $t1 # gravity_timer = 1000
+    beq $t2, $zero, CONT_TIMER
+    sw $zero, gravity_timer
+    li $v0, 1
+    jr $ra
+    CONT_TIMER:
+        li $v0, 0
+        jr $ra
 
 ##############################################################################
 # Update bottle bitmap
@@ -1964,6 +1988,9 @@ handle_a_press:
     pop_temps()
     pop($ra)
     bne $v0, $zero, END_HANDLE_A_PRESS
+    
+    # addi $t9, $a1, 1
+    # sw $t9, capsule_x
     
     # Move the capsule
     push($ra)
