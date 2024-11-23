@@ -1602,7 +1602,7 @@ game_loop:
     jal draw_game_bitmap
     jal push_canvas
     
-    jal handle_a_press
+    jal handle_key_press
     # jal handle_s_press
     jal run_timer
     beq $v0, $zero, END_IF_GRAVITY
@@ -1648,7 +1648,7 @@ run_timer:
     lw $t0, gravity_timer
     addi $t0, $t0, 1
     sw $t0, gravity_timer
-    li $t1, 10
+    li $t1, 5
     seq $t2, $t0, $t1 # gravity_timer = 1000
     beq $t2, $zero, CONT_TIMER
     sw $zero, gravity_timer
@@ -1989,8 +1989,7 @@ handle_a_press:
     pop($ra)
     bne $v0, $zero, END_HANDLE_A_PRESS
     
-    # addi $t9, $a1, 1
-    # sw $t9, capsule_x
+    
     
     # Move the capsule
     push($ra)
@@ -2003,6 +2002,11 @@ handle_a_press:
     jal move_capsule
     pop_temps()
     pop($ra)
+    
+    lw $t0, capsule_x
+    addi $t9, $t0, -1
+    sw $t9, capsule_x
+    
     jr $ra
     
     END_HANDLE_A_PRESS:
@@ -2036,6 +2040,11 @@ handle_d_press:
     jal move_capsule
     pop_temps()
     pop($ra)
+    
+    lw $t0, capsule_x
+    addi $t9, $t0, 1
+    sw $t9, capsule_x
+    
     jr $ra
     
     END_HANDLE_D_PRESS:
@@ -2894,8 +2903,10 @@ gravity:
         # set capsule x and y to initial pos
         addiu, $t0, $zero, 3 
         addiu, $t1, $zero, 0
+        addiu, $t2, $zero, 0
         sw $t0, capsule_x
         sw $t1, capsule_y
+        sb $t2, capsule_orientation
         
         push($ra)
         push_temps()
@@ -3032,6 +3043,16 @@ gravity:
                 # something dropped
                 li $t6, 1
                 
+                # If it is the player
+                # lw $t0, capsule_x
+                # lw $t1, capsule_y
+                # bne $t0, $s1, GRAIVTY_LOOP_X_INCREMENT
+                # bne $t1, $s0, GRAIVTY_LOOP_X_INCREMENT
+                
+                # lw $t0, capsule_y
+                # addi $t0, $t0, 1
+                # sw $t0, capsule_y
+                
                 j GRAIVTY_LOOP_X_INCREMENT
             # Unsupported first
             
@@ -3051,22 +3072,14 @@ gravity:
         addi $s0, $s0, -1
         j GRAVITY_LOOP_Y
     END_GRAVITY_LOOP_Y:
-    # lw $t0, capsule_y
-    # addi $t0, $t0, 1
-    # sw $t0, capsule_y
+    lw $t0, capsule_y
+    addi $t0, $t0, 1
+    sw $t0, capsule_y
     
     add $v0, $t6, $zero
-    jr $ra
-
-# gravity function returns true if anything dropped
-    # loop from down to top
-    # check collision and move disconnected capsules down
-    # check collision and move capsule down for all left and down connected capsules
     
-# if gravity function returns false, 
-    # clear() if need_clear = true, else capsule_needed = 1
-    
-# set need_clear back to false when finish loading in the capsule
+    GRAVITY_END:
+        jr $ra
     
 mark_disconnected:
     lw $t0, GAME_WIDTH
