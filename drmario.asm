@@ -191,6 +191,9 @@ GAME_SCREEN_X:
 GAME_SCREEN_Y:
     .word 40
     
+MIN_TO_CLEAR:
+    .word 4
+    
     
 ##############################################################################
 # Sprites data
@@ -1564,6 +1567,11 @@ capsule_orientation:
 # CODE_ENTRANCE
 ##############################################################################
 main:
+    li $a0, 0x09
+    li $a1, 0x89
+    jal check_same_colour
+    
+
     li $t0, 1
     sb $t0, capsule_needed
 
@@ -1585,7 +1593,6 @@ game_loop:
     jal push_canvas
     
     jal handle_key_press
-    # jal handle_s_press
 
     j game_loop
 
@@ -1863,6 +1870,12 @@ handle_s_press:
         jr $ra
 
     S_MOVE_DOWN_COLLISION:
+        push($ra)
+        push_temps()
+        jal clear_connected
+        pop_temps()
+        pop($ra)
+        
         li $t0, 1
         sb $t0, capsule_needed
         li $t0, 0
@@ -2429,10 +2442,527 @@ rotate_capsule:
     
     # Get capsule position
     # Get capsule rotation
+    
+    
 
 ##############################################################################
 # GAME BITMAP HELPER FUNCTIONS
 ##############################################################################
+
+# checks clears
+clear_connected:
+    # s0 = game_width
+    # s1 = game_height
+    # s2 = min_to_clear
+    # s3 = y (loop variable)
+    # s4 = size (loop variable)
+    # s5 = startx (loop variable)
+    # t0 = NUM_COLS - size (constant)
+    # t1 = same (bool)
+    # t2 = y * game_width + startx (index)
+    # t3 = base address of game_bitmap array
+
+    lw $s0, GAME_WIDTH
+    lw $s1, GAME_HEIGHT
+    lw $s2, MIN_TO_CLEAR
+    
+    # for y in range(GAME_HEIGHT)
+    li $s3, 0
+    CLEAR_Y_LOOP: bge $s3, $s1, END_CLEAR_Y_LOOP # break if y >= game_height
+        add $s4, $zero, $s0 # s4 = game width / num_rows = size
+        CLEAR_SIZE_LOOP: blt $s4, $s2, END_CLEAR_SIZE_LOOP # break if size < min_to_clear
+            
+            # INNER LOOP STUFF
+            # for startX
+            li $s5, 0 # startX
+            sub $t0, $s0, $s4 # t0 = NUM_COLS - size
+            
+            CLEAR_STARTX_LOOP: bgt $s5, $t0 END_CLEAR_STARTX_LOOP
+                li $t1, 1 # same = true
+                
+                # trying to get a[y][startX]
+                # index = (y * game_width + startx)
+                mult $s3, $s0
+                mflo $t2 
+                add $t2, $t2, $s5 # <- this is the index in the array
+                
+                la $t3, game_bitmap
+                add $t3, $t3, $t2 # base address + index
+                
+                lb $t4, 0($t3) # a[y][startX]
+                
+                # NEXT LOOP YIPPEE
+                add $s6, $zero, $s5 # s6 = startX = i
+                add $t5, $s5, $s4 # t5 = startX + size (constant)
+                
+                CLEAR_I_LOOP: bge $s6, $t5, END_CLEAR_I_LOOP
+                    # a[y][i]
+                    # y * game_width + i
+                    mult $s3, $s0
+                    mflo $t2 
+                    add $t2, $t2, $s6 # <- this is the index in the array
+                    
+                    la $t3, game_bitmap
+                    add $t3, $t3, $t2 # base address + index
+                    
+                    lb $t6, 0($t3) # a[y][i]
+                    
+                    # if a[y][i] != first:
+                    add $a0, $zero, $t4
+                    add $a1, $zero, $t6
+                    push($ra)
+                    push_temps()
+                    jal check_same_colour # - return in v0
+                    pop_temps()
+                    pop($ra)
+                    CLEAR_I_LOOP_IF: bne $v0, $zero, CLEAR_I_LOOP_ENDIF 
+                        li $t1, 0 # same = false 
+                    CLEAR_I_LOOP_ENDIF:
+                     
+                    addi $s6, $s6, 1
+                    j CLEAR_I_LOOP
+                END_CLEAR_I_LOOP:
+                
+                CLEAR_STARTX_LOOP_IF: beq $t1, $zero, CLEAR_STARTX_LOOP_ENDIF
+                    add $s7, $zero, $s5
+                    add $t5, $s5, $s4 # t5 = startX + size (constant)
+                    CLEAR_J_LOOP: bge $s7, $t5, END_CLEAR_J_LOOP
+                        #  x = j, y
+                        
+                        push($ra)
+                        push_temps()
+                        push($s7)
+                        push($s3)
+                        push($zero)
+                        jal update_game_bitmap
+                        pop_temps()
+                        pop($ra)
+                    
+                        addi $s7, $s7, 1
+                        j CLEAR_J_LOOP
+                    END_CLEAR_J_LOOP:
+                CLEAR_STARTX_LOOP_ENDIF:                
+                
+                addi $s5, $s5, 1
+                j CLEAR_STARTX_LOOP
+            END_CLEAR_STARTX_LOOP:
+            
+            
+            
+            # INNER LOOP STUFF END
+            
+            addi $s4, $s4, -1
+            j CLEAR_SIZE_LOOP
+        END_CLEAR_SIZE_LOOP:
+        addi $s3, $s3, 1
+        j CLEAR_Y_LOOP
+    END_CLEAR_Y_LOOP:
+    
+    # s0 = game_width
+    # s1 = game_height
+    # s2 = min_to_clear
+    # s3 = x (loop variable)
+    # s4 = size (loop variable)
+    # s5 = starty (loop variable)
+    # t0 = NUM_COLS - size (constant)
+    # t1 = same (bool)
+    # t2 = startY * game_width + x (index)
+    # t3 = base address of game_bitmap array
+
+    lw $s0, GAME_WIDTH
+    lw $s1, GAME_HEIGHT
+    lw $s2, MIN_TO_CLEAR
+    
+    # for x in range(GAME_WIDTH)
+    li $s3, 0
+    CLEAR_Y_LOOP_2: bge $s3, $s0, END_CLEAR_Y_LOOP_2 # break if x >= game_width
+        add $s4, $zero, $s1 # s4 = game height / num_cols = size
+        CLEAR_SIZE_LOOP_2: blt $s4, $s2, END_CLEAR_SIZE_LOOP_2 # break if size < min_to_clear
+            
+            # INNER LOOP STUFF
+            # for startY
+            li $s5, 0 # startY
+            sub $t0, $s1, $s4 # t0 = NUM_ROWS - size
+            
+            CLEAR_STARTX_LOOP_2: bgt $s5, $t0 END_CLEAR_STARTX_LOOP_2
+                li $t1, 1 # same = true
+                
+                # trying to get a[startY][x]
+                # index = (startY * game_width + x)
+                mult $s5, $s0
+                mflo $t2 
+                add $t2, $t2, $s3 # <- this is the index in the array
+                
+                la $t3, game_bitmap
+                add $t3, $t3, $t2 # base address + index
+                
+                lb $t4, 0($t3) # a[startY][x]
+                
+                # NEXT LOOP YIPPEE
+                add $s6, $zero, $s5 # s6 = startY = i
+                add $t5, $s5, $s4 # t5 = startY + size (constant)
+                
+                CLEAR_I_LOOP_2: bge $s6, $t5, END_CLEAR_I_LOOP_2
+                    # a[i][x]
+                    # i * game_width + x
+                    mult $s6, $s0
+                    mflo $t2 
+                    add $t2, $t2, $s3 # <- this is the index in the array
+                    
+                    la $t3, game_bitmap
+                    add $t3, $t3, $t2 # base address + index
+                    
+                    lb $t6, 0($t3) # a[i][x]
+                    
+                    # if a[i][x] != first:
+                    # t7 = (a[i][x] != first)
+                    add $a0, $zero, $t4
+                    add $a1, $zero, $t6
+                    push($ra)
+                    push_temps()
+                    jal check_same_colour # - return in v0
+                    pop_temps()
+                    pop($ra)
+                    CLEAR_I_LOOP_IF_2: bne $v0, $zero, CLEAR_I_LOOP_ENDIF_2
+                        li $t1, 0 # same = false 
+                    CLEAR_I_LOOP_ENDIF_2:
+                     
+                    addi $s6, $s6, 1
+                    j CLEAR_I_LOOP_2
+                END_CLEAR_I_LOOP_2:
+                
+                CLEAR_STARTX_LOOP_IF_2: beq $t1, $zero, CLEAR_STARTX_LOOP_ENDIF_2
+                    add $s7, $zero, $s5
+                    add $t5, $s5, $s4 # t5 = startY + size (constant)
+                    CLEAR_J_LOOP_2: bge $s7, $t5, END_CLEAR_J_LOOP_2
+                        #  x, y = j
+                        
+                        push($ra)
+                        push_temps()
+                        push($s3)
+                        push($s7)
+                        push($zero)
+                        jal update_game_bitmap
+                        pop_temps()
+                        pop($ra)
+                    
+                        addi $s7, $s7, 1
+                        j CLEAR_J_LOOP_2
+                    END_CLEAR_J_LOOP_2:
+                CLEAR_STARTX_LOOP_ENDIF_2:                
+                
+                addi $s5, $s5, 1
+                j CLEAR_STARTX_LOOP_2
+            END_CLEAR_STARTX_LOOP_2:
+            
+            # INNER LOOP STUFF END
+            
+            addi $s4, $s4, -1
+            j CLEAR_SIZE_LOOP_2
+        END_CLEAR_SIZE_LOOP_2:
+        addi $s3, $s3, 1
+        j CLEAR_Y_LOOP_2
+    END_CLEAR_Y_LOOP_2:
+    
+    push($ra)
+    jal mark_disconnected
+    pop($ra)
+    jr $ra
+    
+    
+# need_clear = true
+
+# gravity function returns true if anything dropped
+    # loop from down to top
+    # check collision and move disconnected capsules down
+    # check collision and move capsule down for all left and down connected capsules
+    
+# if gravity function returns false, 
+    # clear() if need_clear = true else capsule_needed = 1
+    
+# set need_clear back to false when finish loading in the capsule
+    
+mark_disconnected:
+    lw $t0, GAME_WIDTH
+    lw $t1, GAME_HEIGHT
+    
+    add $t2, $zero, 0 # t2 = i = 0 
+    MARK_DISCONNECTED_I_LOOP: bge $t2, $t0, END_MARK_DISCONNECTED_I_LOOP # if i >= game_width, then break
+    
+        add $t3, $zero, 0 # t3 = j = 0 
+        MARK_DISCONNECTED_J_LOOP: bge $t3, $t1, END_MARK_DISCONNECTED_J_LOOP # if j >= game_height, then break
+            push($ra)
+            push_temps()
+            add $a0, $zero, $t2 # x 
+            add $a1, $zero, $t3 # y
+            jal get_value_in_game_bitmap # return stored in $v0
+            pop_temps()
+            pop($ra)
+            
+            # Get orientation
+            add $a0, $zero, $v0 # code
+            push($ra)
+            push_temps()
+            jal get_matching_direction # return stored in $v0, $v1
+            pop_temps()
+            pop($ra)
+            
+            # If dirX, dirY = 0
+            add $t7, $v0, $v1
+            beq $t7, $zero, MARK_DISCONNECTED_INCREMENT_J
+            
+            # Handle edge case dirY = -1 and y >= GAME_HEIGHT
+            bgez $v1, MARK_DISCONNECTED_J_LOOP_IF
+            blt $t3, $t1, MARK_DISCONNECTED_J_LOOP_IF
+            j MARK_DISCONNECTED_INCREMENT_J
+            
+            MARK_DISCONNECTED_J_LOOP_IF: 
+                add $t7, $v0, $zero
+                add $t8, $v1, $zero
+            
+                # Get bit value at pos
+                push($ra)
+                push_temps()
+                add $a0, $zero, $t2 # x
+                add $a1, $zero, $t3 # y
+                jal get_value_in_game_bitmap # return stored in $v0
+                pop_temps()
+                pop($ra)
+                
+                add $t5, $v0, $zero
+            
+                # Get bit value at pos + dir
+                push($ra)
+                push_temps()
+                add $a0, $t7, $t2 # x + dirX
+                add $a1, $t8, $t3 # y + dirY
+                jal get_value_in_game_bitmap # return stored in $v0
+                pop_temps()
+                pop($ra)
+                
+                # if bit value is not air skip
+                bne $v0, $zero, MARK_DISCONNECTED_INCREMENT_J
+                
+                # Mark bit as disconnected
+                ori $t9, $t5, 0b10000000
+                push($ra)
+                push_temps()
+                push($t2) # x
+                push($t3) # y
+                push($t9) # sprite code
+                jal update_game_bitmap
+                pop_temps()
+                pop($ra)
+            
+            MARK_DISCONNECTED_INCREMENT_J:
+                addi $t3, $t3, 1
+                j MARK_DISCONNECTED_J_LOOP
+        END_MARK_DISCONNECTED_J_LOOP:
+        
+        addi $t2, $t2, 1
+        j MARK_DISCONNECTED_I_LOOP
+    END_MARK_DISCONNECTED_I_LOOP:
+    
+    
+# Returns the direction of the matching capsule bit given by the code
+# Arguments:
+# a0 - code
+# Returns:
+# v0 - dirX
+# v1 - dirY
+# direction is 0 if it doesn't have orientation
+get_matching_direction:
+    # Up
+    li $t0, RED_UP_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_UP
+    li $t0, BLUE_UP_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_UP
+    li $t0, YELLOW_UP_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_UP
+    
+    # Down
+    li $t0, RED_DOWN_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_DOWN
+    li $t0, BLUE_DOWN_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_DOWN
+    li $t0, YELLOW_DOWN_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_DOWN
+    
+    # Left
+    li $t0, RED_LEFT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_LEFT
+    li $t0, BLUE_LEFT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_LEFT
+    li $t0, YELLOW_LEFT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_LEFT
+    
+    # Right
+    li $t0, RED_RIGHT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_RIGHT
+    li $t0, BLUE_RIGHT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_RIGHT
+    li $t0, YELLOW_RIGHT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_RIGHT
+    
+    # Else
+    b GET_ORIENTATION_ELSE
+    
+    GET_ORIENTATION_UP:
+        li $v0, 0
+        li $v1, 1
+        jr $ra
+        
+    GET_ORIENTATION_DOWN:
+        li $v0, 0
+        li $v1, -1
+        jr $ra
+    
+    GET_ORIENTATION_LEFT:
+        li $v0, 1
+        li $v1, 0
+        jr $ra
+    
+    GET_ORIENTATION_RIGHT:
+        li $v0, -1
+        li $v1, 0
+        jr $ra
+    
+    GET_ORIENTATION_ELSE:
+        li $v0, 0
+        li $v1, 0
+        jr $ra
+    
+# Return whether two colours are the same colour.
+# Arugments:
+# a0 - code1
+# a1 - code2
+# Returns:
+# v0 - 0/1 
+check_same_colour:
+# 0 = black
+# 1 = red 
+# 2 = blue
+# 3 = yellow
+# then return temp 1 == temp 2 
+
+    # Determine the colour of code1 
+    CHECK_CODE1_COLOUR:
+        add $t2, $a0, $zero
+        andi $t2, $t2, 0b01111111
+        # if 1 <= code1 <= 4 
+        # if code1 == 13
+        li $t0, 1
+        beq $t2, $t0, CHECK_CODE1_RED
+        li $t0, 2
+        beq $t2, $t0, CHECK_CODE1_RED
+        li $t0, 3
+        beq $t2, $t0, CHECK_CODE1_RED
+        li $t0, 4
+        beq $t2, $t0, CHECK_CODE1_RED
+        li $t0, 13
+        beq $t2, $t0, CHECK_CODE1_RED
+        
+        li $t0, 5
+        beq $t2, $t0, CHECK_CODE1_BLUE
+        li $t0, 6
+        beq $t2, $t0, CHECK_CODE1_BLUE
+        li $t0, 7
+        beq $t2, $t0, CHECK_CODE1_BLUE
+        li $t0, 8
+        beq $t2, $t0, CHECK_CODE1_BLUE
+        li $t0, 14
+        beq $t2, $t0, CHECK_CODE1_BLUE
+        
+        li $t0, 9
+        beq $t2, $t0, CHECK_CODE1_YELLOW
+        li $t0, 10
+        beq $t2, $t0, CHECK_CODE1_YELLOW
+        li $t0, 11
+        beq $t2, $t0, CHECK_CODE1_YELLOW
+        li $t0, 12
+        beq $t2, $t0, CHECK_CODE1_YELLOW
+        li $t0, 15
+        beq $t2, $t0, CHECK_CODE1_YELLOW
+    
+        j CHECK_CODE1_BLACK
+            
+        CHECK_CODE1_RED:
+            li $t5, 1
+            j CHECK_CODE2_COLOUR
+        CHECK_CODE1_BLUE:
+            li $t5, 2
+            j CHECK_CODE2_COLOUR
+        
+        CHECK_CODE1_YELLOW:
+            li $t5, 3
+            j CHECK_CODE2_COLOUR
+        
+        CHECK_CODE1_BLACK:
+            li $t5, 0
+            j CHECK_CODE2_COLOUR
+    
+    
+    # Checking second ones colour 
+    
+    CHECK_CODE2_COLOUR:
+        add $t2, $a1, $zero
+        andi $t2, $t2, 0b01111111
+
+        li $t0, 1
+        beq $t2, $t0, CHECK_CODE2_RED
+        li $t0, 2
+        beq $t2, $t0, CHECK_CODE2_RED
+        li $t0, 3
+        beq $t2, $t0, CHECK_CODE2_RED
+        li $t0, 4
+        beq $t2, $t0, CHECK_CODE2_RED
+        li $t0, 13
+        beq $t2, $t0, CHECK_CODE2_RED
+        
+        li $t0, 5
+        beq $t2, $t0, CHECK_CODE2_BLUE
+        li $t0, 6
+        beq $t2, $t0, CHECK_CODE2_BLUE
+        li $t0, 7
+        beq $t2, $t0, CHECK_CODE2_BLUE
+        li $t0, 8
+        beq $t2, $t0, CHECK_CODE2_BLUE
+        li $t0, 14
+        beq $t2, $t0, CHECK_CODE2_BLUE
+        
+        li $t0, 9
+        beq $t2, $t0, CHECK_CODE2_YELLOW
+        li $t0, 10
+        beq $t2, $t0, CHECK_CODE2_YELLOW
+        li $t0, 11
+        beq $t2, $t0, CHECK_CODE2_YELLOW
+        li $t0, 12
+        beq $t2, $t0, CHECK_CODE2_YELLOW
+        li $t0, 15
+        beq $t2, $t0, CHECK_CODE2_YELLOW
+        
+        j CHECK_CODE2_BLACK
+    
+        CHECK_CODE2_RED:
+            li $t6, 1
+            j CHECK_CODE1_EQUAL_CODE2
+        
+        CHECK_CODE2_BLUE:
+            li $t6, 2
+            j CHECK_CODE1_EQUAL_CODE2
+        
+        CHECK_CODE2_YELLOW:
+            li $t6, 3
+            j CHECK_CODE1_EQUAL_CODE2
+        
+        CHECK_CODE2_BLACK:
+            li $t6, 0
+            j CHECK_CODE1_EQUAL_CODE2
+
+    CHECK_CODE1_EQUAL_CODE2:
+        seq $v0, $t5, $t6
+    jr $ra
+
 
 # $a0 - x
 # $a1 - y
@@ -2754,40 +3284,43 @@ draw_bitmap:
 # Returns:
 # - Address to sprite colour array in $v0
 get_sprite:
+    add $t2, $a0, $zero
+    andi $t2, $t2, 0b01111111
+
     li $t1, BACKGROUND_SPRITE_CODE()
-    beq $a0, $t1, RETURN_BACKGROUND_SPRITE
+    beq $t2, $t1, RETURN_BACKGROUND_SPRITE
     li $t1, RED_UP_CAPSULE_SPRITE_CODE()
-    beq $a0, $t1, RETURN_RED_UP_CAPSULE_SPRITE
+    beq $t2, $t1, RETURN_RED_UP_CAPSULE_SPRITE
     li $t1, RED_DOWN_CAPSULE_SPRITE_CODE()
-    beq $a0, $t1, RETURN_RED_DOWN_CAPSULE_SPRITE
+    beq $t2, $t1, RETURN_RED_DOWN_CAPSULE_SPRITE
     li $t1, RED_LEFT_CAPSULE_SPRITE_CODE()
-    beq $a0, $t1, RETURN_RED_LEFT_CAPSULE_SPRITE
+    beq $t2, $t1, RETURN_RED_LEFT_CAPSULE_SPRITE
     li $t1, RED_RIGHT_CAPSULE_SPRITE_CODE()
-    beq $a0, $t1, RETURN_RED_RIGHT_CAPSULE_SPRITE
+    beq $t2, $t1, RETURN_RED_RIGHT_CAPSULE_SPRITE
     li $t1, BLUE_UP_CAPSULE_SPRITE_CODE()
-    beq $a0, $t1, RETURN_BLUE_UP_CAPSULE_SPRITE
+    beq $t2, $t1, RETURN_BLUE_UP_CAPSULE_SPRITE
     li $t1, BLUE_DOWN_CAPSULE_SPRITE_CODE()
-    beq $a0, $t1, RETURN_BLUE_DOWN_CAPSULE_SPRITE
+    beq $t2, $t1, RETURN_BLUE_DOWN_CAPSULE_SPRITE
     li $t1, BLUE_LEFT_CAPSULE_SPRITE_CODE()
-    beq $a0, $t1, RETURN_BLUE_LEFT_CAPSULE_SPRITE
+    beq $t2, $t1, RETURN_BLUE_LEFT_CAPSULE_SPRITE
     li $t1, BLUE_RIGHT_CAPSULE_SPRITE_CODE()
-    beq $a0, $t1, RETURN_BLUE_RIGHT_CAPSULE_SPRITE
+    beq $t2, $t1, RETURN_BLUE_RIGHT_CAPSULE_SPRITE
     li $t1, YELLOW_UP_CAPSULE_SPRITE_CODE()
-    beq $a0, $t1, RETURN_YELLOW_UP_CAPSULE_SPRITE
+    beq $t2, $t1, RETURN_YELLOW_UP_CAPSULE_SPRITE
     li $t1, YELLOW_DOWN_CAPSULE_SPRITE_CODE()
-    beq $a0, $t1, RETURN_YELLOW_DOWN_CAPSULE_SPRITE
+    beq $t2, $t1, RETURN_YELLOW_DOWN_CAPSULE_SPRITE
     li $t1, YELLOW_LEFT_CAPSULE_SPRITE_CODE()
-    beq $a0, $t1, RETURN_YELLOW_LEFT_CAPSULE_SPRITE
+    beq $t2, $t1, RETURN_YELLOW_LEFT_CAPSULE_SPRITE
     li $t1, YELLOW_RIGHT_CAPSULE_SPRITE_CODE()
-    beq $a0, $t1, RETURN_YELLOW_RIGHT_CAPSULE_SPRITE
+    beq $t2, $t1, RETURN_YELLOW_RIGHT_CAPSULE_SPRITE
     li $t1, RED_VIRUS_SPRITE_CODE()
-    beq $a0, $t1, RETURN_RED_VIRUS_SPRITE
+    beq $t2, $t1, RETURN_RED_VIRUS_SPRITE
     li $t1, BLUE_VIRUS_SPRITE_CODE()
-    beq $a0, $t1, RETURN_BLUE_VIRUS_SPRITE
+    beq $t2, $t1, RETURN_BLUE_VIRUS_SPRITE
     li $t1, YELLOW_VIRUS_SPRITE_CODE()
-    beq $a0, $t1, RETURN_YELLOW_VIRUS_SPRITE
+    beq $t2, $t1, RETURN_YELLOW_VIRUS_SPRITE
     li $t1, WALL_SPRITE_CODE()
-    beq $a0, $t1, RETURN_WALL_SPRITE
+    beq $t2, $t1, RETURN_WALL_SPRITE
     
     
     RETURN_BACKGROUND_SPRITE:
