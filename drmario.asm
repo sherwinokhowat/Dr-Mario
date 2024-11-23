@@ -1556,6 +1556,9 @@ capsule_loading:
 # orientation of capsule (horizontal / vertical)
 capsule_orientation:
     .byte 0
+    
+need_clear:
+    .byte 1
 
 ##############################################################################
 # START CODE
@@ -1577,6 +1580,8 @@ main:
 
     jal draw_background
     # jal load_random_viruses
+    li $a0, 0
+    jal update_bottle_bitmap
     jal game_loop
     
     # Exit
@@ -1587,12 +1592,45 @@ main:
 # GAME LOOP
 ##############################################################################
 game_loop:
-    jal update_bottle_bitmap
+    # jal update_bottle_bitmap
     jal draw_bottle_bitmap
     jal draw_game_bitmap
     jal push_canvas
     
     jal handle_key_press
+    # jal handle_s_press
+    jal gravity
+    bne $v0, $zero, IF_GRAVITY
+    beq $v0, $zero, IF_NOT_GRAVITY
+    IF_GRAVITY:
+        j END_IF_GRAVITY
+    IF_NOT_GRAVITY:
+        lb $t0 need_clear
+        bne $t0, $zero, IF_NEED_CLEAR
+        beq $t0, $zero, IF_NOT_NEED_CLEAR
+        IF_NEED_CLEAR:
+            jal clear_connected
+            sb $zero, need_clear
+        
+            j END_IF_NEED_CLEAR
+        IF_NOT_NEED_CLEAR:
+            li $a0, 0
+            jal update_bottle_bitmap
+        
+            li $t1, 1
+            sb $t1, need_clear
+            j END_IF_NEED_CLEAR
+        END_IF_NEED_CLEAR:
+    
+        j END_IF_GRAVITY
+    END_IF_GRAVITY:
+    
+    # if !gravity: 
+        # if need_clear:
+            # clear()
+            # need_clear = false
+        # else:
+            # spawn new capsule in bottle map
 
     j game_loop
 
@@ -1600,18 +1638,23 @@ game_loop:
 # Update bottle bitmap
 ##############################################################################
 
+# $a0 - mode (0/1) (load new capsule/delete capsule)
 update_bottle_bitmap:
-    lb $t0, capsule_needed
-    lb $t3, capsule_loading
+    # lb $t0, capsule_needed
+    # lb $t3, capsule_loading
     
     # needed => IF_CAPSULE_NEEDED
     # not needed/ loading => RETURN
     # not needed/not loading => draw black
     
     
-    bne $t0, $zero, IF_CAPSULE_NEEDED    #  needed => capsule needed
-    bne $t3, $zero, UPDATE_BOTTLE_BITMAP_EXIT   # not needed and loading => leave
+    # bne $t0, $zero, IF_CAPSULE_NEEDED    #  needed => capsule needed
+    # bne $t3, $zero, UPDATE_BOTTLE_BITMAP_EXIT   # not needed and loading => leave
     # not needed and not loading => draw black
+    
+    #mode 0: load new capsule
+    beq $a0, $zero, IF_CAPSULE_NEEDED
+    # mode 1: draw black
     li $t2, 0
     j END_IF_CAPSULE_NEEDED
     
@@ -1855,19 +1898,36 @@ handle_s_press:
         b END_HANDLE_S_PRESS
     S_MOVE_DOWN:
         # Check collision
-        li $a0, 1
         push($ra)
+        push_temps()
+        li $a0, 1
+        lw $a1, capsule_x
+        lw $a2, capsule_y
+        lb $a3, capsule_orientation
         jal check_collision_capsule 
+        pop_temps()
         pop($ra)
         bne $v0, $zero, S_MOVE_DOWN_COLLISION
         
         # Move the capsule
         push($ra)
+        push_temps()
         li $a0, 0
         li $a1, 1
+        lw $a2, capsule_x
+        lw $a3, capsule_y
+        lb $t2, capsule_orientation
         jal move_capsule
+        pop_temps()
         pop($ra)
-        jr $ra
+        
+        lw $t0, capsule_x
+        lw $t1, capsule_y
+        addi $t1, $t1, 1
+        sw $t0, capsule_x
+        sw $t1, capsule_y
+        
+        j END_HANDLE_S_PRESS
 
     S_MOVE_DOWN_COLLISION:
         push($ra)
@@ -1894,18 +1954,29 @@ handle_a_press:
     bne $t0, $zero, END_HANDLE_A_PRESS
 
     # Check collision
-    li $a0, 2
     push($ra)
+    push_temps()
+    li $a0, 2
+    lw $a1, capsule_x
+    lw $a2, capsule_y
+    lb $a3, capsule_orientation
     jal check_collision_capsule 
+    pop_temps()
     pop($ra)
     bne $v0, $zero, END_HANDLE_A_PRESS
     
     # Move the capsule
     push($ra)
+    push_temps()
     li $a0, -1
     li $a1, 0
+    lw $a2, capsule_x
+    lw $a3, capsule_y
+    lb $t2, capsule_orientation
     jal move_capsule
+    pop_temps()
     pop($ra)
+    jr $ra
     
     END_HANDLE_A_PRESS:
         jr $ra
@@ -1916,18 +1987,29 @@ handle_d_press:
     bne $t0, $zero, END_HANDLE_D_PRESS
 
     # Check collision
-    li $a0, 3
     push($ra)
+    push_temps()
+    li $a0, 3
+    lw $a1, capsule_x
+    lw $a2, capsule_y
+    lb $a3, capsule_orientation
     jal check_collision_capsule 
+    pop_temps()
     pop($ra)
     bne $v0, $zero, END_HANDLE_D_PRESS
     
     # Move the capsule
     push($ra)
+    push_temps()
     li $a0, 1
     li $a1, 0
+    lw $a2, capsule_x
+    lw $a3, capsule_y
+    lb $t2, capsule_orientation
     jal move_capsule
+    pop_temps()
     pop($ra)
+    jr $ra
     
     END_HANDLE_D_PRESS:
         jr $ra
@@ -1950,12 +2032,18 @@ handle_w_press:
 
 # Arguments
 # $a0 - direction (0/1/2/3) (UP/DOWN/LEFT/RIGHT)
+# $a1 - x
+# $a2 - y
+# $a3 - orientation (0/1) (HORIZONTAL/VERT)
 # Returns
 # $v0 - colliding (0/1)
 check_collision_capsule:
-    lb $t0, capsule_x
-    lb $t1, capsule_y
-    lb $t2, capsule_orientation
+    # lb $t0, capsule_x
+    # lb $t1, capsule_y
+    # lb $t2, capsule_orientation
+    add $t0, $a1, $zero
+    add $t1, $a2, $zero
+    add $t2, $a3, $zero
     
     beq $t2, $zero, CHECK_HORIZONTAL_COLLISION
     CHECK_VERTICAL_COLLISION:
@@ -2227,10 +2315,16 @@ check_collision:
 # Arguments
 # a0 - dirX
 # a1 - dirY
+# a2 - x
+# a3 - y
+# t2 - orientation
 move_capsule:
-    lb $t0, capsule_x
-    lb $t1, capsule_y
-    lb $t2, capsule_orientation
+    # lb $t0, capsule_x
+    # lb $t1, capsule_y
+    # lb $t2, capsule_orientation
+    add $t0, $a2, $zero
+    add $t1, $a3, $zero
+    # t2 already there
     
     beq $t2, $zero, MOVE_CAPSULE_HORIZONTAL
     MOVE_CAPSULE_VERTICAL:
@@ -2325,10 +2419,6 @@ move_capsule:
         pop($ra)
         
         # Update capsule x and y 
-        add $t0, $t0, $a0
-        add $t1, $t1, $a1
-        sb $t0, capsule_x
-        sb $t1, capsule_y
         
         jr $ra
         
@@ -2672,13 +2762,282 @@ clear_connected:
     
 # need_clear = true
 
+# Returns:
+# v0 - 0/1 ; return whether anything dropped
+gravity:
+    # anything dropped
+    li $t6, 0
+    # Check whether we are in a load capsule state ! 
+    lb $t0, capsule_loading
+    li $t1, 1 # $t1 = 1
+    
+    beq $t0, $t1, S_LOAD_CAPSULE_CASE_1 # if load state = 1
+    j S_LOAD_CAPSULE_CASE_1_END # if load state != 1
+    S_LOAD_CAPSULE_CASE_1:
+        li $t6, 1
+    
+        # turn load capsule off
+        sb $zero, capsule_loading
+        
+        # ----- Get the colours from the bitmap -----
+        
+        # left side of capsule:
+        addi $t0, $zero, 4 
+        addi $t1, $zero, 2 
+        li $t2, 10
+        li $t3, 20 
+        la $t4, bottle_bitmap
+        
+        push($ra)
+        push_temps()
+        push($t0) # x
+        push($t1) # y
+        push($t2) # width
+        push($t3) # height
+        push($t4) 
+        jal get_value_in_bitmap # return value in $v0
+        add $s5, $zero, $v0
+        pop_temps()
+        pop($ra)
+        
+        # right side of capsule:
+        addi $t0, $zero, 5
+        addi $t1, $zero, 2 
+        li $t2, 10
+        li $t3, 20 
+        la $t4, bottle_bitmap
+        
+        push($ra)
+        push_temps()
+        push($t0) # x
+        push($t1) # y
+        push($t2) # width
+        push($t3) # height
+        push($t4)
+        jal get_value_in_bitmap  # return value in $v0
+        add $s6, $zero, $v0
+        pop_temps()
+        pop($ra)
+        
+        # ----- Check collision -----
+        li $a0, 3
+        li $a1, 0
+        li $a2, 0
+        li $a3, 0
+        push($ra)
+        push_temps()
+        jal check_collision 
+        pop_temps()
+        pop($ra)
+        bne $v0, $zero, S_EXIT #!!!
+        
+        li $a0, 4
+        li $a1, 0
+        li $a2, 0
+        li $a3, 0
+        push($ra)
+        push_temps()
+        jal check_collision 
+        pop_temps()
+        pop($ra)
+        bne $v0, $zero, S_EXIT
+        
+        # ----- Draw -----
+        
+        # left side
+        push_temps()
+        push($ra)
+        pushi($t0, 3) # x
+        pushi($t0, 0) # y
+        push($s5) # code
+        jal update_game_bitmap
+        pop($ra)
+        pop_temps()
+        
+        # right side
+        push($ra)
+        push_temps()
+        pushi($t0, 4) # x
+        pushi($t0, 0) # y
+        push($s6) # code
+        jal update_game_bitmap
+        pop_temps()
+        pop($ra)
+        
+        # set capsule x and y to initial pos
+        addiu, $t0, $zero, 3 
+        addiu, $t1, $zero, 0
+        sw $t0, capsule_x
+        sw $t1, capsule_y
+        
+        push($ra)
+        push_temps()
+        jal update_bottle_bitmap
+        pop_temps()
+        pop($ra)
+        
+        # Return
+        add $v0, $t6, $zero
+        jr $ra
+    S_LOAD_CAPSULE_CASE_1_END:
+
+    # s0 = y (loop variable)
+    # s1 = x (loop variable)
+    # s3 = orientation
+    # t0 = game_width
+    # t1 = game_height
+    lw $t0, GAME_WIDTH
+    lw $t1, GAME_HEIGHT
+    
+    # height - 1 -> 0
+    addi $s0, $t1, -1 # y = gameheight - 1
+    GRAVITY_LOOP_Y: bltz $s0, END_GRAVITY_LOOP_Y # if y < 0, then break
+    
+        # Inner loop
+        add $s1, $zero, $zero
+        # x = 0 -> x = game_width - 1
+        GRAVITY_LOOP_X: beq $s1, $t0, END_GRAVITY_LOOP_X # if x >= game_width, then break
+            # Get the code at (x, y)
+            push($ra)
+            push_temps()
+            add $a0, $zero, $s1 # x 
+            add $a1, $zero, $s0 # y
+            jal get_value_in_game_bitmap # - returns $v0
+            pop_temps()
+            pop($ra)
+            
+            # v0 holds the code
+            
+            # Check whether (x,y) is connected
+            andi $t2, $v0, 0b10000000
+            beq $t2, $zero, GRAVITY_CONNECTED # if left most bit is 0, then is connected
+            b GRAVITY_UNCONNECTED # else
+            
+            GRAVITY_UNCONNECTED:
+                # Check right below
+                # If air, drop one
+                push($ra)
+                push_temps()
+                add $a0, $zero, $s1 # x
+                add $a1, $zero, $s0 # y
+                add $a2, $zero, $zero # dirX
+                addi $a3, $zero, 1 # dirY
+                jal check_collision # - return in $v0
+                pop_temps()
+                pop($ra)
+                
+                # If collision, increment
+                bne $v0, $zero, GRAIVTY_LOOP_X_INCREMENT
+                
+                # Otherwise move down
+                push($ra)
+                push_temps()
+                add $a0, $zero, $s1 # x
+                add $a1, $zero, $s0 # y
+                add $a2, $zero, $zero # dirX
+                addi $a3, $zero, 1 # dirY
+                push($zero)
+                jal translate_game_bit
+                pop_temps()
+                pop($ra)
+                # something dropped
+                li $t6, 1
+                
+                j GRAIVTY_LOOP_X_INCREMENT
+            
+            GRAVITY_CONNECTED:
+                # Only continue if we are a left or bottom capsule
+                # Get the code at (x, y)
+                push($ra)
+                push_temps()
+                add $a0, $zero, $s1 # x 
+                add $a1, $zero, $s0 # y
+                jal get_value_in_game_bitmap # - returns $v0
+                pop_temps()
+                pop($ra)
+                
+                # Get orientation
+                push($ra)
+                push_temps()
+                add $a0, $v0, $zero
+                jal get_orientation # returns $v0
+                pop_temps()
+                pop($ra)
+                
+                # Skip if not bottom or left
+                li $t3, -1
+                beq $v0, $t3, GRAIVTY_LOOP_X_INCREMENT
+                li $t3, 0
+                beq $v0, $t3, GRAIVTY_LOOP_X_INCREMENT
+                li $t3, 3
+                beq $v0, $t3, GRAIVTY_LOOP_X_INCREMENT
+                
+                # Orientation is now 1 or 2 (Bottom or Left)
+                
+                # Check collision
+                # Map orientation 1 -> 1, 2 -> 0
+                push($ra)
+                push_temps()
+                li $a0, 1 # direction (0/1/2/3)
+                add $a1, $zero, $s1 # x 
+                add $a2, $zero, $s0 # y
+                li $t3, 1
+                seq $a3, $t3, $v0 # orientation (0/1) ; checks whether orientation == 1 
+                seq $s3, $t3, $v0 # save orientation
+                jal check_collision_capsule # returns v0 
+                pop_temps()
+                pop($ra)
+                
+                # If collision, increment
+                bne $v0, $zero, GRAIVTY_LOOP_X_INCREMENT
+                
+                # Otherwise move down
+                push($ra)
+                push_temps()
+                add $a0, $zero, $zero # dirx
+                addi $a1, $zero, 1    # diry
+                add $a2, $zero, $s1 # x
+                add $a3, $zero, $s0 # y
+                add $t2, $zero, $s3 # orientation
+                jal move_capsule
+                pop_temps()
+                pop($ra)
+                # something dropped
+                li $t6, 1
+                
+                j GRAIVTY_LOOP_X_INCREMENT
+            # Unsupported first
+            
+            
+            # move_capsule
+            # 
+        
+            # Logic !
+            
+            GRAIVTY_LOOP_X_INCREMENT:
+                # Increment
+                addi $s1, $s1, 1
+                j GRAVITY_LOOP_X
+        END_GRAVITY_LOOP_X:
+        
+        # Increment
+        addi $s0, $s0, -1
+        j GRAVITY_LOOP_Y
+    END_GRAVITY_LOOP_Y:
+    # lw $t0, capsule_y
+    # addi $t0, $t0, 1
+    # sw $t0, capsule_y
+    
+    add $v0, $t6, $zero
+    jr $ra
+
 # gravity function returns true if anything dropped
     # loop from down to top
     # check collision and move disconnected capsules down
     # check collision and move capsule down for all left and down connected capsules
     
 # if gravity function returns false, 
-    # clear() if need_clear = true else capsule_needed = 1
+    # clear() if need_clear = true, else capsule_needed = 1
     
 # set need_clear back to false when finish loading in the capsule
     
@@ -2730,6 +3089,9 @@ mark_disconnected:
                 pop($ra)
                 
                 add $t5, $v0, $zero
+                
+                # if current block is air go away
+                beq $t5, $zero, MARK_DISCONNECTED_INCREMENT_J
             
                 # Get bit value at pos + dir
                 push($ra)
@@ -2762,16 +3124,13 @@ mark_disconnected:
         addi $t2, $t2, 1
         j MARK_DISCONNECTED_I_LOOP
     END_MARK_DISCONNECTED_I_LOOP:
-    
-    
-# Returns the direction of the matching capsule bit given by the code
+
+# Returns the orientation of the sprite 
 # Arguments:
 # a0 - code
 # Returns:
-# v0 - dirX
-# v1 - dirY
-# direction is 0 if it doesn't have orientation
-get_matching_direction:
+# v0 - orientation (0/1/2/3) (UP/DOWN/LEFT/RIGHT) else -1
+get_orientation:
     # Up
     li $t0, RED_UP_CAPSULE_SPRITE_CODE()
     beq $a0, $t0, GET_ORIENTATION_UP
@@ -2809,25 +3168,89 @@ get_matching_direction:
     
     GET_ORIENTATION_UP:
         li $v0, 0
-        li $v1, 1
         jr $ra
         
     GET_ORIENTATION_DOWN:
+        li $v0, 1
+        jr $ra
+    
+    GET_ORIENTATION_LEFT:
+        li $v0, 2
+        jr $ra
+    
+    GET_ORIENTATION_RIGHT:
+        li $v0, 3
+        jr $ra
+    
+    GET_ORIENTATION_ELSE:
+        li $v0, -1
+        jr $ra
+
+    
+# Returns the direction of the matching capsule bit given by the code
+# Arguments:
+# a0 - code
+# Returns:
+# v0 - dirX
+# v1 - dirY
+# direction is 0 if it doesn't have orientation
+get_matching_direction:
+    # Up
+    li $t0, RED_UP_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_UP_MATCHING
+    li $t0, BLUE_UP_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_UP_MATCHING
+    li $t0, YELLOW_UP_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_UP_MATCHING
+    
+    # Down
+    li $t0, RED_DOWN_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_DOWN_MATCHING
+    li $t0, BLUE_DOWN_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_DOWN_MATCHING
+    li $t0, YELLOW_DOWN_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_DOWN_MATCHING
+    
+    # Left
+    li $t0, RED_LEFT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_LEFT_MATCHING
+    li $t0, BLUE_LEFT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_LEFT_MATCHING
+    li $t0, YELLOW_LEFT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_LEFT_MATCHING
+    
+    # Right
+    li $t0, RED_RIGHT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_RIGHT_MATCHING
+    li $t0, BLUE_RIGHT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_RIGHT_MATCHING
+    li $t0, YELLOW_RIGHT_CAPSULE_SPRITE_CODE()
+    beq $a0, $t0, GET_ORIENTATION_RIGHT_MATCHING
+    
+    # Else
+    b GET_ORIENTATION_ELSE
+    
+    GET_ORIENTATION_UP_MATCHING:
+        li $v0, 0
+        li $v1, 1
+        jr $ra
+        
+    GET_ORIENTATION_DOWN_MATCHING:
         li $v0, 0
         li $v1, -1
         jr $ra
     
-    GET_ORIENTATION_LEFT:
+    GET_ORIENTATION_LEFT_MATCHING:
         li $v0, 1
         li $v1, 0
         jr $ra
     
-    GET_ORIENTATION_RIGHT:
+    GET_ORIENTATION_RIGHT_MATCHING:
         li $v0, -1
         li $v1, 0
         jr $ra
     
-    GET_ORIENTATION_ELSE:
+    GET_ORIENTATION_ELSE_MATCHING:
         li $v0, 0
         li $v1, 0
         jr $ra
@@ -2964,6 +3387,7 @@ check_same_colour:
     jr $ra
 
 
+# Moves the bit at (x,y) in the direction of dirX and dirY
 # $a0 - x
 # $a1 - y
 # $a2 - dirX
