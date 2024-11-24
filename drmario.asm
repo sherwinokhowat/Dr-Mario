@@ -3043,24 +3043,23 @@ gravity:
                 # something dropped
                 li $t6, 1
                 
-                # If it is the player
-                # lw $t0, capsule_x
-                # lw $t1, capsule_y
-                # bne $t0, $s1, GRAIVTY_LOOP_X_INCREMENT
-                # bne $t1, $s0, GRAIVTY_LOOP_X_INCREMENT
+                # Check whether it is the player
+                # s1 = x, x0 = y 
+                lw $t7, capsule_x
+                lw $t8, capsule_y 
+                seq $t7, $t7, $s1 # x == capsule_x
+                seq $t8, $t8, $s0 # y == capsule_y
+                seq $t9, $t7, $t8 # x == capsule_x and y == capsule_y
                 
-                # lw $t0, capsule_y
-                # addi $t0, $t0, 1
-                # sw $t0, capsule_y
+                # If not, increment
+                beq $t9, $zero, GRAIVTY_LOOP_X_INCREMENT
+                
+                # Otherwise, increment capsule_x and capsule_y
+                lw $t7, capsule_y
+                addi $t7, $t7, 1
+                sw $t7, capsule_y # increment y
                 
                 j GRAIVTY_LOOP_X_INCREMENT
-            # Unsupported first
-            
-            
-            # move_capsule
-            # 
-        
-            # Logic !
             
             GRAIVTY_LOOP_X_INCREMENT:
                 # Increment
@@ -3072,11 +3071,7 @@ gravity:
         addi $s0, $s0, -1
         j GRAVITY_LOOP_Y
     END_GRAVITY_LOOP_Y:
-    lw $t0, capsule_y
-    addi $t0, $t0, 1
-    sw $t0, capsule_y
-    
-    add $v0, $t6, $zero
+    add $v0, $t6, $zero # t6 == 1 => we dropped something
     
     GRAVITY_END:
         jr $ra
