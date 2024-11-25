@@ -1662,6 +1662,25 @@ run_timer:
     CONT_TIMER:
         li $v0, 0
         jr $ra
+        
+pause_loop:
+    # a while loop that waits until you press p to quit it 
+    lw $t0, ADDR_KBRD # keyboard base address
+    
+    PAUSE_WHILE_LOOP: 
+        # TODO: DRAW PAUSE SYMBOL
+        lw $t8, 0($t0)    # Load first word from keyboard
+        bne $t8, 1, PAUSE_WHILE_LOOP # if keyboard is not pressed, stay here
+    
+    # keyboard is now pressed
+    lw $t1, 4($t0) # load second word from keyboard
+    
+    # if it is not p, then keep looping
+    bne $t1, 0x70, PAUSE_WHILE_LOOP
+    
+    # TODO: ERASE PAUSE SYMBOL
+    # we pressed p so leave
+    jr $ra
 
 ##############################################################################
 # Update bottle bitmap
@@ -1814,15 +1833,20 @@ handle_key_press:
 
     lw $a0, 4($t0)                  # Load second word from keyboard
 
-    # beq $a0, 0x71, respond_to_Q     # done
+    beq $a0, 0x71, handle_q_press     # done
     beq $a0, 0x61, handle_a_press     
     beq $a0, 0x73, handle_s_press     # working on
     beq $a0, 0x64, handle_d_press
     beq $a0, 0x77, handle_w_press
+    beq $a0, 0x70, pause_loop # P -> pause loop
     
     skip_handle_key_press:
     jr $ra
-    
+
+handle_q_press:
+    # Exit
+    li $v0, 10  
+    syscall
     
 
 handle_s_press:
