@@ -1332,17 +1332,7 @@ draw_rectangle_colour_array:
     
 # bitmap to draw the bottle
 bottle_bitmap:
-    .byte 16
     .byte 0
-    .byte 0
-    .byte 16
-    .byte 0
-    .byte 0
-    .byte 16
-    .byte 0
-    .byte 0
-    .byte 16
-    .byte 16
     .byte 0
     .byte 0
     .byte 16
@@ -1351,7 +1341,17 @@ bottle_bitmap:
     .byte 16
     .byte 0
     .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
     .byte 16
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
     .byte 16
     .byte 16
     .byte 16
