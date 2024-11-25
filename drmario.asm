@@ -1595,12 +1595,14 @@ main:
 # GAME LOOP
 ##############################################################################
 game_loop:
-
-    
     # jal update_bottle_bitmap
     jal draw_bottle_bitmap
     jal draw_game_bitmap
     jal push_canvas
+    
+    # Quit if done the game | we could make this be a cool game over screen or smth
+    jal count_viruses
+    beq $v0, $zero, IF_GAME_LOOP_END # won the game if 0 virus left, so quit
     
     jal handle_key_press
     # jal handle_s_press
@@ -1640,6 +1642,9 @@ game_loop:
             # spawn new capsule in bottle map
 
     j game_loop
+    
+    IF_GAME_LOOP_END:
+        jr $ra
 
 # $a0 - timer address
 # $a1 - timer interval
@@ -2574,6 +2579,55 @@ rotate_capsule:
 ##############################################################################
 # GAME BITMAP HELPER FUNCTIONS
 ##############################################################################
+
+# Returns the number of virus in the game
+# Arguments:
+# - None
+# Returns:
+# v0 - the number of virus
+count_viruses:
+    lw $t0, GAME_WIDTH
+    lw $t1, GAME_HEIGHT
+    li $s3, 0 # count variable
+    
+    # x loop
+    li $s0, 0
+    COUNT_VIRUSES_X_LOOP: bge $s0, $t0, END_COUNT_VIRUSES_X_LOOP
+        # y loop
+        li $s1, 0
+        COUNT_VIRUSES_Y_LOOP: bge $s1, $t1, END_COUNT_VIRUSES_Y_LOOP
+            push($ra)
+            push_temps()
+            add $a0, $zero, $s0 # x
+            add $a1, $zero, $s1 # y
+            jal get_value_in_game_bitmap # (x,y) - return value in v0
+            pop_temps()
+            pop($ra)
+            
+            li $t3, 13 # red virus
+            beq $v0, $t3, IF_VIRUS
+            li $t3, 14 # blue virus
+            beq $v0, $t3, IF_VIRUS
+            li $t3, 15 # yellow virus
+            beq $v0, $t3, IF_VIRUS
+            
+            j END_IF_VIRUS # else 
+            IF_VIRUS: 
+                # increment count
+                addi $s3, $s3, 1
+            END_IF_VIRUS:
+        
+            addi $s1, $s1, 1 # increment y
+            j COUNT_VIRUSES_Y_LOOP
+        END_COUNT_VIRUSES_Y_LOOP:
+            addi $s0, $s0, 1 # increment x
+            j COUNT_VIRUSES_X_LOOP
+    END_COUNT_VIRUSES_X_LOOP:
+    # put count in v0
+    add $v0, $zero, $s3
+    # return
+    jr $ra
+
 
 # checks clears
 clear_connected:
@@ -3568,9 +3622,9 @@ load_random_viruses:
         
         li $v0, 42
         li $a0, 0
-        li $a1, 10
+        li $a1, 7
         syscall
-        addiu $t4, $zero, 5
+        addiu $t4, $zero, 8
         add $t6, $t4, $a0 # t5 stores the rand y
         
         # see whats there in the bitmap
