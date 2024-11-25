@@ -1618,11 +1618,16 @@ game_loop:
         bne $t0, $zero, IF_NEED_CLEAR
         beq $t0, $zero, IF_NOT_NEED_CLEAR
         IF_NEED_CLEAR:
-            jal clear_connected
+            jal clear_connected # v0 - returns 1 if clear, 0 otherwise
+            # clear again if we cleared something 
+            bne $v0, $zero, IF_NEED_CLEAR
             sb $zero, need_clear
         
             j END_IF_NEED_CLEAR
         IF_NOT_NEED_CLEAR:
+            jal clear_connected # v0 - returns 1 if clear, 0 otherwise
+            # clear again if we cleared something 
+            bne $v0, $zero, game_loop
             li $a0, 0
             jal update_bottle_bitmap
         
@@ -2654,6 +2659,7 @@ count_viruses:
 
 
 # checks clears
+# returns v1 - 1 if cleared something, 0 otherwise
 clear_connected:
     # s0 = game_width
     # s1 = game_height
@@ -2669,6 +2675,8 @@ clear_connected:
     lw $s0, GAME_WIDTH
     lw $s1, GAME_HEIGHT
     lw $s2, MIN_TO_CLEAR
+    
+    li $t9, 0 # this is our return value, whether we have cleared something
     
     # for y in range(GAME_HEIGHT)
     li $s3, 0
@@ -2694,6 +2702,8 @@ clear_connected:
                 add $t3, $t3, $t2 # base address + index
                 
                 lb $t4, 0($t3) # a[y][startX]
+                beq $t4, $zero, CLEAR_STARTX_LOOP_ENDIF # do not continue if black
+                     
                 
                 # NEXT LOOP YIPPEE
                 add $s6, $zero, $s5 # s6 = startX = i
@@ -2732,6 +2742,7 @@ clear_connected:
                     add $t5, $s5, $s4 # t5 = startX + size (constant)
                     CLEAR_J_LOOP: bge $s7, $t5, END_CLEAR_J_LOOP
                         #  x = j, y
+                        li $t9, 1 # we cleared something
                         
                         push($ra)
                         push_temps()
@@ -2741,6 +2752,25 @@ clear_connected:
                         jal update_game_bitmap
                         pop_temps()
                         pop($ra)
+                        
+                        # ----- DRAWING HERE FOR ANIMATION -----
+                        push($ra)
+                        push_temps()
+                        jal draw_game_bitmap
+                        pop_temps()
+                        pop($ra)
+                        
+                        push($ra)
+                        push_temps()
+                        jal push_canvas
+                        pop_temps()
+                        pop($ra)
+
+                        # wait 0.1 second
+                        li $v0, 32
+                        li $a0, 100
+                        syscall
+                        # ----- DRAWING END FOR ANIMATION -----
                     
                         addi $s7, $s7, 1
                         j CLEAR_J_LOOP
@@ -2801,6 +2831,7 @@ clear_connected:
                 add $t3, $t3, $t2 # base address + index
                 
                 lb $t4, 0($t3) # a[startY][x]
+                beq $t4, $zero, CLEAR_STARTX_LOOP_ENDIF_2 # do not continue if black
                 
                 # NEXT LOOP YIPPEE
                 add $s6, $zero, $s5 # s6 = startY = i
@@ -2840,6 +2871,7 @@ clear_connected:
                     add $t5, $s5, $s4 # t5 = startY + size (constant)
                     CLEAR_J_LOOP_2: bge $s7, $t5, END_CLEAR_J_LOOP_2
                         #  x, y = j
+                        li $t9, 1 # we cleared something
                         
                         push($ra)
                         push_temps()
@@ -2849,6 +2881,25 @@ clear_connected:
                         jal update_game_bitmap
                         pop_temps()
                         pop($ra)
+                        
+                        # ----- DRAWING HERE FOR ANIMATION -----
+                        push($ra)
+                        push_temps()
+                        jal draw_game_bitmap
+                        pop_temps()
+                        pop($ra)
+                        
+                        push($ra)
+                        push_temps()
+                        jal push_canvas
+                        pop_temps()
+                        pop($ra)
+
+                        # wait 0.1 second
+                        li $v0, 32
+                        li $a0, 100
+                        syscall
+                        # ----- DRAWING END FOR ANIMATION -----
                     
                         addi $s7, $s7, 1
                         j CLEAR_J_LOOP_2
@@ -2869,8 +2920,13 @@ clear_connected:
     END_CLEAR_Y_LOOP_2:
     
     push($ra)
+    push_temps()
     jal mark_disconnected
+    pop_temps()
     pop($ra)
+    
+    # put return value in v0
+    add $v0, $zero, $t9 # t9 = 1 if we cleared something
     jr $ra
     
     
@@ -3646,7 +3702,7 @@ load_random_viruses:
         
         li $v0, 42
         li $a0, 0
-        li $a1, 7
+        li $a1, 8
         syscall
         addiu $t4, $zero, 8
         add $t6, $t4, $a0 # t5 stores the rand y
