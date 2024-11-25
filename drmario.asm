@@ -1582,7 +1582,7 @@ main:
     sb $t0, capsule_needed
 
     jal draw_background
-    # jal load_random_viruses
+    jal load_random_viruses
     li $a0, 0
     jal update_bottle_bitmap
     jal game_loop
@@ -1612,7 +1612,7 @@ game_loop:
     IF_GRAVITY:
         j END_IF_GRAVITY
     IF_NOT_GRAVITY:
-        lb $t0 need_clear
+        lb $t0, need_clear
         bne $t0, $zero, IF_NEED_CLEAR
         beq $t0, $zero, IF_NOT_NEED_CLEAR
         IF_NEED_CLEAR:
@@ -2952,6 +2952,25 @@ gravity:
             b GRAVITY_UNCONNECTED # else
             
             GRAVITY_UNCONNECTED:
+                # -- SKIP IF NOT A CAPSULE -- doesnt work breaks gravity for some reason dont uncomment
+                # # Temporarily store v0
+                # add $v1, $v0, $zero
+                # # Get orientation
+                # push($ra)
+                # push_temps()
+                # add $a0, $v0, $zero
+                # jal get_orientation # returns $v0
+                # pop_temps()
+                # pop($ra)
+                
+                # # SKIP IF NOT A CAPSULE
+                # li $t3, -1
+                # beq $v0, $t3, GRAVITY_LOOP_X_INCREMENT
+                
+                # # Restore v0
+                # add $v0, $v1, $zero
+                # # -- END SKIP IF NOT A CAPSULE --
+                
                 # Check right below
                 # If air, drop one
                 push($ra)
@@ -2965,7 +2984,7 @@ gravity:
                 pop($ra)
                 
                 # If collision, increment
-                bne $v0, $zero, GRAIVTY_LOOP_X_INCREMENT
+                bne $v0, $zero, GRAVITY_LOOP_X_INCREMENT
                 
                 # Otherwise move down
                 push($ra)
@@ -2981,7 +3000,7 @@ gravity:
                 # something dropped
                 li $t6, 1
                 
-                j GRAIVTY_LOOP_X_INCREMENT
+                j GRAVITY_LOOP_X_INCREMENT
             
             GRAVITY_CONNECTED:
                 # Only continue if we are a left or bottom capsule
@@ -3004,11 +3023,11 @@ gravity:
                 
                 # Skip if not bottom or left
                 li $t3, -1
-                beq $v0, $t3, GRAIVTY_LOOP_X_INCREMENT
+                beq $v0, $t3, GRAVITY_LOOP_X_INCREMENT
                 li $t3, 0
-                beq $v0, $t3, GRAIVTY_LOOP_X_INCREMENT
+                beq $v0, $t3, GRAVITY_LOOP_X_INCREMENT
                 li $t3, 3
-                beq $v0, $t3, GRAIVTY_LOOP_X_INCREMENT
+                beq $v0, $t3, GRAVITY_LOOP_X_INCREMENT
                 
                 # Orientation is now 1 or 2 (Bottom or Left)
                 
@@ -3027,7 +3046,7 @@ gravity:
                 pop($ra)
                 
                 # If collision, increment
-                bne $v0, $zero, GRAIVTY_LOOP_X_INCREMENT
+                bne $v0, $zero, GRAVITY_LOOP_X_INCREMENT
                 
                 # Otherwise move down
                 push($ra)
@@ -3052,16 +3071,16 @@ gravity:
                 seq $t9, $t7, $t8 # x == capsule_x and y == capsule_y
                 
                 # If not, increment
-                beq $t9, $zero, GRAIVTY_LOOP_X_INCREMENT
+                beq $t9, $zero, GRAVITY_LOOP_X_INCREMENT
                 
                 # Otherwise, increment capsule_x and capsule_y
                 lw $t7, capsule_y
                 addi $t7, $t7, 1
                 sw $t7, capsule_y # increment y
                 
-                j GRAIVTY_LOOP_X_INCREMENT
+                j GRAVITY_LOOP_X_INCREMENT
             
-            GRAIVTY_LOOP_X_INCREMENT:
+            GRAVITY_LOOP_X_INCREMENT:
                 # Increment
                 addi $s1, $s1, 1
                 j GRAVITY_LOOP_X
@@ -3263,7 +3282,7 @@ get_matching_direction:
     beq $a0, $t0, GET_ORIENTATION_RIGHT_MATCHING
     
     # Else
-    b GET_ORIENTATION_ELSE
+    b GET_ORIENTATION_ELSE_MATCHING
     
     GET_ORIENTATION_UP_MATCHING:
         li $v0, 0
