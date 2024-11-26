@@ -10221,13 +10221,6 @@ game_loop:
     jal draw_game_bitmap
     jal push_canvas
     
-    # Quit if done the game | we could make this be a cool game over screen or smth
-    jal count_viruses
-    # if v0 is 0, then i want to make t1 1
-    sltiu $t1, $v0, 1
-    sw $t1, won
-    beq $v0, $zero, gameover_loop # won the game if 0 virus left, so quit
-    
     jal handle_key_press
     
     # Check if gravity timer is up
@@ -10263,6 +10256,12 @@ game_loop:
             j END_IF_GRAVITY
         END_IF_CLEARED_SOMETHING:
         # if cleared nothing
+        # Quit if done the game | we could make this be a cool game over screen or smth
+        jal count_viruses
+        # if v0 is 0, then i want to make t1 1
+        sltiu $t1, $v0, 1
+        sw $t1, won
+        beq $v0, $zero, gameover_loop # won the game if 0 virus left, so quit
         # add new capsule to bottle bitmap
         li $t0, 1
         sb $t0, capsule_loading
@@ -10517,7 +10516,7 @@ difficulty_selection_loop:
             b HARD_SELECTED
             EASY_SELECTED:
                 # number of virus
-                li $t0, 1
+                li $t0, 4
                 sw $t0, max_viruses
                 
                 # gravity speed
