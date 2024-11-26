@@ -1255,72 +1255,600 @@ YELLOW_VIRUS_SPRITE:
     .word 0xffa700
     .word 0x000000
 
-WALL_SPRITE:
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
-    .word 0xFFFFFF
+WALL_SPRITE_LEFT:
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1
     
+WALL_SPRITE_RIGHT:
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0x000000    
+    .word 0x4fc7e1
+
+WALL_SPRITE_BOTTOM:
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1
+
+WALL_SPRITE_TOP:  
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1
+    
+WALL_SPRITE_TOP_LEFT:
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x000000
+
+WALL_SPRITE_TOP_RIGHT:
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1
+
+WALL_SPRITE_BOT_LEFT:
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1
+
+WALL_SPRITE_BOT_RIGHT:
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0xcbf6ff    
+    .word 0xcbf6ff    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x3f1189    
+    .word 0x3f1189    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x4fc7e1    
+    .word 0x4fc7e1    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000
+    
+TOP_LEFT_WALL_SPRITE:
+.word 0x000000    
+.word 0x000000    
+.word 0x000000    
+.word 0x000000    
+.word 0x000000    
+.word 0x000000    
+.word 0xffffff    
+.word 0xffffff    
+.word 0x000000    
+.word 0x000000    
+.word 0x000000    
+.word 0x000000    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0x000000    
+.word 0x000000    
+.word 0x000000    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0x000000    
+.word 0x000000    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0x000000    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0x000000    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff    
+.word 0xffffff
+        
 PAUSED_SPRITE:
     .word 0xFFFFFF
     .word 0xFFFFFF
@@ -9339,54 +9867,54 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
+    .byte 18
     .byte 0
     .byte 0
-    .byte 16
-    .byte 0
-    .byte 0
-    .byte 0
-    .byte 0
-    .byte 0
-    .byte 0
-    .byte 16
-    .byte 0
-    .byte 0
-    .byte 16
+    .byte 19
     .byte 0
     .byte 0
     .byte 0
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
+    .byte 18
     .byte 0
     .byte 0
-    .byte 16
-    .byte 0
-    .byte 0
-    .byte 0
+    .byte 19
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 0
-    .byte 0
-    .byte 16
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
-    .byte 16
-    .byte 16
+    .byte 18
     .byte 0
     .byte 0
+    .byte 19
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 18
+    .byte 0
+    .byte 0
+    .byte 19
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 20
     .byte 16
     .byte 16
+    .byte 23
+    .byte 0
+    .byte 0
+    .byte 22
     .byte 16
     .byte 16
-    .byte 16
+    .byte 21
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9395,8 +9923,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9405,8 +9933,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9415,8 +9943,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9425,8 +9953,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9435,8 +9963,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9445,8 +9973,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9455,8 +9983,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9465,8 +9993,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9475,8 +10003,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9485,8 +10013,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9495,8 +10023,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9505,8 +10033,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9515,8 +10043,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9525,8 +10053,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9535,8 +10063,8 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 18
     .byte 0
     .byte 0
     .byte 0
@@ -9545,17 +10073,17 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 16
-    .byte 16
-    .byte 16
-    .byte 16
-    .byte 16
-    .byte 16
-    .byte 16
-    .byte 16
-    .byte 16
-    .byte 16
-    .byte 16
+    .byte 19
+    .byte 22
+    .byte 17
+    .byte 17
+    .byte 17
+    .byte 17
+    .byte 17
+    .byte 17
+    .byte 17
+    .byte 17
+    .byte 23
    
 # bitmap to draw the actual game (playing field)
 game_bitmap:
@@ -12502,7 +13030,22 @@ get_sprite:
     li $t1, YELLOW_VIRUS_SPRITE_CODE()
     beq $t2, $t1, RETURN_YELLOW_VIRUS_SPRITE
     li $t1, WALL_SPRITE_CODE()
-    beq $t2, $t1, RETURN_WALL_SPRITE
+    beq $t2, $t1, RETURN_TOP_WALL_SPRITE
+    li $t1, 17
+    beq $t2, $t1, RETURN_BOTTOM_WALL_SPRITE
+    li $t1, 18
+    beq $t2, $t1, RETURN_LEFT_WALL_SPRITE
+    li $t1, 19
+    beq $t2, $t1, RETURN_RIGHT_WALL_SPRITE
+    li $t1, 20
+    beq $t2, $t1, RETURN_TOP_LEFT_WALL_SPRITE
+    li $t1, 21
+    beq $t2, $t1, RETURN_TOP_RIGHT_WALL_SPRITE
+    li $t1, 22
+    beq $t2, $t1, RETURN_BOT_LEFT_WALL_SPRITE
+    li $t1, 23
+    beq $t2, $t1, RETURN_BOT_RIGHT_WALL_SPRITE
+    li $t1, 24
     
     
     RETURN_BACKGROUND_SPRITE:
@@ -12553,8 +13096,29 @@ get_sprite:
     RETURN_YELLOW_VIRUS_SPRITE:
         la $v0, YELLOW_VIRUS_SPRITE
         jr $ra
-    RETURN_WALL_SPRITE:
-        la $v0, WALL_SPRITE
+    RETURN_TOP_WALL_SPRITE:
+        la $v0, WALL_SPRITE_TOP
+        jr $ra
+    RETURN_BOTTOM_WALL_SPRITE:
+        la $v0, WALL_SPRITE_BOTTOM
+        jr $ra
+    RETURN_LEFT_WALL_SPRITE:
+        la $v0, WALL_SPRITE_LEFT
+        jr $ra
+    RETURN_RIGHT_WALL_SPRITE:
+        la $v0, WALL_SPRITE_RIGHT
+        jr $ra
+    RETURN_TOP_LEFT_WALL_SPRITE:
+        la $v0, WALL_SPRITE_TOP_LEFT
+        jr $ra
+    RETURN_TOP_RIGHT_WALL_SPRITE:
+        la $v0, WALL_SPRITE_TOP_RIGHT
+        jr $ra
+    RETURN_BOT_LEFT_WALL_SPRITE:
+        la $v0, WALL_SPRITE_BOT_LEFT
+        jr $ra
+    RETURN_BOT_RIGHT_WALL_SPRITE:
+        la $v0, WALL_SPRITE_BOT_RIGHT
         jr $ra
 
 
