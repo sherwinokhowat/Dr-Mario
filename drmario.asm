@@ -189,7 +189,7 @@ GAME_SCREEN_X:
 
 # top left corner of the game in screen pixels
 GAME_SCREEN_Y:
-    .word 40
+    .word 56
     
 MIN_TO_CLEAR:
     .word 4
@@ -8033,7 +8033,1297 @@ NUMBER_9_SPRITE:
     .word 0x000000    
     .word 0x000000    
     .word 0x000000
+    
+LETTER_T_SPRITE:
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0x170073     
+    .word 0x170073     
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0xb8b7b9      
+    .word 0x170073     
+    .word 0x170073     
+    .word 0xb8b7b9      
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0xb8b7b9      
+    .word 0x170073     
+    .word 0x170073     
+    .word 0xb8b7b9      
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0xb8b7b9      
+    .word 0x170073     
+    .word 0x170073     
+    .word 0xb8b7b9      
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0xb8b7b9      
+    .word 0x170073     
+    .word 0x170073     
+    .word 0xb8b7b9      
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x170073     
+    .word 0x170073     
+    .word 0xb8b7b9      
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x170073     
+    .word 0x170073     
+    .word 0xb8b7b9      
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x170073     
+    .word 0x170073     
+    .word 0xb8b7b9      
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x170073     
+    .word 0x170073     
+    .word 0xb8b7b9      
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000
+    
+HYPHEN_SPRITE:
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x010002    
+    .word 0x010002    
+    .word 0x010002    
+    .word 0x010002    
+    .word 0x010002    
+    .word 0x010002    
+    .word 0x010002    
+    .word 0x010002    
+    .word 0x010002    
+    .word 0x010002    
+    .word 0x010002    
+    .word 0x010002    
+    .word 0x010002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0x010002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0x170073     
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000
                 
+                
+LETTER_W_GREEN_SPRITE:
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x010002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x010002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x010002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0x36bb00    
+    .word 0x36bb00    
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0x36bb00    
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0x36bb00    
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x36bb00    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9      
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000002    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000
+    
+LETTER_I_GREEN_SPRITE:
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000
+    
+LETTER_N_GREEN_SPRITE:
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0x36bb00      
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0xb8b7b9     
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000    
+    .word 0x000000
             
 ##############################################################################
 # Mutable Data
@@ -8046,6 +9336,26 @@ draw_rectangle_colour_array:
     
 # bitmap to draw the bottle
 bottle_bitmap:
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 16
+    .byte 0
+    .byte 0
+    .byte 0
     .byte 0
     .byte 0
     .byte 0
@@ -8271,8 +9581,39 @@ capsule_loading:
 capsule_orientation:
     .byte 0
     
-need_clear:
-    .byte 1
+# Complete the word (4 bytes)
+.byte 1
+    
+# Top most one
+capsule_loading_1_left_color:
+    .word 0
+    
+capsule_loading_1_right_color:
+    .word 0
+    
+capsule_loading_2_left_color:
+    .word 0
+    
+capsule_loading_2_right_color:
+    .word 0
+    
+capsule_loading_3_left_color:
+    .word 0
+    
+capsule_loading_3_right_color:
+    .word 0
+    
+capsule_loading_4_left_color:
+    .word 0
+    
+capsule_loading_4_right_color:
+    .word 0
+    
+capsule_loading_5_left_color:
+    .word 0
+    
+capsule_loading_5_right_color:
+    .word 0
 
 s_held:
     .word 0
@@ -8282,11 +9623,17 @@ gravity_speed: # how many ticks until one fall
 
 gravity_timer:
     .word 0
-
-gravity_increase_speed:
-    .word 5
     
-gravity_increase_timer:
+difficulty: # 1 - 3 / easy / med / hard
+    .word 1
+    
+score:
+    .word 0
+    
+max_viruses:
+    .word 0
+    
+won:
     .word 0
 
 ##############################################################################
@@ -8299,19 +9646,7 @@ gravity_increase_timer:
 # CODE_ENTRANCE
 ##############################################################################
 main:
-    li $a0, 0x09
-    li $a1, 0x89
-    jal check_same_colour
-    
-
-    li $t0, 1
-    sb $t0, capsule_needed
-
-    jal draw_background
-    jal load_random_viruses
-    li $a0, 0
-    jal update_bottle_bitmap
-    jal game_loop
+    jal restart_game
     
     # Exit
     li $v0, 10  
@@ -8321,22 +9656,30 @@ main:
 # GAME LOOP
 ##############################################################################
 game_loop:
+    # DRAW BACKGROUND
+    push($ra)
+    jal draw_background
+    pop($ra)
     # DRAW UNPAUSE SYMBOL
     push($ra)
     push_temps()
-    li $t0, 225
+    li $t0, 225 # x
     push($t0)
-    li $t0, 15
+    li $t0, 15 # y
     push($t0)
-    li $t0, 16
+    li $t0, 16 # width
     push($t0)
-    li $t0, 16
+    li $t0, 16 # height
     push($t0)
-    la $t0, LETTER_H_SPRITE
+    la $t0, UNPAUSED_SPRITE
     push($t0)
     jal draw_rect
     pop_temps()
     pop($ra)
+    
+    # Draw score
+    jal draw_score_words
+    jal draw_score_numbers
 
     # Draw bitmaps
     jal draw_bottle_bitmap
@@ -8345,14 +9688,12 @@ game_loop:
     
     # Quit if done the game | we could make this be a cool game over screen or smth
     jal count_viruses
-    beq $v0, $zero, handle_q_press # won the game if 0 virus left, so quit
+    # if v0 is 0, then i want to make t1 1
+    sltiu $t1, $v0, 1
+    sw $t1, won
+    beq $v0, $zero, gameover_loop # won the game if 0 virus left, so quit
     
     jal handle_key_press
-    
-    # Increase gravity speed
-    # push($ra)
-    # jal increase_gravity_speed
-    # pop($ra)
     
     # Check if gravity timer is up
     la $a0, gravity_timer
@@ -8369,78 +9710,33 @@ game_loop:
     
     # Run gravity
     beq $v0, $zero, END_IF_GRAVITY # Skip if timer is not up
-        jal gravity
+    jal gravity
     bne $v0, $zero, IF_GRAVITY # If at least one thing was pulled by gravity
     beq $v0, $zero, IF_NOT_GRAVITY # If nothing was pulled by gravity
     IF_GRAVITY:
         j END_IF_GRAVITY
     IF_NOT_GRAVITY:
-        # lb $t0, need_clear
-        # bne $t0, $zero, IF_NEED_CLEAR
-        # beq $t0, $zero, IF_NOT_NEED_CLEAR
-        # IF_NEED_CLEAR:
-            # jal clear_connected # v0 - returns 1 if clear, 0 otherwise
-            # # clear again if we cleared something 
-            # bne $v0, $zero, IF_NEED_CLEAR
-            # sb $zero, need_clear
-        
-            # j END_IF_NEED_CLEAR
-        # IF_NOT_NEED_CLEAR:
-            jal clear_connected # v0 - returns 1 if clear, 0 otherwise
-            # if cleared something
-            bne $v0, $zero, IF_CLEARED_SOMETHING
-            beq $v0, $zero, END_IF_CLEARED_SOMETHING
-            IF_CLEARED_SOMETHING:
-                lw $t0, gravity_speed
-                addi $t0, $t0, -2
-                sw $t0, gravity_speed
-                j END_IF_GRAVITY
-            END_IF_CLEARED_SOMETHING:
-            
-            
-            # add new capsule to bottle bitmap
-            li $a0, 0
-            jal update_bottle_bitmap
-        
-            # need clear
-            # li $t1, 1
-            # sb $t1, need_clear
-            # j END_IF_NEED_CLEAR
-        # END_IF_NEED_CLEAR:
-    
-        j END_IF_GRAVITY
+        jal clear_connected # v0 - returns 1 if clear, 0 otherwise
+        lw $t9, score
+        # if cleared something
+        bne $v0, $zero, IF_CLEARED_SOMETHING
+        beq $v0, $zero, END_IF_CLEARED_SOMETHING
+        IF_CLEARED_SOMETHING:
+            lw $t0, gravity_speed
+            addi $t0, $t0, -2
+            sw $t0, gravity_speed
+            j END_IF_GRAVITY
+        END_IF_CLEARED_SOMETHING:
+        # if cleared nothing
+        # add new capsule to bottle bitmap
+        # li $a0, 1
+        # jal update_bottle_bitmap
+        li $t0, 1
+        sb $t0, capsule_loading
     END_IF_GRAVITY:
-    
-    # if !gravity: 
-        # if need_clear:
-            # clear()
-            # need_clear = false
-        # else:
-            # spawn new capsule in bottle map
 
     j game_loop
 
-# increase_gravity_speed:
-    # la $a0, gravity_increase_timer
-    # lw $a1, gravity_increase_speed
-    # add $t0, $a1, $zero
-    # push($ra)
-    # push_temps()
-    # jal run_timer
-    # pop_temps()
-    # pop($ra)
-    # beq $v0, $zero, END_IF_GRAVITY_INCREASE
-    # bne $v0, $zero, IF_GRAVITY_INCREASE
-    # IF_GRAVITY_INCREASE:
-        # lw $t0, gravity_speed
-        # addi $t0, $t0, -1
-        # sw $t0, gravity_speed
-    # END_IF_GRAVITY_INCREASE:
-    # jr $ra
-
-# $a0 - timer address
-# $a1 - timer interval
-# $v0 - timer ticked (0/1)
 run_timer:
     # load timer progress
     lw $t0, 0($a0)
@@ -8457,6 +9753,116 @@ run_timer:
     CONT_TIMER:
         li $v0, 0 # return false
         jr $ra
+        
+gameover_loop:
+    
+    
+    # a while loop that waits until you press r to restart, or q to just quit
+    push($ra)
+    jal draw_gameover_words
+    pop($ra)
+    lw $t0, ADDR_KBRD # keyboard base address
+    GAMEOVER_LOOP:
+        lw $t8, 0($t0)    # Load first word from keyboard
+        bne $t8, 1, GAMEOVER_LOOP # if keyboard is not pressed, stay here
+        
+        # keyboard is now pressed
+        lw $t1, 4($t0) # load second word from keyboard
+        
+        # if it is q, then exit
+        beq $t1, 0x71, handle_q_press
+        # if it is not p, then keep looping
+        bne $t1, 0x72, GAMEOVER_LOOP
+    j restart_game
+        
+        
+        
+    
+restart_game:
+    # score = 0 
+    # gamemap needs to be cleared
+    # load random virus
+    # j handle_q_press
+    
+    # RESET GAME BITMAP
+    li $t0, 0 # x loop variable
+    li $t1, 0 # y loop variable
+    
+    lw $t2, GAME_WIDTH
+    lw $t3, GAME_HEIGHT
+    
+    RESTART_GAME_LOOP_X: bge $t0, $t2, END_RESTART_GAME_LOOP_X
+    
+        li $t1, 0
+        RESTART_GAME_LOOP_Y: bge $t1, $t3, END_RESTART_GAME_LOOP_Y
+        
+            push($ra)
+            push_temps()
+            push($t0)
+            push($t1)
+            push($zero)
+            jal update_game_bitmap
+            pop_temps()
+            pop($ra)
+    
+            addi $t1, $t1, 1
+            j RESTART_GAME_LOOP_Y
+        END_RESTART_GAME_LOOP_Y:
+        
+        addi $t0, $t0, 1
+        j RESTART_GAME_LOOP_X
+    END_RESTART_GAME_LOOP_X:
+
+    la $t9, game_bitmap
+    
+    
+    
+    # RESET CAPSULE NEEDED
+    li $t0, 1
+    sb $t0, capsule_needed
+    
+    # # Choose random capsule colour (1-9)
+    # li $v0, 42 # rng sys id 
+    # li $a0, 0 # lower bound
+    # li $a1, 9 # upper bound (exclusive)
+    # syscall # the return is stored in $a0
+    # addi $t2, $a0, 1
+    li $t0, 1
+    sb $t0, capsule_loading
+    
+    # RESET WIN
+    sw $zero, won
+    
+    # RESET SCORE
+    sw $zero, score
+
+    # DRAW BACKGROUND
+    push($ra)
+    jal draw_background
+    pop($ra)
+    
+    push($ra)
+    jal difficulty_selection_loop
+    pop($ra)
+
+    # SPAWN VIRUSES
+    push($ra)
+    jal load_random_viruses
+    pop($ra)
+    
+    # INIT BOTTLE
+    push($ra)
+    li $a0, 0
+    jal update_bottle_bitmap
+    pop($ra)
+    
+    # START GAME LOOP
+    push($ra)
+    jal game_loop
+    pop($ra)
+    
+    jr $ra
+    
         
 pause_loop:
     # a while loop that waits until you press p to quit it 
@@ -8494,6 +9900,8 @@ pause_loop:
     # keyboard is now pressed
     lw $t1, 4($t0) # load second word from keyboard
     
+    # if it is q, then exit
+    beq $t1, 0x71, handle_q_press
     # if it is not p, then keep looping
     bne $t1, 0x70, PAUSE_WHILE_LOOP
     
@@ -8501,13 +9909,121 @@ pause_loop:
     
     # we pressed p so leave
     jr $ra
+    
+    
+difficulty_selection_loop:
+    
+    # loop until we press enter
+    li $a0, 0 # default selection - easy
+    lw $s0, ADDR_KBRD # keyboard base address
+    DIFFICULTY_SELECTION_LOOP: 
+        # draw the modes
+        push($ra)
+        push($a0)
+        jal draw_difficulty_selection
+        pop($a0)
+        pop($ra)
+        
+        # draw selection
+        push($ra)
+        jal draw_select
+        pop($ra)
+        
+        # draw to canvas
+        push($ra)
+        jal push_canvas
+        pop($ra)
+        
+        # now deal with keyboard stuff
+    
+        lw $t8, 0($s0)    # Load first word from keyboard
+        bne $t8, 1, DIFFICULTY_SELECTION_LOOP # if keyboard is not pressed, stay here
+        
+        # keyboard is now pressed
+        lw $t1, 4($s0) # load second word from keyboard
+        
+        # if it is q, then exit
+        beq $t1, 0x71, handle_q_press
+        # if it is s, then go down
+        beq $t1, 0x73, DIFFICULTY_SELECTION_UP
+        # if it is w, then go up
+        beq $t1, 0x77, DIFFICULTY_SELECTION_DOWN
+        # if it is enter, then select this difficulty and start
+        beq $t1, 0xa, DIFFICULTY_SELECTION_SELECTED
+        
+        # else just repeat
+        b DIFFICULTY_SELECTION_LOOP
+        
+        
+        DIFFICULTY_SELECTION_UP:
+            addi $a0, $a0, 1 # Increment selection
+            # set a0 to the remainder of a0 / 3
+            li $t0, 3        # Load the divisor (3) into $t0
+            div $a0, $t0     # Divide $a0 by $t0 (3)
+            mfhi $a0         # Move the remainder from HI to $a0
+            b DIFFICULTY_SELECTION_LOOP
+        DIFFICULTY_SELECTION_DOWN:
+            addi $a0, $a0, -1 # Increment selection
+            # if we are less than 0, then loop back
+            bgez $a0, DIFFICULTY_SELECTION_LOOP
+            DIFFICULTY_SELECTION_LOOP_BACK:
+                li $a0, 2
+            b DIFFICULTY_SELECTION_LOOP
+        DIFFICULTY_SELECTION_SELECTED:
+            addi $a0, $a0, 1 # add 1 since we had 0 - 2 for a0
+            sw $a0, difficulty
+            
+            # easy if 1
+            li $t0, 1
+            beq $a0, $t0, EASY_SELECTED
+            
+            # medium if 2
+            li $t0, 2
+            beq $a0, $t0, MEDIUM_SELECTED
+            
+            # else hard
+            b HARD_SELECTED
+            EASY_SELECTED:
+                # number of virus
+                li $t0, 4
+                sw $t0, max_viruses
+                
+                # gravity speed
+                li $t0, 100
+                sw $t0, gravity_speed
+                jr $ra
+            
+            MEDIUM_SELECTED:
+                li $t0, 8
+                sw $t0, max_viruses
+                
+                # gravity speed
+                li $t0, 50
+                sw $t0, gravity_speed
+                jr $ra
+            
+            HARD_SELECTED:
+                li $t0, 12
+                sw $t0, max_viruses
+                
+                # gravity speed
+                li $t0, 25
+                sw $t0, gravity_speed
+                jr $ra
+            
+            
+            
+            
+        
+
 
 ##############################################################################
 # Update bottle bitmap
 ##############################################################################
 
-# $a0 - mode (0/1) (load new capsule/delete capsule)
+# $a0 - mode (0/1) (load 5 new capsules/load 1 new capsule)
 update_bottle_bitmap:
+    push_temps()
     # lb $t0, capsule_needed
     # lb $t3, capsule_loading
     
@@ -8520,125 +10036,253 @@ update_bottle_bitmap:
     # bne $t3, $zero, UPDATE_BOTTLE_BITMAP_EXIT   # not needed and loading => leave
     # not needed and not loading => draw black
     
-    #mode 0: load new capsule
-    beq $a0, $zero, IF_CAPSULE_NEEDED
-    # mode 1: draw black
-    li $t2, 0
-    j END_IF_CAPSULE_NEEDED
+    # mode 0: load 5 new capsule
+    beq $a0, $zero, INIT_CAPSULES
+    # mode 1: init 1 capsule
+    bne $a0, $zero, INIT_ONE_CAPSULE
     
-    
-    IF_CAPSULE_NEEDED:
+    INIT_CAPSULES:
         # Choose random capsule colour (1-9)
         li $v0, 42 # rng sys id 
         li $a0, 0 # lower bound
-        li $a1, 9 # upper bound (exclusive)
+        li $a1, 3 # upper bound (exclusive)
         syscall # the return is stored in $a0
-        addi $t2, $a0, 1
-        li $t0, 1
-        sb $t0, capsule_loading
-    END_IF_CAPSULE_NEEDED:
+        sll $t0, $a0, 2 # multiply by 4
+        addi $t0, $t0, 3
+        sw $t0, capsule_loading_1_left_color
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 # lower bound
+        li $a1, 3 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        sll $t1, $a0, 2 # multiply by 4
+        addi $t1, $t1, 4
+        sw $t1, capsule_loading_1_right_color
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 # lower bound
+        li $a1, 3 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        sll $t2, $a0, 2 # multiply by 4
+        addi $t2, $t2, 3
+        sw $t2, capsule_loading_2_left_color
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 # lower bound
+        li $a1, 3 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        sll $t3, $a0, 2 # multiply by 4
+        addi $t3, $t3, 4
+        sw $t3, capsule_loading_2_right_color
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 # lower bound
+        li $a1, 3 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        sll $t4, $a0, 2 # multiply by 4
+        addi $t4, $t4, 3
+        sw $t4, capsule_loading_3_left_color
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 # lower bound
+        li $a1, 3 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        sll $t5, $a0, 2 # multiply by 4
+        addi $t5, $t5, 4
+        sw $t5, capsule_loading_3_right_color
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 # lower bound
+        li $a1, 3 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        sll $t6, $a0, 2 # multiply by 4
+        addi $t6, $t6, 3
+        sw $t6, capsule_loading_4_left_color
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 # lower bound
+        li $a1, 3 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        sll $t7, $a0, 2 # multiply by 4
+        addi $t7, $t7, 4
+        sw $t7, capsule_loading_4_right_color
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 # lower bound
+        li $a1, 3 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        sll $t8, $a0, 2 # multiply by 4
+        addi $t8, $t8, 3
+        sw $t8, capsule_loading_5_left_color
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 # lower bound
+        li $a1, 3 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        sll $t9, $a0, 2 # multiply by 4
+        addi $t9, $t9, 4
+        sw $t9, capsule_loading_5_right_color
         
-    # t0 = bottle bitmap
-    # t1 = constantly changing value used for loading values into bitmap
-    # t6 = which capsule to put
-    # t7 = the left bit of the capsule
-    # t8 = the right bit of the capsule
-    # t9 = constant holding 1, 2, ..., 9 used for if statement checks
-    la $t0, bottle_bitmap # get bottle bitmap array address
+        la $s0, bottle_bitmap # get bottle bitmap array address
+        
+        sb $t0, 4($s0)
+        sb $t1, 5($s0)
+        sb $t2, 14($s0)
+        sb $t3, 15($s0)
+        sb $t4, 24($s0)
+        sb $t5, 25($s0)
+        sb $t6, 34($s0)
+        sb $t7, 35($s0)
+        sb $t8, 44($s0)
+        sb $t9, 45($s0)
+        
+        j END_INIT_CAPSULES
+    INIT_ONE_CAPSULE:
+        lw $t8, capsule_loading_2_left_color
+        sw $t8, capsule_loading_1_left_color
+        lw $t6, capsule_loading_3_left_color
+        sw $t6, capsule_loading_2_left_color
+        lw $t4, capsule_loading_4_left_color
+        sw $t4, capsule_loading_3_left_color
+        lw $t2, capsule_loading_5_left_color
+        sw $t2, capsule_loading_4_left_color
+        
+        lw $t9, capsule_loading_2_right_color
+        sw $t9, capsule_loading_1_right_color
+        lw $t7, capsule_loading_3_right_color
+        sw $t7, capsule_loading_2_right_color
+        lw $t5, capsule_loading_4_right_color
+        sw $t5, capsule_loading_3_right_color
+        lw $t3, capsule_loading_5_right_color
+        sw $t3, capsule_loading_4_right_color
+       
     
-    addiu $t9, $zero, 1
-    beq $t2, $t9, RED_RED
-    addiu $t9, $zero, 2
-    beq $t2, $t9, RED_BLUE
-    addiu $t9, $zero, 3
-    beq $t2, $t9, RED_YELLOW
-    addiu $t9, $zero, 4
-    beq $t2, $t9, BLUE_BLUE
-    addiu $t9, $zero, 5
-    beq $t2, $t9, BLUE_RED
-    addiu $t9, $zero, 6
-    beq $t2, $t9, BLUE_YELLOW
-    addiu $t9, $zero, 7
-    beq $t2, $t9, YELLOW_YELLOW
-    addiu $t9, $zero, 8
-    beq $t2, $t9, YELLOW_RED
-    addiu $t9, $zero, 9
-    beq $t2, $t9, YELLOW_BLUE
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 # lower bound
+        li $a1, 3 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        sll $t0, $a0, 2 # multiply by 4
+        addi $t0, $t0, 3
+        sw $t0, capsule_loading_5_left_color
+        # Choose random capsule colour (1-9)
+        li $v0, 42 # rng sys id 
+        li $a0, 0 # lower bound
+        li $a1, 3 # upper bound (exclusive)
+        syscall # the return is stored in $a0
+        sll $t1, $a0, 2 # multiply by 4
+        addi $t1, $t1, 4
+        sw $t1, capsule_loading_5_right_color
+        
+        la $s0, bottle_bitmap # get bottle bitmap array address
+        
+        sb $t0, 4($s0)
+        sb $t1, 5($s0)
+        sb $t2, 14($s0)
+        sb $t3, 15($s0)
+        sb $t4, 24($s0)
+        sb $t5, 25($s0)
+        sb $t6, 34($s0)
+        sb $t7, 35($s0)
+        sb $t8, 44($s0)
+        sb $t9, 45($s0)
+        
+        
+    END_INIT_CAPSULES:
+
+
     
-    # Else:
-    b NOTHING_NOTHING
+    # addiu $t9, $zero, 1
+    # beq $t2, $t9, RED_RED
+    # addiu $t9, $zero, 2
+    # beq $t2, $t9, RED_BLUE
+    # addiu $t9, $zero, 3
+    # beq $t2, $t9, RED_YELLOW
+    # addiu $t9, $zero, 4
+    # beq $t2, $t9, BLUE_BLUE
+    # addiu $t9, $zero, 5
+    # beq $t2, $t9, BLUE_RED
+    # addiu $t9, $zero, 6
+    # beq $t2, $t9, BLUE_YELLOW
+    # addiu $t9, $zero, 7
+    # beq $t2, $t9, YELLOW_YELLOW
+    # addiu $t9, $zero, 8
+    # beq $t2, $t9, YELLOW_RED
+    # addiu $t9, $zero, 9
+    # beq $t2, $t9, YELLOW_BLUE
     
-    # Nothing
-    NOTHING_NOTHING:
-        addiu $t7, $zero, 0
-        addiu $t8, $zero, 0
-        b STORE_BOTTLE_BITMAP
+    # # Else:
+    # b NOTHING_NOTHING
     
-    # Left Red
-    RED_RED:
-        addiu $t7, $zero, 3
-        addiu $t8, $zero, 4
-        b STORE_BOTTLE_BITMAP
+    # # Nothing
+    # NOTHING_NOTHING:
+        # addiu $t7, $zero, 0
+        # addiu $t8, $zero, 0
+        # b STORE_BOTTLE_BITMAP
     
-    RED_BLUE:
-        addiu $t7, $zero, 3
-        addiu $t8, $zero, 8
-        b STORE_BOTTLE_BITMAP
+    # # Left Red
+    # RED_RED:
+        # addiu $t7, $zero, 3
+        # addiu $t8, $zero, 4
+        # b STORE_BOTTLE_BITMAP
     
-    RED_YELLOW:
-        addiu $t7, $zero, 3
-        addiu $t8, $zero, 12
-        b STORE_BOTTLE_BITMAP
+    # RED_BLUE:
+        # addiu $t7, $zero, 3
+        # addiu $t8, $zero, 8
+        # b STORE_BOTTLE_BITMAP
     
-    # Left Blue
+    # RED_YELLOW:
+        # addiu $t7, $zero, 3
+        # addiu $t8, $zero, 12
+        # b STORE_BOTTLE_BITMAP
     
-    BLUE_BLUE:
-        addiu $t7, $zero, 7
-        addiu $t8, $zero, 8
-        b STORE_BOTTLE_BITMAP
+    # # Left Blue
     
-    BLUE_RED:
-        addiu $t7, $zero, 7
-        addiu $t8, $zero, 4
-        b STORE_BOTTLE_BITMAP
+    # BLUE_BLUE:
+        # addiu $t7, $zero, 7
+        # addiu $t8, $zero, 8
+        # b STORE_BOTTLE_BITMAP
     
-    BLUE_YELLOW:
-        addiu $t7, $zero, 7
-        addiu $t8, $zero, 12
-        b STORE_BOTTLE_BITMAP
+    # BLUE_RED:
+        # addiu $t7, $zero, 7
+        # addiu $t8, $zero, 4
+        # b STORE_BOTTLE_BITMAP
     
-    # Left Yellow
+    # BLUE_YELLOW:
+        # addiu $t7, $zero, 7
+        # addiu $t8, $zero, 12
+        # b STORE_BOTTLE_BITMAP
     
-    YELLOW_YELLOW:
-        addiu $t7, $zero, 11
-        addiu $t8, $zero, 12
-        b STORE_BOTTLE_BITMAP
+    # # Left Yellow
     
-    YELLOW_RED:
-        addiu $t7, $zero, 11
-        addiu $t8, $zero, 4
-        b STORE_BOTTLE_BITMAP
+    # YELLOW_YELLOW:
+        # addiu $t7, $zero, 11
+        # addiu $t8, $zero, 12
+        # b STORE_BOTTLE_BITMAP
     
-    YELLOW_BLUE:
-        addiu $t7, $zero, 11
-        addiu $t8, $zero, 8
-        b STORE_BOTTLE_BITMAP
+    # YELLOW_RED:
+        # addiu $t7, $zero, 11
+        # addiu $t8, $zero, 4
+        # b STORE_BOTTLE_BITMAP
+    
+    # YELLOW_BLUE:
+        # addiu $t7, $zero, 11
+        # addiu $t8, $zero, 8
+        # b STORE_BOTTLE_BITMAP
         
     STORE_BOTTLE_BITMAP:
-        # THIS IS WHERE THE LEFT SIDE OF THE CAPSULE GOES
-        sb $t7, 24($t0)
-        # THIS IS WHERE THE RIGHT SIDE OF THE CAPSULE GOES
-        sb $t8, 25($t0)
+        
   
         # capsule_needed = 0
-        sb $zero, capsule_needed
+
         # capsule_loading = 1
         # addiu $t1, $zero, 1
         # sb $t1, capsule_loading
+    pop_temps()
         jr $ra
         
-    UPDATE_BOTTLE_BITMAP_EXIT:
-        jr $ra
+    # UPDATE_BOTTLE_BITMAP_EXIT:
+        # jr $ra
 
 ##############################################################################
 # KEYBOARD FUNCTIONS
@@ -8659,31 +10303,16 @@ handle_key_press:
     beq $a0, 0x77, handle_w_press
     beq $a0, 0x70, pause_loop # P -> pause loop
     
-  
      beq $a0, 0x73, HANDLE_S
-     # push($ra)
-     # jal handle_s_unpress     # working on
-     # pop($ra)
-     # j HANDLE_S_END
     HANDLE_S:
         push($ra)
         jal handle_s_press
         pop($ra)
         j done
     HANDLE_S_END:
-       
     
     
     skip_handle_key_press:
-      # push($ra)
-    # jal handle_s_press
-    # jal handle_s_unpress
-    # pop($ra)
-    # push($ra)
-    # push_temps()
-    # jal handle_s_unpress
-    # pop_temps()
-    # pop($ra)
 
     push($ra)
         jal handle_s_unpress
@@ -9595,6 +11224,45 @@ clear_connected:
                         #  x = j, y
                         li $t9, 1 # we cleared something
                         
+                        # What did we clear 
+                        # ------  Get value from bitmap ------ 
+                        push($ra)
+                        push($v0)
+                        push($a0)
+                        push($a1)
+                        push_temps()
+                        
+                        add $a0, $zero, $s7
+                        add $a1, $zero, $s3
+                        jal get_value_in_game_bitmap # return in v0
+                        
+                        pop_temps()
+                        pop($a1)
+                        pop($a0)
+                        # if virus
+                        push_temps()
+                        li $t0, 13 
+                        blt $v0, $t0, FIRST_IF_CAPSULE # < 13 implies 
+                        FIRST_IF_VIRUS:
+                            lw $t0, score
+                            lw $t1, difficulty
+                            sll $t1, $t1, 1 # multiply by 2
+                            add $t0, $t0, $t1 # so score = score + 2 * difficulty
+                            sw $t0, score # store score in memory
+                            j END_FIRST_IF
+                        FIRST_IF_CAPSULE:
+                            lw $t0, score
+                            lw $t1, difficulty
+                            add $t0, $t0, $t1 # score = score + difficulty
+                            sw $t0, score # store score in memory
+                            j END_FIRST_IF
+                        END_FIRST_IF:
+                        pop_temps()
+                        pop($v0)
+                        pop($ra)
+                        
+                        # ------ got the value from bitmap ------ 
+                        
                         push($ra)
                         push_temps()
                         push($s7)
@@ -9724,6 +11392,54 @@ clear_connected:
                         #  x, y = j
                         li $t9, 1 # we cleared something
                         
+                        # What did we clear 
+                        # ------  Get value from bitmap ------ 
+                        push($ra)
+                        push($v0)
+                        push($a0)
+                        push($a1)
+                        push_temps()
+                        
+                        add $a0, $zero, $s3
+                        add $a1, $zero, $s7
+                        jal get_value_in_game_bitmap # return in v0
+                        
+                        pop_temps()
+                        pop($a1)
+                        pop($a0)
+                        # if virus
+                        push_temps()
+                        li $t0, 13 
+                        blt $v0, $t0, SECOND_IF_CAPSULE # < 13 implies 
+                        SECOND_IF_VIRUS:
+                            lw $t0, score
+                            lw $t1, difficulty
+                            sll $t1, $t1, 1 # multiply by 2
+                            add $t0, $t0, $t1 # so score = score + 2 * difficulty
+                            sw $t0, score # store score in memory
+                            j END_SECOND_IF
+                        SECOND_IF_CAPSULE:
+                            lw $t0, score
+                            lw $t1, difficulty
+                            add $t0, $t0, $t1 # score = score + difficulty
+                            sw $t0, score # store score in memory
+                            j END_SECOND_IF
+                        END_SECOND_IF:
+                        pop_temps()
+                        pop($v0)
+                        pop($ra)
+                        
+                        # ------ got the value from bitmap ------ 
+                        
+                        push($ra)
+                        push_temps()
+                        push($s7)
+                        push($s3)
+                        push($zero)
+                        jal update_game_bitmap
+                        pop_temps()
+                        pop($ra)
+                        
                         push($ra)
                         push_temps()
                         push($s3)
@@ -9795,7 +11511,7 @@ gravity:
     beq $t0, $t1, S_LOAD_CAPSULE_CASE_1 # if load state = 1
     j S_LOAD_CAPSULE_CASE_1_END # if load state != 1
     S_LOAD_CAPSULE_CASE_1:
-        li $t6, 1
+        # if capsule loading = 1
     
         # turn load capsule off
         sb $zero, capsule_loading
@@ -9804,7 +11520,7 @@ gravity:
         
         # left side of capsule:
         addi $t0, $zero, 4 
-        addi $t1, $zero, 2 
+        addi $t1, $zero, 4 
         li $t2, 10
         li $t3, 20 
         la $t4, bottle_bitmap
@@ -9823,7 +11539,7 @@ gravity:
         
         # right side of capsule:
         addi $t0, $zero, 5
-        addi $t1, $zero, 2 
+        addi $t1, $zero, 4 
         li $t2, 10
         li $t3, 20 
         la $t4, bottle_bitmap
@@ -9850,7 +11566,7 @@ gravity:
         jal check_collision 
         pop_temps()
         pop($ra)
-        bne $v0, $zero, handle_q_press #!!!
+        bne $v0, $zero, gameover_loop #!!!
         
         li $a0, 4
         li $a1, 0
@@ -9861,7 +11577,7 @@ gravity:
         jal check_collision 
         pop_temps()
         pop($ra)
-        bne $v0, $zero, handle_q_press
+        bne $v0, $zero, gameover_loop
         
         # ----- Draw -----
         
@@ -9895,12 +11611,14 @@ gravity:
         
         push($ra)
         push_temps()
+        li $a0, 1
         jal update_bottle_bitmap
         pop_temps()
         pop($ra)
         
         # Return
-        add $v0, $t6, $zero
+        li $t0, 1
+        add $v0, $t6, $t0
         jr $ra
     S_LOAD_CAPSULE_CASE_1_END:
 
@@ -10542,7 +12260,8 @@ update_game_bitmap:
 load_random_viruses:
     add $s2, $zero, $zero
     add $t0, $zero, $zero # count variable (loop)
-    addiu $t1, $zero, 4 # constant 4
+    # addiu $t1, $zero, 4 # constant 4
+    lw $t1, max_viruses
     
     VIRUSES_LOOP: bge $t0, $t1, END_VIRUS_LOOP # count >= 4 then skip
         li $v0, 42
@@ -10553,9 +12272,9 @@ load_random_viruses:
         
         li $v0, 42
         li $a0, 0
-        li $a1, 8
+        li $a1, 10
         syscall
-        addiu $t4, $zero, 8
+        addiu $t4, $zero, 6
         add $t6, $t4, $a0 # t5 stores the rand y
         
         # see whats there in the bitmap
@@ -10634,9 +12353,9 @@ draw_bottle_bitmap:
     la $t0, bottle_bitmap
     
     li $t2, -1 # start_x
-    li $t3, -3 # start_y
+    li $t3, -5 # start_y
     li $t4, 10 # width
-    li $t5, 20 # height
+    li $t5, 22 # height
     
     push($ra)
     push($t2) # start_x
@@ -10842,6 +12561,507 @@ get_sprite:
 ##############################################################################
 # SCREEN DRAWING FUNCTIONS
 ##############################################################################
+
+draw_score_numbers:
+    li $a0, 110 # x
+    li $a1, 35 # y
+    addi $a2, $zero, 5 # length
+    # Perform division to get both quotient and remainder
+    lw $t0, score    # Load the score into $t0
+    push($ra)
+
+    # Get ones place
+    li $t1, 10
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t2         # Ones place digit in $t2
+    push($t2)
+
+    # Get tens place
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t3         # Tens place digit in $t3
+    push($t3)
+
+    # Get hundreds place
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t4         # Hundreds place digit in $t4
+    push($t4)
+
+    # Get thousands place
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t5         # Thousands place digit in $t5
+    push($t5)
+
+    # Get hundreds of thousands place
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t6         # Hundreds of thousands place digit in $t6
+    push($t6)
+
+    jal draw_word
+    pop($ra)
+    jr $ra
+    
+
+draw_score_words:
+    li $a0, 110 # x
+    li $a1, 15 # y
+    li $a2, 5 # S C O R E = 5 letters
+    # put all the codes on the stack, in reverse order 
+    push($ra)
+    pushi($t0, 10) # E 
+    pushi($t0, 19) # R
+    pushi($t0, 20) # O
+    pushi($t0, 22) # C
+    pushi($t0, 12) # S
+    jal draw_word
+    pop($ra)
+    jr $ra
+    
+draw_gameover_words:
+    push($ra)
+    jal draw_background
+    pop($ra)
+    
+    # win variable
+    lw $t0, won
+    beq $t0 $zero, GAMEOVER_WORDS_START
+    
+    # else draw the win title
+    li $a0, 104 # x
+    li $a1, 40 # y
+    li $a2, 3 # W I N = 3 letters
+    # put all the codes on the stack, in reverse order
+    push($ra)
+    pushi($t0, 28) # N 
+    pushi($t0, 27) # I 
+    pushi($t0, 26) # W
+    jal draw_word 
+    pop($ra)
+    
+    # skip over gameover words
+    b GAMEOVER_TITLE_END
+    
+    # ------- GAMEOVER WORDS -------
+    
+    GAMEOVER_WORDS_START:
+    li $a0, 60 # x
+    li $a1, 40 # y
+    li $a2, 8 # G A M E O V E R = 8 letters
+    # put all the codes on the stack, in reverse order
+    push($ra)
+    pushi($t0, 19) # R
+    pushi($t0, 10) # E
+    pushi($t0, 23) # V
+    pushi($t0, 20) # O
+    pushi($t0, 10) # E
+    pushi($t0, 14) # M
+    pushi($t0, 11) # A 
+    pushi($t0, 21) # G
+    jal draw_word
+    pop($ra)
+    
+    GAMEOVER_TITLE_END:
+    
+    
+    # ------- SCORE WORDS --------
+    
+    # Draw score under it
+    li $a0, 88 # x
+    li $a1, 70 # y
+    li $a2, 5 # S C O R E = 5 letters
+    # put all the codes on the stack, in reverse order 
+    push($ra)
+    pushi($t0, 10) # E 
+    pushi($t0, 19) # R
+    pushi($t0, 20) # O
+    pushi($t0, 22) # C
+    pushi($t0, 12) # S
+    jal draw_word
+    pop($ra)
+    
+    # ------ SCORE NUMBERS -------
+    
+    li $a0, 88 # x
+    li $a1, 90 # y
+    addi $a2, $zero, 5 # length
+    # Perform division to get both quotient and remainder
+    lw $t0, score    # Load the score into $t0
+    push($ra)
+
+    # Get ones place
+    li $t1, 10
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t2         # Ones place digit in $t2
+    push($t2)
+
+    # Get tens place
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t3         # Tens place digit in $t3
+    push($t3)
+
+    # Get hundreds place
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t4         # Hundreds place digit in $t4
+    push($t4)
+
+    # Get thousands place
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t5         # Thousands place digit in $t5
+    push($t5)
+
+    # Get hundreds of thousands place
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t6         # Hundreds of thousands place digit in $t6
+    push($t6)
+
+    jal draw_word
+    pop($ra)
+    
+    # ------ DRAW RETRY WORDS ------
+    
+    li $a0, 72 # x
+    li $a1, 120 # y
+    addi $a2, $zero, 7 # R - R E T R Y = 7 letters
+    
+    push($ra)
+    pushi($t0, 13) # Y
+    pushi($t0, 19) # R
+    pushi($t0, 24) # T
+    pushi($t0, 10) # E
+    pushi($t0, 19) # R
+    pushi($t0, 25) # -
+    pushi($t0, 19) # R
+    jal draw_word
+    pop($ra)
+    
+    # ------ DRAW TO CANVAS ------
+    
+    push($ra)
+    jal push_canvas
+    pop($ra)
+    jr $ra
+    
+draw_difficulty_selection:
+    # Draw the background
+    push($ra)
+    jal draw_background
+    pop($ra)
+    
+    # Draw the difficulties - Easy, Medium, Hard
+    push($ra)
+    jal draw_easy_words
+    pop($ra)
+    
+    push($ra)
+    jal draw_medium_words
+    pop($ra)
+    
+    push($ra)
+    jal draw_hard_words
+    pop($ra)
+    
+    jr $ra
+    
+# Arguments:
+# a0 - number from 0-2, indicating the selection of easy/medium/hard
+draw_select:
+    push($ra)
+    push_temps()
+    li $t0, 70 # x
+    push($t0)
+    
+    li $t0, 60 # y
+    li $t1, 20 
+    mult $t1, $a0
+    mflo $t1 
+    add $t0, $t0, $t1  # y = y + 20 * (a0)
+    
+    push($t0) 
+    li $t0, 16 # width
+    push($t0)
+    li $t0, 16 # height
+    push($t0)
+    la $t0, UNPAUSED_SPRITE
+    push($t0)
+    jal draw_rect
+    pop_temps()
+    pop($ra)
+    
+    jr $ra
+
+    
+draw_easy_words:
+    li $a0, 90 # x
+    li $a1, 60 # y
+    li $a2, 4 # E A S Y = 4 letters
+    
+    # push letters onto stack, in reverse order
+    push($ra)
+    pushi($t0, 13) # Y
+    pushi($t0, 12) # S
+    pushi($t0, 11) # A
+    pushi($t0, 10) # E
+    jal draw_word
+    pop($ra)
+    
+    jr $ra
+    
+
+draw_medium_words:
+    li $a0, 90 # x
+    li $a1, 80 # y
+    li $a2, 6 # M E D I U M = 6 letters
+    
+    # push letters onto stack, in reverse order
+    push($ra)
+    pushi($t0, 14) # M
+    pushi($t0, 17) # U
+    pushi($t0, 16) # I
+    pushi($t0, 15) # D
+    pushi($t0, 10) # E
+    pushi($t0, 14) # M
+    jal draw_word
+    pop($ra)
+    
+    jr $ra
+
+draw_hard_words:
+    li $a0, 90 # x
+    li $a1, 100 # y
+    li $a2, 4 # H A R D = 4 letters
+    
+    # push letters onto stack, in reverse order
+    push($ra)
+    pushi($t0, 15) # D
+    pushi($t0, 19) # R
+    pushi($t0, 11) # A
+    pushi($t0, 18) # H
+    jal draw_word
+    pop($ra)
+    
+    jr $ra
+
+
+
+
+    
+
+# Arugments:
+# a0 - x (start)
+# a1 - y (start)
+# a2 - length
+# - codes on the stack
+draw_word:
+    add $t1, $a0, $zero # t1 = x 
+    add $t2, $a1, $zero # t2 = y
+    add $t3, $a2, $zero # t3 = length
+    
+    # counter variable = t0
+    add $t0, $zero, $zero # start t0 = 0 
+    DRAW_WORD_LOOP: bge $t0, $t3, END_DRAW_WORD_LOOP # exit if count >= length
+        pop($t5) # the code on the stack
+        
+        # draw the letter
+        push($ra)
+        push_temps()
+        add $a0, $zero, $t1 # x
+        add $a1, $zero, $t2 # y
+        add $a2, $zero, $t5 # code 
+        jal draw_letter
+        pop_temps()
+        pop($ra)
+    
+        # Increment
+        addi $t1, $t1, 16 # move x to the next pos
+        addi $t0, $t0, 1
+        j DRAW_WORD_LOOP
+    END_DRAW_WORD_LOOP:
+        jr $ra
+    
+    
+
+# Arguments:
+# a0 - x 
+# a1 - y 
+# a2 - code 
+draw_letter:
+    push($ra)
+    push_temps()
+    push($a0) # x
+    push($a1) # y 
+    pushi($t0, 16) # width
+    pushi($t0, 16) # height
+    
+    # ------ Determine the code ------
+    # Start numbers
+    li $t1, 0
+    beq $a2, $t1, DRAW_NUMBER_0
+    li $t1, 1
+    beq $a2, $t1, DRAW_NUMBER_1
+    li $t1, 2
+    beq $a2, $t1, DRAW_NUMBER_2
+    li $t1, 3
+    beq $a2, $t1, DRAW_NUMBER_3
+    li $t1, 4
+    beq $a2, $t1, DRAW_NUMBER_4
+    li $t1, 5
+    beq $a2, $t1, DRAW_NUMBER_5
+    li $t1, 6
+    beq $a2, $t1, DRAW_NUMBER_6
+    li $t1, 7
+    beq $a2, $t1, DRAW_NUMBER_7
+    li $t1, 8
+    beq $a2, $t1, DRAW_NUMBER_8
+    li $t1, 9
+    beq $a2, $t1, DRAW_NUMBER_9
+
+    # Start letters
+    li $t1, 10
+    beq $a2, $t1, DRAW_LETTER_E
+    li $t1, 11
+    beq $a2, $t1, DRAW_LETTER_A
+    li $t1, 12
+    beq $a2, $t1, DRAW_LETTER_S
+    li $t1, 13
+    beq $a2, $t1, DRAW_LETTER_Y
+    li $t1, 14
+    beq $a2, $t1, DRAW_LETTER_M
+    li $t1, 15
+    beq $a2, $t1, DRAW_LETTER_D
+    li $t1, 16
+    beq $a2, $t1, DRAW_LETTER_I
+    li $t1, 17
+    beq $a2, $t1, DRAW_LETTER_U
+    li $t1, 18
+    beq $a2, $t1, DRAW_LETTER_H
+    li $t1, 19
+    beq $a2, $t1, DRAW_LETTER_R
+    li $t1, 20
+    beq $a2, $t1, DRAW_LETTER_O
+    li $t1, 21
+    beq $a2, $t1, DRAW_LETTER_G
+    li $t1, 22
+    beq $a2, $t1, DRAW_LETTER_C
+    li $t1, 23
+    beq $a2, $t1, DRAW_LETTER_V
+    li $t1, 24
+    beq $a2, $t1, DRAW_LETTER_T
+    li $t1, 25
+    beq $a2, $t1, DRAW_HYPHEN
+    li $t1, 26
+    beq $a2, $t1, DRAW_GREEN_W
+    li $t1, 27
+    beq $a2, $t1, DRAW_GREEN_I
+    li $t1, 28
+    beq $a2, $t1, DRAW_GREEN_N
+
+    # START NUMBERS
+    DRAW_NUMBER_0:
+        la $t0, NUMBER_0_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_NUMBER_1:
+        la $t0, NUMBER_1_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_NUMBER_2:
+        la $t0, NUMBER_2_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_NUMBER_3:
+        la $t0, NUMBER_3_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_NUMBER_4:
+        la $t0, NUMBER_4_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_NUMBER_5:
+        la $t0, NUMBER_5_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_NUMBER_6:
+        la $t0, NUMBER_6_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_NUMBER_7:
+        la $t0, NUMBER_7_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_NUMBER_8:
+        la $t0, NUMBER_8_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_NUMBER_9:
+        la $t0, NUMBER_9_SPRITE
+        j DRAW_LETTER_ENDIF
+    # END NUMBERS
+    
+    DRAW_LETTER_E:
+        la $t0, LETTER_E_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_A:
+        la $t0, LETTER_A_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_S:
+        la $t0, LETTER_S_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_Y:
+        la $t0, LETTER_Y_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_M:
+        la $t0, LETTER_M_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_D:
+        la $t0, LETTER_D_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_I:
+        la $t0, LETTER_I_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_U:
+        la $t0, LETTER_U_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_H:
+        la $t0, LETTER_H_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_R:
+        la $t0, LETTER_R_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_O:
+        la $t0, LETTER_O_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_G:
+        la $t0, LETTER_G_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_C:
+        la $t0, LETTER_C_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_V:
+        la $t0, LETTER_V_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_LETTER_T:
+        la $t0, LETTER_T_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_HYPHEN:
+        la $t0, HYPHEN_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_GREEN_W:
+        la $t0, LETTER_W_GREEN_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_GREEN_I:
+        la $t0, LETTER_I_GREEN_SPRITE
+        j DRAW_LETTER_ENDIF
+    DRAW_GREEN_N:
+        la $t0, LETTER_N_GREEN_SPRITE
+        j DRAW_LETTER_ENDIF
+        
+    DRAW_LETTER_ENDIF:
+        push($t0) # address to colour array
+        jal draw_rect
+        pop_temps()
+        pop($ra)
+    jr $ra
+    
     
 # Arguments: 
 # $t4 - x (screen unit)
