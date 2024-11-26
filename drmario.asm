@@ -1320,6 +1320,522 @@ WALL_SPRITE:
     .word 0xFFFFFF
     .word 0xFFFFFF
     .word 0xFFFFFF
+    
+PAUSED_SPRITE:
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    
+UNPAUSED_SPRITE:
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0xFFFFFF
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
+    .word 0x000000
 
 ##############################################################################
 # Mutable Data
@@ -1559,8 +2075,20 @@ capsule_orientation:
     
 need_clear:
     .byte 1
-    
+
+s_held:
+    .word 0
+
+gravity_speed: # how many ticks until one fall
+    .word 50
+
 gravity_timer:
+    .word 0
+
+gravity_increase_speed:
+    .word 5
+    
+gravity_increase_timer:
     .word 0
 
 ##############################################################################
@@ -1595,46 +2123,92 @@ main:
 # GAME LOOP
 ##############################################################################
 game_loop:
-    # jal update_bottle_bitmap
+    # DRAW UNPAUSE SYMBOL
+    push($ra)
+    push_temps()
+    li $t0, 225
+    push($t0)
+    li $t0, 15
+    push($t0)
+    li $t0, 16
+    push($t0)
+    li $t0, 16
+    push($t0)
+    la $t0, UNPAUSED_SPRITE
+    push($t0)
+    jal draw_rect
+    pop_temps()
+    pop($ra)
+
+    # Draw bitmaps
     jal draw_bottle_bitmap
     jal draw_game_bitmap
     jal push_canvas
     
     # Quit if done the game | we could make this be a cool game over screen or smth
     jal count_viruses
-    beq $v0, $zero, IF_GAME_LOOP_END # won the game if 0 virus left, so quit
+    beq $v0, $zero, handle_q_press # won the game if 0 virus left, so quit
     
     jal handle_key_press
-    # jal handle_s_press
-    jal run_timer
-    beq $v0, $zero, END_IF_GRAVITY
-    jal gravity
-    bne $v0, $zero, IF_GRAVITY
-    beq $v0, $zero, IF_NOT_GRAVITY
+    
+    # Increase gravity speed
+    # push($ra)
+    # jal increase_gravity_speed
+    # pop($ra)
+    
+    # Check if gravity timer is up
+    la $a0, gravity_timer
+    lw $a1, gravity_speed
+    jal run_timer # return in $v0
+    
+    # Skip timer if s is held
+    lw $t0, s_held
+    blez $t0, END_IF_S_HELD
+    bgtz $t0, IF_S_HELD
+    IF_S_HELD:
+        li $v0, 1
+    END_IF_S_HELD:
+    
+    # Run gravity
+    beq $v0, $zero, END_IF_GRAVITY # Skip if timer is not up
+        jal gravity
+    bne $v0, $zero, IF_GRAVITY # If at least one thing was pulled by gravity
+    beq $v0, $zero, IF_NOT_GRAVITY # If nothing was pulled by gravity
     IF_GRAVITY:
         j END_IF_GRAVITY
     IF_NOT_GRAVITY:
-        lb $t0, need_clear
-        bne $t0, $zero, IF_NEED_CLEAR
-        beq $t0, $zero, IF_NOT_NEED_CLEAR
-        IF_NEED_CLEAR:
-            jal clear_connected # v0 - returns 1 if clear, 0 otherwise
-            # clear again if we cleared something 
-            bne $v0, $zero, IF_NEED_CLEAR
-            sb $zero, need_clear
+        # lb $t0, need_clear
+        # bne $t0, $zero, IF_NEED_CLEAR
+        # beq $t0, $zero, IF_NOT_NEED_CLEAR
+        # IF_NEED_CLEAR:
+            # jal clear_connected # v0 - returns 1 if clear, 0 otherwise
+            # # clear again if we cleared something 
+            # bne $v0, $zero, IF_NEED_CLEAR
+            # sb $zero, need_clear
         
-            j END_IF_NEED_CLEAR
-        IF_NOT_NEED_CLEAR:
+            # j END_IF_NEED_CLEAR
+        # IF_NOT_NEED_CLEAR:
             jal clear_connected # v0 - returns 1 if clear, 0 otherwise
-            # clear again if we cleared something 
-            bne $v0, $zero, game_loop
+            # if cleared something
+            bne $v0, $zero, IF_CLEARED_SOMETHING
+            beq $v0, $zero, END_IF_CLEARED_SOMETHING
+            IF_CLEARED_SOMETHING:
+                lw $t0, gravity_speed
+                addi $t0, $t0, -2
+                sw $t0, gravity_speed
+                j END_IF_GRAVITY
+            END_IF_CLEARED_SOMETHING:
+            
+            
+            # add new capsule to bottle bitmap
             li $a0, 0
             jal update_bottle_bitmap
         
-            li $t1, 1
-            sb $t1, need_clear
-            j END_IF_NEED_CLEAR
-        END_IF_NEED_CLEAR:
+            # need clear
+            # li $t1, 1
+            # sb $t1, need_clear
+            # j END_IF_NEED_CLEAR
+        # END_IF_NEED_CLEAR:
     
         j END_IF_GRAVITY
     END_IF_GRAVITY:
@@ -1647,33 +2221,75 @@ game_loop:
             # spawn new capsule in bottle map
 
     j game_loop
-    
-    IF_GAME_LOOP_END:
-        jr $ra
+
+# increase_gravity_speed:
+    # la $a0, gravity_increase_timer
+    # lw $a1, gravity_increase_speed
+    # add $t0, $a1, $zero
+    # push($ra)
+    # push_temps()
+    # jal run_timer
+    # pop_temps()
+    # pop($ra)
+    # beq $v0, $zero, END_IF_GRAVITY_INCREASE
+    # bne $v0, $zero, IF_GRAVITY_INCREASE
+    # IF_GRAVITY_INCREASE:
+        # lw $t0, gravity_speed
+        # addi $t0, $t0, -1
+        # sw $t0, gravity_speed
+    # END_IF_GRAVITY_INCREASE:
+    # jr $ra
 
 # $a0 - timer address
 # $a1 - timer interval
 # $v0 - timer ticked (0/1)
 run_timer:
-    lw $t0, gravity_timer
-    addi $t0, $t0, 1
-    sw $t0, gravity_timer
-    li $t1, 5
-    seq $t2, $t0, $t1 # gravity_timer = 1000
+    # load timer progress
+    lw $t0, 0($a0)
+    # increment timer progress
+    addi $t0, $t0, 5
+    # save incremented timer progress
+    sw $t0, 0($a0)
+    sge $t2, $t0, $a1 # t2 = timer progress >= timer interval
     beq $t2, $zero, CONT_TIMER
-    sw $zero, gravity_timer
-    li $v0, 1
+    # timer is passed
+    sw $zero, 0($a0) # reset timer progress
+    li $v0, 1 # return true
     jr $ra
     CONT_TIMER:
-        li $v0, 0
+        li $v0, 0 # return false
         jr $ra
         
 pause_loop:
     # a while loop that waits until you press p to quit it 
     lw $t0, ADDR_KBRD # keyboard base address
     
+    push($ra)
+    push_temps()
+    li $t0, 225
+    push($t0)
+    li $t0, 15
+    push($t0)
+    li $t0, 16
+    push($t0)
+    li $t0, 16
+    push($t0)
+    la $t0, PAUSED_SPRITE
+    push($t0)
+    jal draw_rect
+    pop_temps()
+    pop($ra)
+    
+    push($ra)
+    push_temps()
+    jal push_canvas
+    pop_temps()
+    pop($ra)
+    
     PAUSE_WHILE_LOOP: 
         # TODO: DRAW PAUSE SYMBOL
+        
+        
         lw $t8, 0($t0)    # Load first word from keyboard
         bne $t8, 1, PAUSE_WHILE_LOOP # if keyboard is not pressed, stay here
     
@@ -1683,7 +2299,8 @@ pause_loop:
     # if it is not p, then keep looping
     bne $t1, 0x70, PAUSE_WHILE_LOOP
     
-    # TODO: ERASE PAUSE SYMBOL
+    
+    
     # we pressed p so leave
     jr $ra
 
@@ -1839,13 +2456,41 @@ handle_key_press:
     lw $a0, 4($t0)                  # Load second word from keyboard
 
     beq $a0, 0x71, handle_q_press     # done
-    beq $a0, 0x61, handle_a_press     
-    beq $a0, 0x73, handle_s_press     # working on
+    beq $a0, 0x61, handle_a_press    
     beq $a0, 0x64, handle_d_press
     beq $a0, 0x77, handle_w_press
     beq $a0, 0x70, pause_loop # P -> pause loop
     
+  
+     beq $a0, 0x73, HANDLE_S
+     # push($ra)
+     # jal handle_s_unpress     # working on
+     # pop($ra)
+     # j HANDLE_S_END
+    HANDLE_S:
+        push($ra)
+        jal handle_s_press
+        pop($ra)
+        j done
+    HANDLE_S_END:
+       
+    
+    
     skip_handle_key_press:
+      # push($ra)
+    # jal handle_s_press
+    # jal handle_s_unpress
+    # pop($ra)
+    # push($ra)
+    # push_temps()
+    # jal handle_s_unpress
+    # pop_temps()
+    # pop($ra)
+
+    push($ra)
+        jal handle_s_unpress
+        pop($ra)
+    done:
     jr $ra
 
 handle_q_press:
@@ -1855,156 +2500,164 @@ handle_q_press:
     
 
 handle_s_press:
+    li $t0, 1
+    sw $t0, s_held
+    jr $ra
     # capsule_needed = capsule colliding at bottom
-    lb $t0 capsule_needed
+    # lb $t0 capsule_needed
     
     
-    # If (capsule_needed) spawn a capsule into bottle bitmap
-    # Else If (capsule_loading) move capsule from bottle bitmap to game bitmap
-    # Else move_capsule(down)
+    # # If (capsule_needed) spawn a capsule into bottle bitmap
+    # # Else If (capsule_loading) move capsule from bottle bitmap to game bitmap
+    # # Else move_capsule(down)
     
-    # Check whether we are in a load capsule state ! 
-    lb $t0, capsule_loading
-    li $t1, 1 # $t1 = 1
+    # # Check whether we are in a load capsule state ! 
+    # lb $t0, capsule_loading
+    # li $t1, 1 # $t1 = 1
     
-    beq $t0, $t1, S_LOAD_CAPSULE_CASE # if load state = 1
-    bne $t0, $t1, S_MOVE_DOWN # if load state != 1
-    S_LOAD_CAPSULE_CASE:
-        # turn load capsule off
-        sb $zero, capsule_loading
+    # beq $t0, $t1, S_LOAD_CAPSULE_CASE # if load state = 1
+    # bne $t0, $t1, S_MOVE_DOWN # if load state != 1
+    # S_LOAD_CAPSULE_CASE:
+        # # turn load capsule off
+        # sb $zero, capsule_loading
         
-        # ----- Get the colours from the bitmap -----
+        # # ----- Get the colours from the bitmap -----
         
-        # left side of capsule:
-        addi $t0, $zero, 4 
-        addi $t1, $zero, 2 
-        li $t2, 10
-        li $t3, 20 
-        la $t4, bottle_bitmap
+        # # left side of capsule:
+        # addi $t0, $zero, 4 
+        # addi $t1, $zero, 2 
+        # li $t2, 10
+        # li $t3, 20 
+        # la $t4, bottle_bitmap
         
-        push($ra)
-        push($t0) # x
-        push($t1) # y
-        push($t2) # width
-        push($t3) # height
-        push($t4) 
-        jal get_value_in_bitmap # return value in $v0
-        add $s5, $zero, $v0
-        pop($ra)
+        # push($ra)
+        # push($t0) # x
+        # push($t1) # y
+        # push($t2) # width
+        # push($t3) # height
+        # push($t4) 
+        # jal get_value_in_bitmap # return value in $v0
+        # add $s5, $zero, $v0
+        # pop($ra)
         
-        # right side of capsule:
-        addi $t0, $zero, 5
-        addi $t1, $zero, 2 
-        li $t2, 10
-        li $t3, 20 
-        la $t4, bottle_bitmap
+        # # right side of capsule:
+        # addi $t0, $zero, 5
+        # addi $t1, $zero, 2 
+        # li $t2, 10
+        # li $t3, 20 
+        # la $t4, bottle_bitmap
         
-        push($ra)
-        push($t0) # x
-        push($t1) # y
-        push($t2) # width
-        push($t3) # height
-        push($t4)
-        jal get_value_in_bitmap  # return value in $v0
-        add $s6, $zero, $v0
-        pop($ra)
+        # push($ra)
+        # push($t0) # x
+        # push($t1) # y
+        # push($t2) # width
+        # push($t3) # height
+        # push($t4)
+        # jal get_value_in_bitmap  # return value in $v0
+        # add $s6, $zero, $v0
+        # pop($ra)
         
-        # ----- Check collision -----
-        li $a0, 3
-        li $a1, 0
-        li $a2, 0
-        li $a3, 0
-        push($ra)
-        jal check_collision 
-        pop($ra)
-        bne $v0, $zero, S_EXIT
+        # # ----- Check collision -----
+        # li $a0, 3
+        # li $a1, 0
+        # li $a2, 0
+        # li $a3, 0
+        # push($ra)
+        # jal check_collision 
+        # pop($ra)
+        # bne $v0, $zero, S_EXIT
         
-        li $a0, 4
-        li $a1, 0
-        li $a2, 0
-        li $a3, 0
-        push($ra)
-        jal check_collision 
-        pop($ra)
-        bne $v0, $zero, S_EXIT
+        # li $a0, 4
+        # li $a1, 0
+        # li $a2, 0
+        # li $a3, 0
+        # push($ra)
+        # jal check_collision 
+        # pop($ra)
+        # bne $v0, $zero, S_EXIT
         
-        # ----- Draw -----
+        # # ----- Draw -----
         
-        # left side
-        push($ra)
-        pushi($t0, 3) # x
-        pushi($t0, 0) # y
-        push($s5) # code
-        jal update_game_bitmap
-        pop($ra)
+        # # left side
+        # push($ra)
+        # pushi($t0, 3) # x
+        # pushi($t0, 0) # y
+        # push($s5) # code
+        # jal update_game_bitmap
+        # pop($ra)
         
-        # right side
-        push($ra)
-        pushi($t0, 4) # x
-        pushi($t0, 0) # y
-        push($s6) # code
-        jal update_game_bitmap
-        pop($ra)
+        # # right side
+        # push($ra)
+        # pushi($t0, 4) # x
+        # pushi($t0, 0) # y
+        # push($s6) # code
+        # jal update_game_bitmap
+        # pop($ra)
         
-        # set capsule x and y to initial pos
-        addiu, $t0, $zero, 3 
-        addiu, $t1, $zero, 0
-        sw $t0, capsule_x
-        sw $t1, capsule_y
+        # # set capsule x and y to initial pos
+        # addiu, $t0, $zero, 3 
+        # addiu, $t1, $zero, 0
+        # sw $t0, capsule_x
+        # sw $t1, capsule_y
         
-        # Return
-        b END_HANDLE_S_PRESS
-    S_MOVE_DOWN:
-        # Check collision
-        push($ra)
-        push_temps()
-        li $a0, 1
-        lw $a1, capsule_x
-        lw $a2, capsule_y
-        lb $a3, capsule_orientation
-        jal check_collision_capsule 
-        pop_temps()
-        pop($ra)
-        bne $v0, $zero, S_MOVE_DOWN_COLLISION
+        # # Return
+        # b END_HANDLE_S_PRESS
+    # S_MOVE_DOWN:
+        # # Check collision
+        # push($ra)
+        # push_temps()
+        # li $a0, 1
+        # lw $a1, capsule_x
+        # lw $a2, capsule_y
+        # lb $a3, capsule_orientation
+        # jal check_collision_capsule 
+        # pop_temps()
+        # pop($ra)
+        # bne $v0, $zero, S_MOVE_DOWN_COLLISION
         
-        # Move the capsule
-        push($ra)
-        push_temps()
-        li $a0, 0
-        li $a1, 1
-        lw $a2, capsule_x
-        lw $a3, capsule_y
-        lb $t2, capsule_orientation
-        jal move_capsule
-        pop_temps()
-        pop($ra)
+        # # Move the capsule
+        # push($ra)
+        # push_temps()
+        # li $a0, 0
+        # li $a1, 1
+        # lw $a2, capsule_x
+        # lw $a3, capsule_y
+        # lb $t2, capsule_orientation
+        # jal move_capsule
+        # pop_temps()
+        # pop($ra)
         
-        lw $t0, capsule_x
-        lw $t1, capsule_y
-        addi $t1, $t1, 1
-        sw $t0, capsule_x
-        sw $t1, capsule_y
+        # lw $t0, capsule_x
+        # lw $t1, capsule_y
+        # addi $t1, $t1, 1
+        # sw $t0, capsule_x
+        # sw $t1, capsule_y
         
-        j END_HANDLE_S_PRESS
+        # j END_HANDLE_S_PRESS
 
-    S_MOVE_DOWN_COLLISION:
-        push($ra)
-        push_temps()
-        jal clear_connected
-        pop_temps()
-        pop($ra)
+    # S_MOVE_DOWN_COLLISION:
+        # push($ra)
+        # push_temps()
+        # jal clear_connected
+        # pop_temps()
+        # pop($ra)
         
-        li $t0, 1
-        sb $t0, capsule_needed
-        li $t0, 0
-        sb $t0, capsule_orientation
-        jr $ra
+        # li $t0, 1
+        # sb $t0, capsule_needed
+        # li $t0, 0
+        # sb $t0, capsule_orientation
+        # jr $ra
         
-    END_HANDLE_S_PRESS:
-        jr $ra
+    # END_HANDLE_S_PRESS:
+        # jr $ra
         
-    S_EXIT:
-        j exit
+    # S_EXIT:
+        # j exit
+
+handle_s_unpress:
+    li $t0, 0
+    sw $t0, s_held
+    jr $ra
     
 handle_a_press:
     # Capsule loading => do nothing
@@ -2999,7 +3652,7 @@ gravity:
         jal check_collision 
         pop_temps()
         pop($ra)
-        bne $v0, $zero, S_EXIT #!!!
+        bne $v0, $zero, handle_q_press #!!!
         
         li $a0, 4
         li $a1, 0
@@ -3010,7 +3663,7 @@ gravity:
         jal check_collision 
         pop_temps()
         pop($ra)
-        bne $v0, $zero, S_EXIT
+        bne $v0, $zero, handle_q_press
         
         # ----- Draw -----
         
