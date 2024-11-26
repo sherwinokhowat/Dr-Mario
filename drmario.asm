@@ -10155,6 +10155,9 @@ difficulty: # 1 - 3 / easy / med / hard
 score:
     .word 0
     
+highscore:
+    .word 0
+    
 max_viruses:
     .word 0
     
@@ -10202,9 +10205,16 @@ game_loop:
     pop_temps()
     pop($ra)
     
+    # Draw difficulty
+    jal draw_difficulty
+    
     # Draw score
     jal draw_score_words
     jal draw_score_numbers
+    
+    # Draw highscore
+    jal draw_highscore_words
+    jal draw_highscore_numbers
 
     # Draw bitmaps
     jal draw_bottle_bitmap
@@ -10333,6 +10343,19 @@ restart_game:
 
     la $t9, game_bitmap
     
+    # Check whether won and highscore > score
+    
+    lw $t2, won 
+    
+    beq $t2, $zero, UPDATE_WON_SKIP # skip if we did not win
+    UPDATE_WON: # only update highscore if we won
+        # otherwise, update score
+        lw $t0, score
+        lw $t1, highscore
+        
+        ble $t0, $t1, UPDATE_WON_SKIP # skip if score <= highscore
+        sw $t0, highscore # socre > highscore, so update
+    UPDATE_WON_SKIP:
     
     
     # RESET CAPSULE NEEDED
@@ -10494,7 +10517,7 @@ difficulty_selection_loop:
             b HARD_SELECTED
             EASY_SELECTED:
                 # number of virus
-                li $t0, 4
+                li $t0, 1
                 sw $t0, max_viruses
                 
                 # gravity speed
@@ -12827,6 +12850,135 @@ get_sprite:
 # SCREEN DRAWING FUNCTIONS
 ##############################################################################
 
+draw_difficulty:
+    lw $t0, difficulty # t0 \in {1, 2, 3}
+    
+    # chosen easy
+    li $t1, 1
+    beq $t0, $t1, DRAW_EASY_DIFFICULTY
+    
+    # chosen medium
+    li $t1, 2
+    beq $t0, $t1, DRAW_MEDIUM_DIFFICULTY
+    
+    # chosen hard
+    li $t1, 3
+    beq $t0, $t1, DRAW_HARD_DIFFICULTY
+    DRAW_EASY_DIFFICULTY:
+        li $a0, 192 # x
+        li $a1, 185 # y
+        li $a2, 4 # E A S Y = 4 letters
+        
+        # push letters onto stack, in reverse order
+        push($ra)
+        pushi($t0, 13) # Y
+        pushi($t0, 12) # S
+        pushi($t0, 11) # A
+        pushi($t0, 10) # E
+        jal draw_word
+        pop($ra)
+        b DRAW_DIFFICULTY_RETURN
+    
+    DRAW_MEDIUM_DIFFICULTY:
+        li $a0, 160 # x
+        li $a1, 185 # y
+        li $a2, 6 # M E D I U M = 6 letters
+        
+        # push letters onto stack, in reverse order
+        push($ra)
+        pushi($t0, 14) # M
+        pushi($t0, 17) # U
+        pushi($t0, 16) # I
+        pushi($t0, 15) # D
+        pushi($t0, 10) # E
+        pushi($t0, 14) # M
+        jal draw_word
+        pop($ra)
+        b DRAW_DIFFICULTY_RETURN
+    
+    DRAW_HARD_DIFFICULTY:
+        li $a0, 192 # x
+        li $a1, 185 # y
+        li $a2, 4 # H A R D = 4 letters
+        
+        # push letters onto stack, in reverse order
+        push($ra)
+        pushi($t0, 15) # D
+        pushi($t0, 19) # R
+        pushi($t0, 11) # A
+        pushi($t0, 18) # H
+        jal draw_word
+        pop($ra)
+        b DRAW_DIFFICULTY_RETURN
+    
+    DRAW_DIFFICULTY_RETURN:
+        jr $ra
+
+draw_highscore_words:
+    li $a0, 110 # x
+    li $a1, 60 # y
+    li $a2, 8 # H I - S C O R E = 5 letters
+    # put all the codes on the stack, in reverse order 
+    push($ra)
+    pushi($t0, 10) # E 
+    pushi($t0, 19) # R
+    pushi($t0, 20) # O
+    pushi($t0, 22) # C
+    pushi($t0, 12) # S
+    pushi($t0, 25) # -
+    pushi($t0, 16) # I
+    pushi($t0, 18) # H
+    jal draw_word
+    pop($ra)
+    
+    # return
+    jr $ra
+
+draw_highscore_numbers:
+    li $a0, 110 # x
+    li $a1, 80 # y
+    addi $a2, $zero, 5 # length
+    # Perform division to get both quotient and remainder
+    lw $t0, highscore    # Load the score into $t0
+    push($ra)
+
+    # Get ones place
+    li $t1, 10
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t2         # Ones place digit in $t2
+    push($t2)
+
+    # Get tens place
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t3         # Tens place digit in $t3
+    push($t3)
+
+    # Get hundreds place
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t4         # Hundreds place digit in $t4
+    push($t4)
+
+    # Get thousands place
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t5         # Thousands place digit in $t5
+    push($t5)
+
+    # Get hundreds of thousands place
+    div $t0, $t1     # Divide $t0 by 10
+    mflo $t0         # Quotient (remaining number) back to $t0
+    mfhi $t6         # Hundreds of thousands place digit in $t6
+    push($t6)
+
+    jal draw_word
+    pop($ra)
+    
+    # return
+    jr $ra
+
 draw_score_numbers:
     li $a0, 110 # x
     li $a1, 35 # y
@@ -12868,8 +13020,9 @@ draw_score_numbers:
 
     jal draw_word
     pop($ra)
-    jr $ra
     
+    # Return
+    jr $ra
 
 draw_score_words:
     li $a0, 110 # x
@@ -12884,6 +13037,8 @@ draw_score_words:
     pushi($t0, 12) # S
     jal draw_word
     pop($ra)
+    
+    # RETURN
     jr $ra
     
 draw_gameover_words:
