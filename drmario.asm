@@ -9867,10 +9867,10 @@ bottle_bitmap:
     .byte 0
     .byte 0
     .byte 0
-    .byte 18
+    .byte 20
     .byte 0
     .byte 0
-    .byte 19
+    .byte 21
     .byte 0
     .byte 0
     .byte 0
@@ -10097,10 +10097,6 @@ capsule_x:
 capsule_y:
     .word 0
     
-# check whether we need to load a capsule
-capsule_needed:
-    .byte 1
-    
 # check whether we are loading the capsule
 capsule_loading:
     .byte 0
@@ -10110,6 +10106,7 @@ capsule_orientation:
     .byte 0
     
 # Complete the word (4 bytes)
+.byte 1
 .byte 1
     
 # Top most one
@@ -10257,8 +10254,6 @@ game_loop:
         END_IF_CLEARED_SOMETHING:
         # if cleared nothing
         # add new capsule to bottle bitmap
-        # li $a0, 1
-        # jal update_bottle_bitmap
         li $t0, 1
         sb $t0, capsule_loading
     END_IF_GRAVITY:
@@ -10307,11 +10302,6 @@ gameover_loop:
         
     
 restart_game:
-    # score = 0 
-    # gamemap needs to be cleared
-    # load random virus
-    # j handle_q_press
-    
     # RESET GAME BITMAP
     li $t0, 0 # x loop variable
     li $t1, 0 # y loop variable
@@ -10346,15 +10336,6 @@ restart_game:
     
     
     # RESET CAPSULE NEEDED
-    li $t0, 1
-    sb $t0, capsule_needed
-    
-    # # Choose random capsule colour (1-9)
-    # li $v0, 42 # rng sys id 
-    # li $a0, 0 # lower bound
-    # li $a1, 9 # upper bound (exclusive)
-    # syscall # the return is stored in $a0
-    # addi $t2, $a0, 1
     li $t0, 1
     sb $t0, capsule_loading
     
@@ -10540,11 +10521,6 @@ difficulty_selection_loop:
                 jr $ra
             
             
-            
-            
-        
-
-
 ##############################################################################
 # Update bottle bitmap
 ##############################################################################
@@ -10552,17 +10528,6 @@ difficulty_selection_loop:
 # $a0 - mode (0/1) (load 5 new capsules/load 1 new capsule)
 update_bottle_bitmap:
     push_temps()
-    # lb $t0, capsule_needed
-    # lb $t3, capsule_loading
-    
-    # needed => IF_CAPSULE_NEEDED
-    # not needed/ loading => RETURN
-    # not needed/not loading => draw black
-    
-    
-    # bne $t0, $zero, IF_CAPSULE_NEEDED    #  needed => capsule needed
-    # bne $t3, $zero, UPDATE_BOTTLE_BITMAP_EXIT   # not needed and loading => leave
-    # not needed and not loading => draw black
     
     # mode 0: load 5 new capsule
     beq $a0, $zero, INIT_CAPSULES
@@ -10714,103 +10679,10 @@ update_bottle_bitmap:
         sb $t7, 35($s0)
         sb $t8, 44($s0)
         sb $t9, 45($s0)
-        
-        
     END_INIT_CAPSULES:
 
-
-    
-    # addiu $t9, $zero, 1
-    # beq $t2, $t9, RED_RED
-    # addiu $t9, $zero, 2
-    # beq $t2, $t9, RED_BLUE
-    # addiu $t9, $zero, 3
-    # beq $t2, $t9, RED_YELLOW
-    # addiu $t9, $zero, 4
-    # beq $t2, $t9, BLUE_BLUE
-    # addiu $t9, $zero, 5
-    # beq $t2, $t9, BLUE_RED
-    # addiu $t9, $zero, 6
-    # beq $t2, $t9, BLUE_YELLOW
-    # addiu $t9, $zero, 7
-    # beq $t2, $t9, YELLOW_YELLOW
-    # addiu $t9, $zero, 8
-    # beq $t2, $t9, YELLOW_RED
-    # addiu $t9, $zero, 9
-    # beq $t2, $t9, YELLOW_BLUE
-    
-    # # Else:
-    # b NOTHING_NOTHING
-    
-    # # Nothing
-    # NOTHING_NOTHING:
-        # addiu $t7, $zero, 0
-        # addiu $t8, $zero, 0
-        # b STORE_BOTTLE_BITMAP
-    
-    # # Left Red
-    # RED_RED:
-        # addiu $t7, $zero, 3
-        # addiu $t8, $zero, 4
-        # b STORE_BOTTLE_BITMAP
-    
-    # RED_BLUE:
-        # addiu $t7, $zero, 3
-        # addiu $t8, $zero, 8
-        # b STORE_BOTTLE_BITMAP
-    
-    # RED_YELLOW:
-        # addiu $t7, $zero, 3
-        # addiu $t8, $zero, 12
-        # b STORE_BOTTLE_BITMAP
-    
-    # # Left Blue
-    
-    # BLUE_BLUE:
-        # addiu $t7, $zero, 7
-        # addiu $t8, $zero, 8
-        # b STORE_BOTTLE_BITMAP
-    
-    # BLUE_RED:
-        # addiu $t7, $zero, 7
-        # addiu $t8, $zero, 4
-        # b STORE_BOTTLE_BITMAP
-    
-    # BLUE_YELLOW:
-        # addiu $t7, $zero, 7
-        # addiu $t8, $zero, 12
-        # b STORE_BOTTLE_BITMAP
-    
-    # # Left Yellow
-    
-    # YELLOW_YELLOW:
-        # addiu $t7, $zero, 11
-        # addiu $t8, $zero, 12
-        # b STORE_BOTTLE_BITMAP
-    
-    # YELLOW_RED:
-        # addiu $t7, $zero, 11
-        # addiu $t8, $zero, 4
-        # b STORE_BOTTLE_BITMAP
-    
-    # YELLOW_BLUE:
-        # addiu $t7, $zero, 11
-        # addiu $t8, $zero, 8
-        # b STORE_BOTTLE_BITMAP
-        
-    STORE_BOTTLE_BITMAP:
-        
-  
-        # capsule_needed = 0
-
-        # capsule_loading = 1
-        # addiu $t1, $zero, 1
-        # sb $t1, capsule_loading
     pop_temps()
-        jr $ra
-        
-    # UPDATE_BOTTLE_BITMAP_EXIT:
-        # jr $ra
+    jr $ra
 
 ##############################################################################
 # KEYBOARD FUNCTIONS
@@ -10858,156 +10730,6 @@ handle_s_press:
     li $t0, 1
     sw $t0, s_held
     jr $ra
-    # capsule_needed = capsule colliding at bottom
-    # lb $t0 capsule_needed
-    
-    
-    # # If (capsule_needed) spawn a capsule into bottle bitmap
-    # # Else If (capsule_loading) move capsule from bottle bitmap to game bitmap
-    # # Else move_capsule(down)
-    
-    # # Check whether we are in a load capsule state ! 
-    # lb $t0, capsule_loading
-    # li $t1, 1 # $t1 = 1
-    
-    # beq $t0, $t1, S_LOAD_CAPSULE_CASE # if load state = 1
-    # bne $t0, $t1, S_MOVE_DOWN # if load state != 1
-    # S_LOAD_CAPSULE_CASE:
-        # # turn load capsule off
-        # sb $zero, capsule_loading
-        
-        # # ----- Get the colours from the bitmap -----
-        
-        # # left side of capsule:
-        # addi $t0, $zero, 4 
-        # addi $t1, $zero, 2 
-        # li $t2, 10
-        # li $t3, 20 
-        # la $t4, bottle_bitmap
-        
-        # push($ra)
-        # push($t0) # x
-        # push($t1) # y
-        # push($t2) # width
-        # push($t3) # height
-        # push($t4) 
-        # jal get_value_in_bitmap # return value in $v0
-        # add $s5, $zero, $v0
-        # pop($ra)
-        
-        # # right side of capsule:
-        # addi $t0, $zero, 5
-        # addi $t1, $zero, 2 
-        # li $t2, 10
-        # li $t3, 20 
-        # la $t4, bottle_bitmap
-        
-        # push($ra)
-        # push($t0) # x
-        # push($t1) # y
-        # push($t2) # width
-        # push($t3) # height
-        # push($t4)
-        # jal get_value_in_bitmap  # return value in $v0
-        # add $s6, $zero, $v0
-        # pop($ra)
-        
-        # # ----- Check collision -----
-        # li $a0, 3
-        # li $a1, 0
-        # li $a2, 0
-        # li $a3, 0
-        # push($ra)
-        # jal check_collision 
-        # pop($ra)
-        # bne $v0, $zero, S_EXIT
-        
-        # li $a0, 4
-        # li $a1, 0
-        # li $a2, 0
-        # li $a3, 0
-        # push($ra)
-        # jal check_collision 
-        # pop($ra)
-        # bne $v0, $zero, S_EXIT
-        
-        # # ----- Draw -----
-        
-        # # left side
-        # push($ra)
-        # pushi($t0, 3) # x
-        # pushi($t0, 0) # y
-        # push($s5) # code
-        # jal update_game_bitmap
-        # pop($ra)
-        
-        # # right side
-        # push($ra)
-        # pushi($t0, 4) # x
-        # pushi($t0, 0) # y
-        # push($s6) # code
-        # jal update_game_bitmap
-        # pop($ra)
-        
-        # # set capsule x and y to initial pos
-        # addiu, $t0, $zero, 3 
-        # addiu, $t1, $zero, 0
-        # sw $t0, capsule_x
-        # sw $t1, capsule_y
-        
-        # # Return
-        # b END_HANDLE_S_PRESS
-    # S_MOVE_DOWN:
-        # # Check collision
-        # push($ra)
-        # push_temps()
-        # li $a0, 1
-        # lw $a1, capsule_x
-        # lw $a2, capsule_y
-        # lb $a3, capsule_orientation
-        # jal check_collision_capsule 
-        # pop_temps()
-        # pop($ra)
-        # bne $v0, $zero, S_MOVE_DOWN_COLLISION
-        
-        # # Move the capsule
-        # push($ra)
-        # push_temps()
-        # li $a0, 0
-        # li $a1, 1
-        # lw $a2, capsule_x
-        # lw $a3, capsule_y
-        # lb $t2, capsule_orientation
-        # jal move_capsule
-        # pop_temps()
-        # pop($ra)
-        
-        # lw $t0, capsule_x
-        # lw $t1, capsule_y
-        # addi $t1, $t1, 1
-        # sw $t0, capsule_x
-        # sw $t1, capsule_y
-        
-        # j END_HANDLE_S_PRESS
-
-    # S_MOVE_DOWN_COLLISION:
-        # push($ra)
-        # push_temps()
-        # jal clear_connected
-        # pop_temps()
-        # pop($ra)
-        
-        # li $t0, 1
-        # sb $t0, capsule_needed
-        # li $t0, 0
-        # sb $t0, capsule_orientation
-        # jr $ra
-        
-    # END_HANDLE_S_PRESS:
-        # jr $ra
-        
-    # S_EXIT:
-        # j exit
 
 handle_s_unpress:
     li $t0, 0
@@ -11030,8 +10752,6 @@ handle_a_press:
     pop_temps()
     pop($ra)
     bne $v0, $zero, END_HANDLE_A_PRESS
-    
-    
     
     # Move the capsule
     push($ra)
@@ -12183,25 +11903,6 @@ gravity:
             b GRAVITY_UNCONNECTED # else
             
             GRAVITY_UNCONNECTED:
-                # -- SKIP IF NOT A CAPSULE -- doesnt work breaks gravity for some reason dont uncomment
-                # # Temporarily store v0
-                # add $v1, $v0, $zero
-                # # Get orientation
-                # push($ra)
-                # push_temps()
-                # add $a0, $v0, $zero
-                # jal get_orientation # returns $v0
-                # pop_temps()
-                # pop($ra)
-                
-                # # SKIP IF NOT A CAPSULE
-                # li $t3, -1
-                # beq $v0, $t3, GRAVITY_LOOP_X_INCREMENT
-                
-                # # Restore v0
-                # add $v0, $v1, $zero
-                # # -- END SKIP IF NOT A CAPSULE --
-                
                 # Check right below
                 # If air, drop one
                 push($ra)
@@ -13734,8 +13435,7 @@ push_canvas:
     END_PUSH_CANVAS_LOOP:
     
     jr $ra
-    
-    
+     
 exit:
     # Quit the game
     li $v0, 10  
